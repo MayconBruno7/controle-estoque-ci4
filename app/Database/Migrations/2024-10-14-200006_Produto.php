@@ -23,7 +23,7 @@ class Produto extends Migration
                 'type' => 'INT',
                 'constraint' => 10,
                 'null' => true,
-                'default' => null,
+                'default' => 0,
             ],
             'statusRegistro' => [
                 'type' => 'INT',

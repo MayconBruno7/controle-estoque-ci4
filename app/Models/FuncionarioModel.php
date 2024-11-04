@@ -31,6 +31,10 @@ class FuncionarioModel extends CustomModel
             'label' => 'CPF',
             'rules' => 'required|min_length[11]'
         ],
+        'telefone' => [
+            'label' => 'Telefone',
+            'rules' => 'required|min_length[20]'
+        ],
         'salario' => [
             'label' => 'Salário',
             'rules' => 'required'

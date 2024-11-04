@@ -6,13 +6,12 @@ use CodeIgniter\Database\Seeder;
 
 class EstadoSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
     public function run()
     {
+
+        // Truncar a tabela
+        $this->db->table('estado')->truncate();
+
         $data = [
             ['id' => 1, 'nome' => 'Acre', 'sigla' => 'AC', 'regiao' => 'Norte'],
             ['id' => 2, 'nome' => 'Alagoas', 'sigla' => 'AL', 'regiao' => 'Nordeste'],
@@ -46,4 +45,3 @@ class EstadoSeeder extends Seeder
         $this->db->table('estado')->insertBatch($data);
     }
 }
-

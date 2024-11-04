@@ -306,7 +306,6 @@
                         }
                     });
 
-
                     // Evento para baixar PDF
                     document.getElementById('downloadPDF').addEventListener('click', function() {
                         if (fetchedData) {
@@ -333,17 +332,28 @@
                             // Construir a tabela no PDF
                             let posY = headerY + headerFontSize + 10; // Posição inicial Y da tabela
                             let margins = { top: 20, left: 10, bottom: 10 };
+                            const tableWidth = 190; // Largura total da tabela
 
                             // Cabeçalho da tabela
                             doc.setFontSize(12);
                             doc.setTextColor(0, 0, 0); // Cor do texto
                             doc.setFillColor(240, 240, 240); // Cor de fundo do cabeçalho
-                            doc.rect(margins.left, posY, 190, 10, 'F');
+                            doc.rect(margins.left, posY, tableWidth, 10, 'F');
+
+                            // Larguras das colunas
+                            const colWidths = {
+                                date: 30,       // Largura da coluna Data
+                                product: 95,    // Largura da coluna Produto (50% da largura total)
+                                value: 25,      // Largura da coluna Valor
+                                entries: 20,    // Largura da coluna Entradas
+                                exits: 20       // Largura da coluna Saídas
+                            };
+
                             doc.text('Data', margins.left + 5, posY + 8);
-                            doc.text('Produto', margins.left + 45, posY + 8);
-                            doc.text('Valor', margins.left + 85, posY + 8);
-                            doc.text('Entradas', margins.left + 115, posY + 8);
-                            doc.text('Saídas', margins.left + 145, posY + 8);
+                            doc.text('Produto', margins.left + colWidths.date + 5, posY + 8);
+                            doc.text('Valor', margins.left + colWidths.date + colWidths.product + 5, posY + 8);
+                            doc.text('Entradas', margins.left + colWidths.date + colWidths.product + colWidths.value + 5, posY + 8);
+                            doc.text('Saídas', margins.left + colWidths.date + colWidths.product + colWidths.value + colWidths.entries + 5, posY + 8);
                             posY += 10;
 
                             // Conteúdo da tabela
@@ -351,13 +361,20 @@
                             doc.setTextColor(0, 0, 0); // Cor do texto
 
                             fetchedData.forEach(item => {
-                                doc.rect(margins.left, posY, 190, 10);
+                                doc.rect(margins.left, posY, tableWidth, 10);
                                 doc.text(String(item.Data), margins.left + 5, posY + 8); // Converter para string
-                                doc.text(String(item.Descricao), margins.left + 45, posY + 8); // Converter para string
-                                doc.text(String(item.Valor), margins.left + 85, posY + 8); // Converter para string
-                                doc.text(String(item.Entrada), margins.left + 115, posY + 8); // Converter para string
-                                doc.text(String(item.Saida), margins.left + 145, posY + 8); // Converter para string
-                                posY += 10;
+                                
+                                // Quebrar o texto do produto se necessário
+                                const productText = String(item.Descricao);
+                                const productLines = doc.splitTextToSize(productText, colWidths.product);
+                                productLines.forEach((line, index) => {
+                                    doc.text(line, margins.left + colWidths.date + 5, posY + 8 + (index * 6));
+                                });
+
+                                doc.text(String(item.Valor), margins.left + colWidths.date + colWidths.product + 5, posY + 8);
+                                doc.text(String(item.Entrada), margins.left + colWidths.date + colWidths.product + colWidths.value + 5, posY + 8);
+                                doc.text(String(item.Saida), margins.left + colWidths.date + colWidths.product + colWidths.value + colWidths.entries + 5, posY + 8);
+                                posY += Math.max(10, productLines.length * 6); // Ajusta a posição Y com base na altura do texto
 
                                 // Adicionar nova página se necessário
                                 if (posY > 280) { // 280 é o limite da página para evitar overflow
@@ -370,6 +387,7 @@
                             doc.save('relatorio.pdf');
                         }
                     });
+
 
                     var ctx = document.getElementById('graficoRelatorio').getContext('2d');
 

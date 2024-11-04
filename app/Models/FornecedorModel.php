@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models; // Certifique-se de que o namespace está correto
+namespace App\Models;
 
 use CodeIgniter\Model;
 use Config\Services;
@@ -19,7 +19,10 @@ class FornecedorModel extends CustomModel
         ],
         'cnpj' => [
             'label' => 'CNPJ',
-            'rules' => 'required|min_length[14]|max_length[14]'
+            'rules' => 'required|valida_CNPJ',
+            'errors' => [
+                'valida_CNPJ' => 'O CNPJ fornecido é inválido.'
+            ]
         ],
         'telefone' => [
             'label' => 'Telefone',

@@ -85,6 +85,8 @@ class Fornecedor extends BaseController
         }else {
             return view("restrita/formFornecedor", [
                 "action"    => $post['action'],
+                'aEstado'   => $this->estadoModel->orderBy('id', 'ASC')->findAll(),
+                'aCidade'   => $this->cidadeModel->orderBy('id', 'ASC')->findAll(),
                 'data'      => $post,
                 'errors'    => $this->fornecedorModel->errors()
             ]);

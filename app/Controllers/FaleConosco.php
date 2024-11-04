@@ -65,8 +65,12 @@ class FaleConosco extends BaseController
 
         if ($temProdutoAbaixoDoLimite) {
             $this->enviaNotificacaoEstoque($assunto, $message);
+            return redirect()->to('/');
+
         } else {
             session()->setFlashdata("exibeModalNotificacaoEstoque", true);
+            return redirect()->to('/');
+
         }
     }
 

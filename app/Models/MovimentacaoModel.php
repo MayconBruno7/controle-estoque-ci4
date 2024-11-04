@@ -10,13 +10,34 @@ class MovimentacaoModel extends CustomModel
     protected $table            = 'movimentacao'; // Define a tabela do banco de dados
     protected $primaryKey       = 'id'; // Define a chave primária
     protected $allowedFields    = ['id_fornecedor', 'tipo', 'statusRegistro', 'id_setor', 'data_pedido', 'data_chegada', 'motivo'];
-    protected $validationRules  = [
-        'setor_id'          => 'required|integer',
-        'fornecedor_id'     => 'required|integer',
-        'tipo'              => 'required|integer',
-        'motivo'            => 'required',
-        'data_pedido'       => 'required|valid_date',
-        'statusRegistro'    => 'required|integer',
+    
+    protected $validationRules  = 
+    [
+        'setor_id' => [
+            'label' => 'Setor',
+            'rules' => 'required|integer'
+        ],
+        'fornecedor_id' => [
+            'label' => 'Fornecedor',
+            'rules' => 'required|integer'
+        ],
+        'tipo' => [
+            'label' => 'Tipo',
+            'rules' => 'required|integer'
+        ],
+        'motivo' => [
+            'label' => 'Motivo',
+            'required|min_length[5]|max_length[100]'
+        ],
+        'data_pedido' => [
+            'label' => 'Data do Pedido',
+            'rules' => 'required|valid_date'
+        ],
+        'statusRegistro' => [
+            'label' => 'Status',
+            'rules' => 'required|integer'
+        ],
+
     ];
 
     /**

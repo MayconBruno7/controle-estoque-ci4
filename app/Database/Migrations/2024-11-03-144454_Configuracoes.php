@@ -32,22 +32,27 @@ class CreateConfiguracoesTable extends Migration
             'criado_em'     => [
                 'type'       => 'TIMESTAMP',
                 'null'      => true,
-                'default'    => 'CURRENT_TIMESTAMP',
             ],
             'atualizado_em' => [
                 'type'       => 'TIMESTAMP',
                 'null'      => true,
-                'default'    => 'CURRENT_TIMESTAMP',
                 'on_update'  => 'CURRENT_TIMESTAMP',
             ],
         ]);
-
+    
         $this->forge->addPrimaryKey('id');
         $this->forge->addUniqueKey('chave');
+    
+        $this->forge->createTable('configuracoes', true, [
+            'ENGINE' => 'InnoDB',
+            'DEFAULT CHARSET' => 'utf8mb4',
+            'COLLATE' => 'utf8mb4_0900_ai_ci'
+        ]);
 
-        $this->forge->createTable('configuracoes', true);
+        $this->db->query("ALTER TABLE configuracoes MODIFY criado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
+        $this->db->query("ALTER TABLE configuracoes MODIFY atualizado_em TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP");
     }
-
+    
     public function down()
     {
         $this->forge->dropTable('configuracoes');

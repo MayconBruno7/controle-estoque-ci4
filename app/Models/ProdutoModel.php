@@ -11,10 +11,22 @@ class ProdutoModel extends CustomModel
     protected $allowedFields    = ['descricao', 'condicao', 'nome', 'statusRegistro', 'quantidade', 'dataMod', 'fornecedor', 'tipo_produto'];
 
     protected $validationRules = [
-        'descricao'         => 'required|min_length[3]|max_length[50]',
-        'condicao'          => 'required',
-        'nome'              => 'required',
-        'statusRegistro'    => 'required|integer'
+       'descricao' => [
+            'label' => 'Descrição',
+            'rules' => 'required|min_length[3]|max_length[50]'
+        ],
+        'condicao' => [
+            'label' => 'Condição',
+            'rules' => 'required'
+        ],
+        'nome' => [
+            'label' => 'Nome',
+            'rules' => 'required|min_length[3]|max_length[50]'
+        ],
+        'statusRegistro' => [
+            'label' => 'Status',
+            'rules' => 'required|integer'
+        ],
     ];
 
     /**

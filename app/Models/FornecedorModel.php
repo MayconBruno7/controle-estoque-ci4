@@ -17,6 +17,10 @@ class FornecedorModel extends CustomModel
             'label' => 'Nome',
             'rules' => 'required|min_length[3]|max_length[144]'
         ],
+        'cnpj' => [
+            'label' => 'CNPJ',
+            'rules' => 'required|min_length[14]|max_length[14]'
+        ],
         'telefone' => [
             'label' => 'Telefone',
             'rules' => 'required|min_length[9]|max_length[14]'

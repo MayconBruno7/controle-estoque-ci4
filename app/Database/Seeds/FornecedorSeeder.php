@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Database\Seeds;
+
+use CodeIgniter\Database\Seeder;
+
+class FornecedorSeeder extends Seeder
+{
+    public function run()
+    {
+       // Truncar a tabela
+       $this->db->table('fornecedor')->truncate();
+
+       $data = [
+           ['nome' => 'MD COPIADORA', 'cnpj' => '44556350000104', 'endereco' => ' Rua Padre Guilherme Goossens, S/N',
+           'cidade' => '1983', 'estado' => '13', 'bairro' => 'Sagrado Coracao de Jesus', 'numero' => NULL, 
+           'telefone' => '(32) 99919-7525',
+           'statusRegistro' => '1'] 
+       ];
+
+       $this->db->table('fornecedor')->insertBatch($data);
+    }
+}

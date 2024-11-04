@@ -12,8 +12,14 @@ class SetorModel extends CustomModel
     protected $allowedFields = ['nome', 'statusRegistro', 'responsavel']; // Adicione os campos permitidos para inserção/atualização
 
     protected $validationRules = [
-        'nome'              => 'required|min_length[3]|max_length[100]',
-        'statusRegistro'    => 'required|integer'
+      'nome' => [
+            'label' => 'Nome',
+            'rules' => 'required|min_length[3]|max_length[100]'
+        ],
+        'statusRegistro' => [
+            'label' => 'Status',
+            'rules' => 'required|integer'
+        ],
     ];
 
     /**

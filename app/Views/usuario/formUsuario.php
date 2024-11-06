@@ -23,12 +23,7 @@
             </div>
 
             <div class="form-group col-12 col-md-4">
-                <label for="statusRegistro" class="form-label">Status</label>
-                <select name="statusRegistro" id="statusRegistro" class="form-control" required <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>>
-                    <option value="" <?= setValor('statusRegistro', $data) == "" ? "selected" : "" ?>>.....</option>
-                    <option value="1" <?= setValor('statusRegistro', $data) == "1" ? "selected" : "" ?>>Ativo</option>
-                    <option value="2" <?= setValor('statusRegistro', $data) == "2" ? "selected" : "" ?>>Inativo</option>
-                </select>
+                <?= comboboxStatus(setValor('statusRegistro', $data)) ?>
                 <?= setaMsgErrorCampo('statusRegistro', $errors) ?>
             </div>
 

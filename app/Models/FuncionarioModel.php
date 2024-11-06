@@ -29,11 +29,14 @@ class FuncionarioModel extends CustomModel
         ],
         'cpf' => [
             'label' => 'CPF',
-            'rules' => 'required|min_length[11]'
+            'rules' => 'required|valida_cpf',
+            'errors' => [
+                'valida_cpf' => 'O CPF fornecido é inválido.'
+            ]
         ],
         'telefone' => [
             'label' => 'Telefone',
-            'rules' => 'required|min_length[20]'
+            'rules' => 'required|min_length[9]'
         ],
         'salario' => [
             'label' => 'Salário',

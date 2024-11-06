@@ -27,13 +27,22 @@
                                     </a>
                                 </div>
                             </div>
-                            <input id="senha" type="password" class="form-control" name="senha" tabindex="2" required="" value="<?= isset($_COOKIE['password']) ? $_COOKIE['password'] : '' ?>">
+
+                            <input id="senha" type="password" class="form-control" name="senha" tabindex="2" required value="<?= isset($_COOKIE['password']) ? $_COOKIE['password'] : '' ?>">
+                                                        
                             <div class="invalid-feedback">
                                 Por favor preencha a senha.
                             </div>
+        
                         </div>
-                        <div class="form-group">
-                            <div class="custom-control custom-checkbox">
+                        <div class="form-group row ml-1">
+                                  <!-- Checkbox estilizado -->
+                            <label class="custom-control custom-checkbox col-6">
+                                <input type="checkbox" id="toggle-password" class="toggle-password custom-control-input" onclick="togglePassword()">
+                                <label class="custom-control-label" for="toggle-password">Mostrar senha</label>
+                            </label>
+
+                            <div class="custom-control custom-checkbox col-6">
                                 <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me" <?= isset($_COOKIE['username']) ? 'checked' : '' ?>>
                                 <label class="custom-control-label" for="remember-me">Lembre de mim</label>
                             </div>
@@ -54,5 +63,20 @@
         </div>
     </div>
 </section>
+
+<script>
+    function togglePassword() {
+        const passwordInput = document.getElementById("senha");
+        const toggleIcon = document.querySelector(".toggle-password");
+
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            toggleIcon.textContent = "Ocultar senha"; // Ícone para mostrar o estado atual
+        } else {
+            passwordInput.type = "password";
+            toggleIcon.textContent = "Mostrar senha"; // Ícone para mostrar o estado atual
+        }
+    }
+</script>
 
 <?= $this->endSection() ?>

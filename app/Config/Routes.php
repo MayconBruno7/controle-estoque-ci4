@@ -154,6 +154,8 @@ $routes->group('Movimentacao', function($routes) {
     $routes->post('delete', "Movimentacao::delete");
 });
 
+$routes->get('sobreNos', 'sobreNos::index');
+
 $routes->group('FaleConosco', function($routes) {
     $routes->get("formularioEmail", 'FaleConosco::formularioEmail');
     $routes->post("enviarEmail", 'FaleConosco::enviarEmail');

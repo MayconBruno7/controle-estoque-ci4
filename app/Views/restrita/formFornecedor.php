@@ -39,7 +39,7 @@
                 </div>
 
                 <div class="mb-3 col-12 col-md-4">
-                    <?= comboboxStatus(setValor('statusRegistro', $data)) ?>
+                    <?= comboboxStatus(setValor('statusRegistro', $data), $action) ?>
                     <?= setaMsgErrorCampo('statusRegistro', $errors) ?>
                 </div>
 

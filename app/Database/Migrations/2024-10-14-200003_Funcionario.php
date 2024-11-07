@@ -62,8 +62,8 @@ class Funcionario extends Migration
         $this->forge->addKey('id', true, true);
         $this->forge->addKey('setor');
         $this->forge->addKey('cargo');
-        $this->forge->addForeignKey('cargo', 'cargo', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('setor', 'setor', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('cargo', 'cargo', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('setor', 'setor', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->createTable('funcionario', true, ['ENGINE' => 'InnoDB']);
     }
 

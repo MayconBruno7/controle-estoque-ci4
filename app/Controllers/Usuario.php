@@ -6,14 +6,8 @@ use App\Models\UsuarioModel;
 use App\Models\FuncionarioModel;
 use App\Models\CargoModel;
 
-
 use CodeIgniter\Controller;
-// use App\Libraries\Session; // Certifique-se de que este caminho está correto
-// use App\Libraries\Redirect; // Certifique-se de que este caminho está correto
-// use App\Libraries\Validator; // Certifique-se de que este caminho está correto
-
-
-// $this->load->library('session');
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Usuario extends BaseController
 {
@@ -28,11 +22,6 @@ class Usuario extends BaseController
         $this->FuncionarioModel = new FuncionarioModel();
         $this->CargoModel       = new CargoModel();
 
-        // Verifica se o usuário é administrador antes de permitir o acesso
-        if (!$this->getAdministrador()) {
-            return redirect()->to(site_url("Home"));
-        }
-   
     }
 
     /**
@@ -42,10 +31,6 @@ class Usuario extends BaseController
      */
     public function index()
     {
-        // Somente pode ser acessado por usuários administradores
-        if (!$this->getAdministrador()) {
-            return redirect("Home");
-        }
 
         $data['usuarios'] = $this->model->getLista();
         return view('usuario/listaUsuario', $data);
@@ -194,11 +179,24 @@ class Usuario extends BaseController
     {
         $post = $this->request->getPost();
 
-        if ($this->model->delete($this->request->getPost('id'))) {
-            return redirect()->to("/Usuario")->with("msgSuccess", "Usuário excluído com sucesso!");
-        } else {
-            return redirect()->to("/Usuario")->with("msgError", "Falha na exclusão do Usuário!");
-        }   
+        try {
+            // Tenta deletar o usuário
+            if ($this->model->delete($post['id'])) {
+                session()->setFlashdata('msgSuccess', 'usuário excluído com sucesso.');
+            } else {
+                session()->setFlashdata('msgError', 'Falha ao tentar excluir o usuário.');
+            }
+        } catch (DatabaseException $e) {
+            // Verifica se o erro é uma violação de chave estrangeira
+            if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
+                session()->setFlashdata('msgError', 'Erro: Não é possível excluir este usuário, pois ele está relacionado a outros dados.');
+            } else {
+                // Trata outros tipos de erro, se necessário
+                session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o usuário.');
+            }
+        }
+
+        return redirect()->to(base_url('Usuario'));
     }
 
     /**

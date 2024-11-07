@@ -16,11 +16,6 @@ class Relatorio extends BaseController
         // Instancia o modelo de fornecedor
         $this->fornecedorModel  = new FornecedorModel();
         $this->model            = new RelatorioModel();
-
-        // Só acessa se tiver logado
-        if (!$this->getAdministrador()) {
-            return redirect()->to('/home');
-        }
     }
 
     public function index()

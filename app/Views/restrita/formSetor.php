@@ -21,7 +21,7 @@
             </div>
 
             <div class="col-12 col-md-4 mt-3">
-                <?= comboboxStatus(setValor('statusRegistro', $data)) ?>
+                <?= comboboxStatus(setValor('statusRegistro', $data), $action) ?>
                 <?= setaMsgErrorCampo('statusRegistro', $errors) ?>
 
             </div>

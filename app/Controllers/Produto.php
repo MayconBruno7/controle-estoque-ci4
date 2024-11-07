@@ -7,6 +7,8 @@ use App\Models\HistoricoProdutoModel;
 use App\Models\FornecedorModel;
 use CodeIgniter\Controller;
 
+use CodeIgniter\Database\Exceptions\DatabaseException;
+
 class Produto extends BaseController
 {
     protected $model;
@@ -19,11 +21,6 @@ class Produto extends BaseController
         $this->model                    = new ProdutoModel();
         $this->historicoProdutoModel    = new HistoricoProdutoModel();
         $this->fornecedorModel          = new FornecedorModel();
-
-        // Verifica se o usuário está logado
-        if (!$this->getUsuario()) {
-            return redirect()->to("Home/login");
-        }
     }
 
     /**
@@ -113,10 +110,21 @@ class Produto extends BaseController
     {
         $id = $this->request->getPost('id');
 
-        if ($this->model->delete($id)) {
-            session()->setFlashdata('msgSuccess', "Produto excluída com sucesso.");
-        } else {
-            session()->setFlashdata('msgError', "Falha ao tentar excluir a Produto.");
+        try {
+            // Tenta deletar o produto
+            if ($this->model->delete($id)) {
+                session()->setFlashdata('msgSuccess', 'Produto excluído com sucesso.');
+            } else {
+                session()->setFlashdata('msgError', 'Falha ao tentar excluir o produto.');
+            }
+        } catch (DatabaseException $e) {
+            // Verifica se o erro é uma violação de chave estrangeira
+            if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
+                session()->setFlashdata('msgError', 'Erro: Não é possível excluir este fonecedor, pois ele está relacionado a outros dados.');
+            } else {
+                // Trata outros tipos de erro, se necessário
+                session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o produto.');
+            }
         }
 
         return redirect()->to("Produto");

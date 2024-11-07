@@ -14,11 +14,7 @@ class HistoricoProdutoMovimentacao extends BaseController
     {
         $this->historicoProdutoMovimentacaoModel    = new HistoricoProdutoMovimentacaoModel();
         $this->produtoModel                         = new ProdutoModel();
-
-        // Só acessa se estiver logado
-        if (!$this->getUsuario()) {
-            return redirect()->to(base_url('home'));
-        }
+        
     }
 
     /**

@@ -18,11 +18,6 @@ class Log extends BaseController
         $this->funcionarioModel = new FuncionarioModel();
         $this->usuarioModel     = new UsuarioModel();
         $this->logModel         = new LogModel();
-
-        // Somente pode ser acessado por usuários administradores
-        if (!$this->getAdministrador()) {
-            return redirect()->to(base_url('home'));
-        }
     }
 
     /**

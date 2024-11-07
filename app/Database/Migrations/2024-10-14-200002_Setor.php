@@ -8,6 +8,9 @@ class Setor extends Migration
 {
     public function up()
     {
+        // Desabilitar verificação de chave estrangeira
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+        
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -22,8 +25,8 @@ class Setor extends Migration
             'responsavel' => [
                 'type' => 'INT',
                 'constraint' => 10,
+                'unsigned' => true,  
                 'null' => true,
-                'default' => 0,
             ],
             'statusRegistro' => [
                 'type' => 'INT',
@@ -34,7 +37,14 @@ class Setor extends Migration
 
         $this->forge->addKey('id', true, true);
         $this->forge->addKey('responsavel');
+        
+        // Adicionando a chave estrangeira para `responsavel` referenciando `funcionario.id`
+        $this->forge->addForeignKey('responsavel', 'funcionario', 'id', 'CASCADE', 'SET NULL');
+
         $this->forge->createTable('setor', true, ['ENGINE' => 'InnoDB']);
+
+        // Desabilitar verificação de chave estrangeira
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     public function down()

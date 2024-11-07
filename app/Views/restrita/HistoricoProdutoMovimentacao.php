@@ -49,9 +49,9 @@
                                                     <td> <?= isset($row['Quantidade']) ? $row['Quantidade'] : 'Nenhuma '?> </td>
                                                     <td> <?= isset($row['Valor']) ? number_format($row['Valor'], 2, ",", "."): 'Nenhuma '?> </td>
                                                     <td>
-                                                        <a href="<?= base_url() ?>Movimentacao/Form/view/<?= $row['id_mov'] ?>" class="btn btn-outline-secondary btn-sm styleButton" title="Visualizar">Visualizar</a>&nbsp;
-                                                        <a href="<?= base_url() ?>Movimentacao/Form/update/<?= $row['id_mov'] ?>" class="btn btn-outline-primary btn-sm styleButton" title="Alteração">Alterar</a>&nbsp;
-                                                        <a href="<?= base_url() ?>Movimentacao/Form/<?= $row['id_mov'] ?>" class="btn btn-outline-danger btn-sm styleButton" title="Exclusão">Excluir</a>&nbsp;
+                                                        <a href="<?= base_url() ?>Movimentacao/form/view/<?= $row['id_mov'] ?>" class="btn btn-outline-secondary btn-sm styleButton" title="Visualizar">Visualizar</a>&nbsp;
+                                                        <a href="<?= base_url() ?>Movimentacao/form/update/<?= $row['id_mov'] ?>" class="btn btn-outline-primary btn-sm styleButton" title="Alteração">Alterar</a>&nbsp;
+                                                        <a href="<?= base_url() ?>Movimentacao/form/<?= $row['id_mov'] ?>" class="btn btn-outline-danger btn-sm styleButton" title="Exclusão">Excluir</a>&nbsp;
                                                     </td>
                                                 </tr>
                                             <?php

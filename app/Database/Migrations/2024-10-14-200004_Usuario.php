@@ -8,6 +8,10 @@ class Usuario extends Migration
 {
     public function up()
     {
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -54,6 +58,9 @@ class Usuario extends Migration
         $this->forge->addKey('id_funcionario');
         $this->forge->addForeignKey('id_funcionario', 'funcionario', 'id', 'NO ACTION', 'NO ACTION');
         $this->forge->createTable('usuario', true, ['ENGINE' => 'InnoDB']);
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     public function down()

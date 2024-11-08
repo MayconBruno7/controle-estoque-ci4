@@ -20,14 +20,8 @@
                 <?= setaMsgErrorCampo('nome', $errors) ?>
             </div>
 
-            <div class="col-12 col-md-4">
-                <label for="statusRegistro" class="form-label mt-3">Status</label>
-                <select name="statusRegistro" id="statusRegistro" class="form-control" required <?= $action != 'new' && $action != 'update' ? 'disabled' : '' ?>>
-                    <!--  verifica se o statusRegistro está no banco de dados e retorna esse statusRegistro -->
-                    <option value=""  <?= setValor('statusRegistro', $data) == ""  ? "SELECTED": "" ?>>...</option>
-                    <option value="1" <?= setValor('statusRegistro', $data) == "1" ? "SELECTED": "" ?>>Ativo</option>
-                    <option value="2" <?= setValor('statusRegistro', $data) == "2" ? "SELECTED": "" ?>>Inativo</option>
-                </select>
+            <div class="col-12 col-md-4 mt-3">
+                <?= comboboxStatus(setValor('statusRegistro', $data), $action) ?>
                 <?= setaMsgErrorCampo('statusRegistro', $errors) ?>
 
             </div>
@@ -38,7 +32,7 @@
                 <?= $action != 'new' && $action != 'update' ? 'disabled' : '' ?>
                 <?= !empty($aFuncionario) ? 'required' : '' ?>   
                 >
-                    <option value="">...</option> <!-- Opção padrão -->
+                    <option value="">...</option> 
                     <?php foreach ($aFuncionario as $value): ?>
                         <option value="<?= $value['id'] ?>" <?= $value['id'] == setValor('id', $data) ? 'selected' : '' ?>>
                             <?= $value['nome'] ?>

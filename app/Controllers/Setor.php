@@ -7,6 +7,8 @@ use App\Models\FuncionarioModel;
 use App\Models\SetorModel;
 use CodeIgniter\Controller;
 
+use CodeIgniter\Database\Exceptions\DatabaseException;
+
 class Setor extends BaseController
 {
     protected $model;
@@ -16,11 +18,6 @@ class Setor extends BaseController
     {
         $this->model            = new SetorModel();
         $this->funcionarioModel = new FuncionarioModel();
-
-        // Só acessa se tiver logado
-        if (!$this->getUsuario()) {
-            return redirect()->to('/home');
-        }
     }
 
     public function index()
@@ -57,7 +54,7 @@ class Setor extends BaseController
         if ($this->model->save([
             'id'                => ($post['id'] == "" ? null : $post['id']),
             "nome"              => $post['nome'],
-            "responsavel"       => $post['funcionarios'],
+            "responsavel"       => !empty($post['funcionarios']) ? $post['funcionarios'] : null,
             "statusRegistro"    => $post['statusRegistro']
         ])) {
             return redirect()->to("/Setor")->with('msgSuccess', "Funcionário inserido com sucesso!");
@@ -77,10 +74,21 @@ class Setor extends BaseController
     {
         $post = $this->request->getPost();
 
-        if ($this->model->delete($post['id'])) {
-            return redirect()->to("/Setor")->with("msgSuccess", "Funcionário excluído com sucesso!");
-        } else {
-            return redirect()->to("/Setor")->with("msgError", "Falha ao excluir o funcionário!");        
+        try {
+            // Tenta deletar o cargo
+            if ($this->model->delete($post['id'])) {
+                session()->setFlashdata('msgSuccess', 'Cargo excluído com sucesso.');
+            } else {
+                session()->setFlashdata('msgError', 'Falha ao tentar excluir o cargo.');
+            }
+        } catch (DatabaseException $e) {
+            // Verifica se o erro é uma violação de chave estrangeira
+            if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
+                session()->setFlashdata('msgError', 'Erro: Não é possível excluir este setor, pois ele está relacionado a outros dados.');
+            } else {
+                // Trata outros tipos de erro, se necessário
+                session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o cargo.');
+            }
         }
 
         return redirect()->to('Setor');

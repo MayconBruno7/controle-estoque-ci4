@@ -8,6 +8,9 @@ class MovimentacaoItem extends Migration
 {
     public function up()
     {
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -44,9 +47,12 @@ class MovimentacaoItem extends Migration
         $this->forge->addKey('id_produtos');
 
         $this->forge->addForeignKey('id_movimentacoes', 'movimentacao', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_produtos', 'produto', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_produtos', 'produto', 'id', 'RESTRICT', 'RESTRICT');
 
         $this->forge->createTable('movimentacao_item', true, ['ENGINE' => 'InnoDB']);
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     public function down()

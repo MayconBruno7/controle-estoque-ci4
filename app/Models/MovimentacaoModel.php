@@ -25,10 +25,6 @@ class MovimentacaoModel extends CustomModel
             'label' => 'Tipo',
             'rules' => 'required|integer'
         ],
-        'motivo' => [
-            'label' => 'Motivo',
-            'required|min_length[5]|max_length[100]'
-        ],
         'data_pedido' => [
             'label' => 'Data do Pedido',
             'rules' => 'required|valid_date'
@@ -94,8 +90,8 @@ class MovimentacaoModel extends CustomModel
                 p.descricao AS produto_descricao
             ')
             ->join('fornecedor f', 'f.id = m.id_fornecedor', 'left')
-            ->join('movimentacao_item mi', 'mi.id_movimentacoes = m.id', 'inner')
-            ->join('produto p', 'p.id = mi.id_produtos', 'inner')
+            ->join('movimentacao_item mi', 'mi.id_movimentacoes = m.id', 'left')
+            ->join('produto p', 'p.id = mi.id_produtos', 'left')
             ->where('m.id', $id_movimentacao);
         
         // Filtra resultados com base no nível do usuário, se necessário

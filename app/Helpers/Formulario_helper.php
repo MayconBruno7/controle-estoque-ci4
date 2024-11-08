@@ -162,15 +162,17 @@
      * @param int $status 
      * @return string
      */
-    function comboboxStatus($status = 0)
+    function comboboxStatus($status = 0, $action)
     {
         return '<label for="statusRegistro" class="form-label">Status</label>
-                <select name="statusRegistro" id="statusRegistro" class="form-control" required>
-                    <option value=""  ' . (isset($status) ? ($status == 0 ? "selected" : "") : "") . '>...</option>
-                    <option value="1" ' . (isset($status) ? ($status == 1 ? "selected" : "") : "") . '>Ativo</option>
-                    <option value="2" ' . (isset($status) ? ($status == 2 ? "selected" : "") : "") . '>Inativo</option>
+                <select name="statusRegistro" id="statusRegistro" class="form-control" required ' 
+                    . ($action == 'view' || $action == 'delete' ? 'disabled' : '') . '>
+                    <option value="" ' . (isset($status) && $status == 0 ? "selected" : "") . '>...</option>
+                    <option value="1" ' . (isset($status) && $status == 1 ? "selected" : "") . '>Ativo</option>
+                    <option value="2" ' . (isset($status) && $status == 2 ? "selected" : "") . '>Inativo</option>
                 </select>';
     }
+
 
     /**
      * setaValor

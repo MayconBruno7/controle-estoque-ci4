@@ -38,23 +38,10 @@
                                         <td><?= formatarDataBrasileira($row['data_pedido']) ?></td>
                                         <td><?= $row['data_chegada'] != '0000-00-00' ? formatarDataBrasileira($row['data_chegada']) : 'Nenhuma data encontrada' ?></td>
                                         <td><?= getStatusDescricao($row['statusRegistro']) ?></td>
-                                        <td class="text-center">
-                                            <div class="dropdown dropdown-action p-0">
-                                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                    <i class="fa fa-ellipsis-v"></i>
-                                                </a>
-                                                <div class="dropdown-menu p-0 m-0 text-center">
-                                                    <a href="/Movimentacao/form/view/<?= $row['id_movimentacao'] ?>" class="btn btn-secondary btn-sm btn-icons-crud" title="Visualizar">
-                                                        <i class="fa fa-eye" aria-hidden="true"></i>
-                                                    </a>    
-                                                    <a href="/Movimentacao/form/update/<?= $row['id_movimentacao'] ?>" class="btn btn-secondary btn-sm btn-icons-crud" title="Alterar">
-                                                        <i class="fa fa-file" aria-hidden="true"></i>
-                                                    </a>    
-                                                    <a href="/Movimentacao/form/delete/<?= $row['id_movimentacao'] ?>" class="btn btn-secondary btn-sm btn-icons-crud" title="Excluir">
-                                                        <i class="fa fa-trash" aria-hidden="true"></i>
-                                                    </a>   
-                                                </div>
-                                            </div>
+                                        <td>
+                                            <a href="/Movimentacao/form/view/<?= $row['id_movimentacao'] ?>" class="btn btn-secondary btn-sm" title="Visualizar"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                            <a href="/Movimentacao/form/update/<?= $row['id_movimentacao'] ?>" class="btn btn-secondary btn-sm" title="Alterar"><i class="fa fa-file" aria-hidden="true"></i></a>
+                                            <a href="/Movimentacao/form/delete/<?= $row['id_movimentacao'] ?>" class="btn btn-secondary btn-sm" title="Excluir"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                         </td>
 
                                     </tr>

@@ -8,6 +8,9 @@ class UsuarioRecuperaSenha extends Migration
 {
     public function up()
     {
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -43,6 +46,9 @@ class UsuarioRecuperaSenha extends Migration
         $this->forge->createTable('usuariorecuperasenha', true, ['ENGINE' => 'InnoDB']);
 
         $this->db->query("ALTER TABLE usuariorecuperasenha MODIFY created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP");
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     public function down()

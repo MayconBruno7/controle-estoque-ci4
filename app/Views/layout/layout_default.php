@@ -332,6 +332,7 @@
                         <li><a class="nav-link" href="<?= base_url() ?>Fornecedor">Fornecedores</a></li>
                         <li><a class="nav-link" href="<?= base_url() ?>Movimentacao">Movimentações</a></li>
                         <li><a class="nav-link" href="<?= base_url() ?>FaleConosco/formularioEmail">Suporte técnico</a></li>
+                        <li><a class="nav-link" href="<?= base_url() ?>sobreNos">Sobre Nós</a></li>
                     </ul>
                 </li>
             </ul>

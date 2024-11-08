@@ -2,27 +2,25 @@
 
 namespace App\Controllers;
 
-use App\Models\FornecedorModel;
+use App\Models\model;
 use App\Models\EstadoModel;
 use App\Models\CidadeModel;
+use App\Models\FornecedorModel;
 use CodeIgniter\Controller;
+
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Fornecedor extends BaseController
 {
-    protected $fornecedorModel;
+    protected $model;
     protected $estadoModel;
     protected $cidadeModel;
 
     public function __construct()
     {
-        $this->fornecedorModel = new FornecedorModel();
+        $this->model = new FornecedorModel();
         $this->estadoModel = new EstadoModel();
         $this->cidadeModel = new CidadeModel();
-
-        // Só acessa se estiver logado
-        if (!$this->getUsuario()) {
-            return redirect()->to('home');
-        }
     }
 
     /**
@@ -32,7 +30,7 @@ class Fornecedor extends BaseController
      */
     public function index()
     {
-        $data['fornecedores'] = $this->fornecedorModel->getLista();
+        $data['fornecedores'] = $this->model->getLista();
         return view('restrita/listaFornecedor', $data);
     }
 
@@ -54,7 +52,7 @@ class Fornecedor extends BaseController
         $data['aCidade']    = $this->cidadeModel->orderBy('id', 'ASC')->findAll();
 
         if ($action !== 'insert') {
-            $data['data']   = $this->fornecedorModel->find($id);
+            $data['data']   = $this->model->find($id);
         }
 
         return view('restrita/formFornecedor', $data);
@@ -69,7 +67,7 @@ class Fornecedor extends BaseController
     {
         $post = $this->request->getPost();
 
-        if ($this->fornecedorModel->save([
+        if ($this->model->save([
             'id'                => ($post['id'] == "" ? null : $post['id']),
             'nome'              => $post['nome'],
             'cnpj'              => preg_replace('/[^0-9]/', '', $post['cnpj']),
@@ -88,7 +86,7 @@ class Fornecedor extends BaseController
                 'aEstado'   => $this->estadoModel->orderBy('id', 'ASC')->findAll(),
                 'aCidade'   => $this->cidadeModel->orderBy('id', 'ASC')->findAll(),
                 'data'      => $post,
-                'errors'    => $this->fornecedorModel->errors()
+                'errors'    => $this->model->errors()
             ]);
         }
         
@@ -104,10 +102,21 @@ class Fornecedor extends BaseController
     {
         $id = $this->request->getPost('id');
 
-        if ($this->fornecedorModel->delete($id)) {
-            session()->setFlashdata('msgSuccess', 'Fornecedor excluída com sucesso.');
-        } else {
-            session()->setFlashdata('msgError', 'Falha ao tentar excluir a Fornecedor.');
+        try {
+            // Tenta deletar o cargo
+            if ($this->model->delete($id)) {
+                session()->setFlashdata('msgSuccess', 'Cargo excluído com sucesso.');
+            } else {
+                session()->setFlashdata('msgError', 'Falha ao tentar excluir o cargo.');
+            }
+        } catch (DatabaseException $e) {
+            // Verifica se o erro é uma violação de chave estrangeira
+            if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
+                session()->setFlashdata('msgError', 'Erro: Não é possível excluir este fonecedor, pois ele está relacionado a outros dados.');
+            } else {
+                // Trata outros tipos de erro, se necessário
+                session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o cargo.');
+            }
         }
 
         return redirect()->to(base_url('Fornecedor'));
@@ -131,7 +140,7 @@ class Fornecedor extends BaseController
         // exit;
 
         if ($cnpj) {
-            $data = $this->fornecedorModel->requireAPI($cnpj);
+            $data = $this->model->requireAPI($cnpj);
             return $this->response->setJSON($data);
         } else {
             return $this->response->setJSON(['error' => 'Parâmetro CNPJ não fornecido na requisição.']);

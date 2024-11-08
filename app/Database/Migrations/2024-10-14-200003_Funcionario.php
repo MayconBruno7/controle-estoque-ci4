@@ -8,6 +8,9 @@ class Funcionario extends Migration
 {
     public function up()
     {
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -34,7 +37,6 @@ class Funcionario extends Migration
                 'constraint' => 10,
                 'unsigned' => true,
                 'null' => true,
-                'default' => 0,
             ],
             'salario' => [
                 'type' => 'DECIMAL',
@@ -62,9 +64,12 @@ class Funcionario extends Migration
         $this->forge->addKey('id', true, true);
         $this->forge->addKey('setor');
         $this->forge->addKey('cargo');
-        $this->forge->addForeignKey('cargo', 'cargo', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('setor', 'setor', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('cargo', 'cargo', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('setor', 'setor', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->createTable('funcionario', true, ['ENGINE' => 'InnoDB']);
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     public function down()

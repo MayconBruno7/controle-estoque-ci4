@@ -9,6 +9,8 @@ use App\Models\FornecedorModel;
 use App\Models\MovimentacaoModel;
 use App\Models\ProdutoModel;
 
+use CodeIgniter\Database\Exceptions\DatabaseException;
+
 class Movimentacao extends BaseController
 {
     protected $model;
@@ -26,11 +28,6 @@ class Movimentacao extends BaseController
         $this->setorModel               = new SetorModel();
         $this->fornecedorModel          = new FornecedorModel();
         $this->produtoModel             = new ProdutoModel();
-
-        // Redirecionar se o usuário não estiver logado
-        if (!$this->getUsuario()) {
-            return redirect()->to('Home');
-        }
     }
 
     public function index()
@@ -676,11 +673,21 @@ class Movimentacao extends BaseController
 
         // Verifica se a quantidade nova é negativa
         if ($quantidade_nova >= 0) {
-            // Excluir a movimentação
-            if ($this->model->delete($post['id'])) {
-                return redirect()->to('/Movimentacao')->with('msgSuccess', 'Movimentação excluída com sucesso.');
-            } else {
-                return redirect()->to('/Movimentacao')->with('msgError', 'Falha ao tentar excluir a Movimentação.');
+            try {
+                // Excluir a movimentação
+                if ($this->model->delete($post['id'])) {
+                    return redirect()->to('/Movimentacao')->with('msgSuccess', 'Movimentação excluída com sucesso.');
+                } else {
+                    return redirect()->to('/Movimentacao')->with('msgError', 'Falha ao tentar excluir a Movimentação.');
+                }
+            } catch (DatabaseException $e) {
+                // Verifica se o erro é uma violação de chave estrangeira
+                if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
+                    return redirect()->to('/Movimentacao')->with('msgError', 'Erro: Não é possível excluir este cargo, pois ele está relacionado a outros dados.');
+                } else {
+                    // Trata outros tipos de erro, se necessário
+                    return redirect()->to('/Movimentacao')->with('msgError', 'Ocorreu um erro ao tentar excluir o cargo.');
+                }
             }
         } else {
             // Formata a mensagem com os produtos que ficariam negativos

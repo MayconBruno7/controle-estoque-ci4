@@ -7,6 +7,7 @@ use App\Models\SetorModel;
 use App\Models\CargoModel;
 
 use App\Libraries\UploadImages;
+use CodeIgniter\Database\Exceptions\DatabaseException;
 
 class Funcionario extends BaseController
 {
@@ -20,10 +21,6 @@ class Funcionario extends BaseController
         $this->setorModel   = new SetorModel();
         $this->cargoModel   = new CargoModel();
 
-        // Somente pode ser acessado por usuários administradores
-        if (!$this->getAdministrador()) {
-            return redirect("Home");
-        }
     }
 
     /**
@@ -86,8 +83,8 @@ class Funcionario extends BaseController
             'nome'              => $post['nome'],
             'cpf'               => preg_replace("/[^0-9]/", "", $post['cpf']),
             'telefone'          => preg_replace("/[^0-9]/", "", $post['telefone']),
-            'setor'             => $post['setor'],
-            'cargo'             => $post['cargo'],
+            'setor'             => !empty($post['setor']) ? $post['setor'] : null,
+            'cargo'             => !empty($post['cargo']) ? $post['cargo'] : null,
             'salario'           => preg_replace("/[^0-9,]/", "", $post['salario']),
             'statusRegistro'    => $post['statusRegistro'],
             'imagem'            => $nomeRetornado  
@@ -116,10 +113,23 @@ class Funcionario extends BaseController
     {
         $post = $this->request->getPost();
 
-        if ($this->model->delete($post['id'])) {
-            return redirect()->to("/Funcionario")->with("msgSuccess", "Funcionário excluído com sucesso!");
-        } else {
-            return redirect()->to("/Funcionario")->with("msgError", "Falha ao excluir o funcionário!");
+        try {
+            // Tenta deletar o funcionário
+            if ($this->model->delete($post['id'])) {
+                session()->setFlashdata('msgSuccess', 'funcionário excluído com sucesso.');
+            } else {
+                session()->setFlashdata('msgError', 'Falha ao tentar excluir o funcionário.');
+            }
+        } catch (DatabaseException $e) {
+            // Verifica se o erro é uma violação de chave estrangeira
+            if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
+                session()->setFlashdata('msgError', 'Erro: Não é possível excluir este fonecedor, pois ele está relacionado a outros dados.');
+            } else {
+                // Trata outros tipos de erro, se necessário
+                session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o funcionário.');
+            }
         }
+
+        return redirect()->to(base_url('Funcionario'));
     }
 }

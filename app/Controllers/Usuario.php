@@ -91,7 +91,7 @@ class Usuario extends BaseController
             "nome"              => $post['nome'],
             "senha"             => $senhaCriptografada,
             "email"             => $post['email'],
-            "id_funcionario"    => ($post['funcionarios'] == "" ? null : $post['funcionarios'])
+            "id_funcionario"    => !empty($post['funcionarios']) ? $post['funcionarios'] : null
         ])) { 
             return redirect()->to("/Usuario")->with('msgSucess', "Dados inseridos com sucesso!");
         } else {

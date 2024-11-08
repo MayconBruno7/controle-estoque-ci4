@@ -83,8 +83,8 @@ class Funcionario extends BaseController
             'nome'              => $post['nome'],
             'cpf'               => preg_replace("/[^0-9]/", "", $post['cpf']),
             'telefone'          => preg_replace("/[^0-9]/", "", $post['telefone']),
-            'setor'             => $post['setor'],
-            'cargo'             => $post['cargo'],
+            'setor'             => !empty($post['setor']) ? $post['setor'] : null,
+            'cargo'             => !empty($post['cargo']) ? $post['cargo'] : null,
             'salario'           => preg_replace("/[^0-9,]/", "", $post['salario']),
             'statusRegistro'    => $post['statusRegistro'],
             'imagem'            => $nomeRetornado  

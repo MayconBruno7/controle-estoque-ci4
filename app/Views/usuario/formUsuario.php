@@ -23,7 +23,7 @@
             </div>
 
             <div class="form-group col-12 col-md-4">
-                <?= comboboxStatus(setValor('statusRegistro', $data)) ?>
+                <?= comboboxStatus(setValor('statusRegistro', $data), $action) ?>
                 <?= setaMsgErrorCampo('statusRegistro', $errors) ?>
             </div>
 
@@ -47,7 +47,7 @@
 
             <div class="col-12">
                 <label for="funcionarios" class="form-label">Funcionários</label>
-                <select name="funcionarios" id="funcionarios" class="form-control" required <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>>
+                <select name="funcionarios" id="funcionarios" class="form-control" <?= !empty($aFuncionario) ? 'required ' : '' ?>  <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>>
                     <option value="">...</option>
                     <?php foreach($aFuncionario as $funcionario) : ?>
                         <option value="<?= $funcionario['id'] ?>" <?= setValor('id_funcionario', $data) == $funcionario['id'] ? 'selected' : '' ?>>

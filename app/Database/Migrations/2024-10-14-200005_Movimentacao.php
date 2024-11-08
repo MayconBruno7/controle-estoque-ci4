@@ -8,6 +8,9 @@ class Movimentacao extends Migration
 {
     public function up()
     {
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -19,11 +22,13 @@ class Movimentacao extends Migration
                 'type' => 'INT',
                 'constraint' => 10,
                 'unsigned' => true,
+                'default' => null,
             ],
             'id_fornecedor' => [
                 'type' => 'INT',
                 'constraint' => 10,
                 'unsigned' => true,
+                'default' => null,
             ],
             'statusRegistro' => [
                 'type' => 'INT',
@@ -55,6 +60,9 @@ class Movimentacao extends Migration
         $this->forge->addForeignKey('id_fornecedor', 'fornecedor', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('id_setor', 'setor', 'id', 'CASCADE', 'CASCADE');
         $this->forge->createTable('movimentacao', true, ['ENGINE' => 'InnoDB']);
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     public function down()

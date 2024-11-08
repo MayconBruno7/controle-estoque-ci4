@@ -54,7 +54,7 @@ class Setor extends BaseController
         if ($this->model->save([
             'id'                => ($post['id'] == "" ? null : $post['id']),
             "nome"              => $post['nome'],
-            "responsavel"       => $post['funcionarios'],
+            "responsavel"       => !empty($post['funcionarios']) ? $post['funcionarios'] : null,
             "statusRegistro"    => $post['statusRegistro']
         ])) {
             return redirect()->to("/Setor")->with('msgSuccess', "Funcionário inserido com sucesso!");

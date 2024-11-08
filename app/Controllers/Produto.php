@@ -82,7 +82,7 @@ class Produto extends BaseController
             'id'                => ($post['id'] == "" ? null : $post['id']),
             "nome"              => $post['nome'],
             "quantidade"        => $post['quantidade'],
-            "fornecedor"        => $post['fornecedor_id'],
+            "fornecedor"        => !empty($post['fornecedor_id']) ? $post['fornecedor_id'] : null,
             "statusRegistro"    => $post['statusRegistro'],
             "condicao"          => $post['condicao'],
             "descricao"         => $post['descricao'],

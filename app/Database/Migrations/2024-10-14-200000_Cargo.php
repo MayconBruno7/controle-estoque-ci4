@@ -8,6 +8,9 @@ class Cargo extends Migration
 {
     public function up()
     {
+        // Desabilitar verificação de chave estrangeira
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -31,6 +34,9 @@ class Cargo extends Migration
         $this->forge->addKey('id');
 
         $this->forge->createTable('cargo', true, ['ENGINE' => 'InnoDB']);
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     public function down()

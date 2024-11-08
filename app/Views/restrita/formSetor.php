@@ -32,7 +32,7 @@
                 <?= $action != 'new' && $action != 'update' ? 'disabled' : '' ?>
                 <?= !empty($aFuncionario) ? 'required' : '' ?>   
                 >
-                    <option value="">...</option> <!-- Opção padrão -->
+                    <option value="">...</option> 
                     <?php foreach ($aFuncionario as $value): ?>
                         <option value="<?= $value['id'] ?>" <?= $value['id'] == setValor('id', $data) ? 'selected' : '' ?>>
                             <?= $value['nome'] ?>

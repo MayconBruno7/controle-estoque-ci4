@@ -8,6 +8,9 @@ class HistoricoProduto extends Migration
 {
     public function up()
     {
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -55,8 +58,11 @@ class HistoricoProduto extends Migration
         $this->forge->addKey('id', true, true);
         $this->forge->addKey('id_produtos');
         $this->forge->addKey('fornecedor_id');
-        $this->forge->addForeignKey('id_produtos', 'produto', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_produtos', 'produto', 'id', 'NO ACTION', 'NO ACTION');
         $this->forge->createTable('historico_produto', true, ['ENGINE' => 'InnoDB']);
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
     }
 
     public function down()

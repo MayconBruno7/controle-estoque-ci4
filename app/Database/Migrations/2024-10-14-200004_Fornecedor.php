@@ -8,6 +8,10 @@ class Fornecedor extends Migration
 {
     public function up()
     {
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 0');
+
         $this->forge->addField([
             'id' => [
                 'type' => 'INT',
@@ -68,6 +72,9 @@ class Fornecedor extends Migration
         $this->forge->addForeignKey('cidade', 'cidade', 'id', 'NO ACTION', 'NO ACTION');
         $this->forge->addForeignKey('estado', 'estado', 'id', 'NO ACTION', 'NO ACTION');
         $this->forge->createTable('fornecedor', false, ['ENGINE' => 'InnoDB']);
+
+         // Desabilitar verificação de chave estrangeira
+         $this->db->query('SET FOREIGN_KEY_CHECKS = 1');
     }
 
     public function down()

@@ -55,34 +55,4 @@ abstract class BaseController extends Controller
 
         // E.g.: $this->session = \Config\Services::session();
     }
-
-    /**
-     * getAdministrador
-     *
-     * @return boolean
-     */
-    public function getAdministrador()
-    {
-        if (session()->get("usuarioId") != "") {
-            if (session()->get("usuarioNivel") == 1) {
-                return true;
-            }            
-        }
-
-        return false;
-    }
-
-    /**
-     * getUsuario
-     *
-     * @return boolean
-     */
-    public function getUsuario()
-    {
-        if (session()->get("usuarioId") != "" && (session()->get("usuarioNivel") == 1 || session()->get("usuarioNivel") == 11)) {
-            return true;      
-        }
-    
-        return false;
-    }
 }

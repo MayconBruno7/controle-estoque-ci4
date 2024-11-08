@@ -11,10 +11,6 @@ class ConfiguracoesModel extends CustomModel
 
     protected $allowedFields = ['chave', 'valor', 'descricao', 'criado_em', 'atualizado_em'];
 
-    // protected $useTimestamps = true;
-    // protected $useSoftDeletes = true;
-
-
      /**
      * 
      * 

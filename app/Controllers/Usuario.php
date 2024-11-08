@@ -117,59 +117,6 @@ class Usuario extends BaseController
         return view('usuario/profile', $data);
     }
 
-    // /**
-    //  * new - insere um novo usuário
-    //  *
-    //  * @return void
-    //  */
-    // public function insert()
-    // {
-    //     $post = $this->request->getPost();
-
-    //     // Valida dados recebidos do formulário
-    //     if ($this->model->save([
-    //         "statusRegistro" => $post['statusRegistro'],
-    //         "nivel" => $post['nivel'],
-    //         "nome" => $post['nome'],
-    //         "email" => $post['email'],
-    //         "senha" => password_hash($post['senha'], PASSWORD_DEFAULT),
-    //         "id_funcionario" => $post['funcionarios']
-    //     ])) { 
-    //         return redirect()->to("/Usuario")->with('msgSucess', "Dados inseridos com sucesso!");
-    //     }else {
-    //         return redirect("Usuario", ["msgError" => "Falha na inserção dos dados do Usuário!"]);
-    //     }
-    // }
-
-    // /**
-    //  * update
-    //  *
-    //  * @return void
-    //  */    
-    // public function update()
-    // {
-    //     $post = $this->request->getPost();
-
-    //     // Valida dados recebidos do formulário
-    //     if (Validator::make($post, $this->model->validationRules)) {
-    //         return redirect("Usuario/form/update");
-    //     } else {
-    //         $data = [
-    //             "nome" => $post['nome'],
-    //             "statusRegistro" => $post['statusRegistro'],
-    //             "nivel" => $post['nivel'],
-    //             "email" => $post['email'],
-    //             "id_funcionario" => $post['funcionarios']
-    //         ];
-
-    //         if ($this->model->update($post['id'], $data)) {
-    //             return redirect("Usuario", ["msgSuccess" => "Usuário alterado com sucesso!"]);
-    //         } else {
-    //             return redirect("Usuario", ["msgError" => "Falha na alteração dos dados do Usuário!"]);
-    //         } 
-    //     }    
-    // }
-
     /**
      * delete - Exclui um usuário no banco de dados
      *

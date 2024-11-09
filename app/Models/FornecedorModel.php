@@ -34,19 +34,31 @@ class FornecedorModel extends CustomModel
         ]
     ];
 
+    /**
+     * getLista function
+     *
+     * @param string $orderBy
+     * @return void
+     */
     public function getLista($orderBy = 'id')
     {
         $session = Services::session();
 
         if ($session->get('usuarioNivel') == 1) {
-            return $this->orderBy($orderBy, 'DESC')->findAll(); // Retorna todos os fornecedores
+            return $this->orderBy($orderBy, 'DESC')->findAll(); 
         } else {
-            return $this->where('statusRegistro', 1) // Retorna apenas os fornecedores ativos
+            return $this->where('statusRegistro', 1) 
                         ->orderBy($orderBy, 'DESC')
                         ->findAll();
         }
     }
 
+    /**
+     * requireAPI function
+     *
+     * @param string $cnpj
+     * @return void
+     */
     public function requireAPI($cnpj)
     {
         $cnpj_limpo = preg_replace("/[^0-9]/", "", $cnpj);
@@ -60,12 +72,12 @@ class FornecedorModel extends CustomModel
         ];
 
         $context    = stream_context_create($options);
-        $response   = @file_get_contents($url, false, $context); // O @ para silenciar erros
+        $response   = @file_get_contents($url, false, $context);
 
         if ($response !== false) {
             $data = json_decode($response, true);
             if ($data !== null && isset($data['status']) && $data['status'] == 'OK') {
-                return $data; // Retorna os dados da API se a resposta for válida
+                return $data; 
             } else {
                 return ['error' => 'Erro ao consultar a API: ' . (isset($data['message']) ? $data['message'] : 'Resposta inválida')];
             }

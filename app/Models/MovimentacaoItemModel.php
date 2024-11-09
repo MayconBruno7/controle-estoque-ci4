@@ -6,10 +6,9 @@ use CodeIgniter\Model;
 
 class MovimentacaoItemModel extends CustomModel
 {
-    protected $table            = 'movimentacao_item'; // Define a tabela do banco de dados
-    protected $primaryKey       = 'id'; // Define a chave primária
-    // protected $returnType = 'array'; // Define o tipo de retorno
-    protected $allowedFields    = ['*']; // Permite todos os campos (ajuste conforme necessário)
+    protected $table            = 'movimentacao_item'; 
+    protected $primaryKey       = 'id'; 
+    protected $allowedFields    = ['*'];
 
     /**
      * Lista produtos relacionados a uma movimentação
@@ -27,6 +26,6 @@ class MovimentacaoItemModel extends CustomModel
             ->orWhere('mi.id_movimentacoes IS NULL')
             ->orderBy('p.descricao');
 
-        return $query->get()->getResultArray(); // Retorna os resultados como um array
+        return $query->get()->getResultArray(); 
     }
 }

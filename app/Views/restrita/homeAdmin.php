@@ -2,7 +2,6 @@
 
 <?= $this->section('conteudo') ?>
 
-<!-- Main Content -->
 <div class="main-content">
     <div class="row text-center">
         <div class="col-12">
@@ -29,7 +28,6 @@
                                                 $totalQuantidadeDia = 0;
 
                                                 foreach ($aRelatorioDia as $item) {
-                                                    // Acessando e somando a quantidadeDia de cada item do array
                                                     $totalQuantidadeDia = intval($item['quantidadeDia']);
                                                 }
                                             ?>
@@ -58,7 +56,6 @@
                                                 $totalQuantidadeSemana = 0;
 
                                                 foreach ($aRelatorioSemana as $item) {
-                                                    // Acessando e somando a quantidadeSemanda de cada item do array
                                                     $totalQuantidadeSemana = intval($item['quantidadeSemana']);
                                                 }
                                             ?>
@@ -87,7 +84,6 @@
                                                 $totalQuantidadeMes = 0;
 
                                                 foreach ($aRelatorioMes as $item) {
-                                                    // Acessando e somando a quantidadeMes de cada item do array
                                                     $totalQuantidadeMes = intval($item['quantidadeMes']);
                                                 }
                                             ?>
@@ -115,7 +111,6 @@
                                                 $totalQuantidadeAno = 0;
 
                                                 foreach ($aRelatorioAno as $item) {
-                                                    // Acessando e somando a quantidadeAno de cada item do array
                                                     $totalQuantidadeAno = intval($item['quantidadeAno']);
                                                 }
                                             ?>

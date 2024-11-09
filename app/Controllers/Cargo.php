@@ -10,6 +10,9 @@ class Cargo extends BaseController
 {
     protected $model;
 
+     /**
+     * construct
+     */
     public function __construct()
     {
         $this->model = new CargoModel();

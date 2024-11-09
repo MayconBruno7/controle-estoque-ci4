@@ -8,54 +8,64 @@ class CustomModel extends Model
 {
     protected $currentUser;
 
+    /**
+     * __construct
+     */
     public function __construct()
     {
         parent::__construct();
         $this->currentUser = session()->has('current_user') ? session()->get('current_user') : null;
-        // // Verificação de depuração
-        // if ($this->currentUser === null) {
-        //     throw new \Exception('Current user is not set in the session.');
-        // }
+    
     }
 
-    // metodos especificos para as ações das tabelas movimentação e movimentação item
+    /**
+     * inserirMovimentacao function
+     *
+     * @param array $row
+     * @param boolean $returnID
+     * @return void
+     */
     public function inserirMovimentacao($row = null, bool $returnID = true)
     {
-        
-        // Define a variável de usuário atual na sessão
         $currentUser = $this->currentUser;
-
-        // Define a variável no MySQL
         $this->db->query("SET @current_user = '{$currentUser}'");
 
-        // Tenta inserir os dados
         try {
             return $this->db->table('movimentacao')->insert($row, $returnID);
         } catch (\Exception $e) {
-            // Captura a mensagem de erro da trigger 
             throw new \Exception($e->getMessage());
         }
     }
 
+    /**
+     * insertMovimentacaoItem function
+     *
+     * @param array $row
+     * @return void
+     */
     public function insertMovimentacaoItem($row = null)
     {
-        // Define a variável de usuário atual na sessão
-        $currentUser = $this->currentUser;
 
-        // Define a variável no MySQL
+        $currentUser = $this->currentUser;
         $this->db->query("SET @current_user = '{$currentUser}'");
 
-        // Chama o método parent para inserir os dados
         return $this->db->table('movimentacao_item')->insert($row);
     }
 
-    // Atualiza a quantidade de itens na movimentação
+    /**
+     * updateMovimentacaoQuantidade function
+     *
+     * @param int $id_movimentacao
+     * @param int $id_produto
+     * @param int $novaQuantidade
+     * @param float $valor
+     * @return void
+     */
     public function updateMovimentacaoQuantidade($id_movimentacao, $id_produto, $novaQuantidade, $valor)
     {
-        // Define a variável de usuário atual no MySQL
+
         $this->db->query("SET @current_user = '{$this->currentUser}'");
 
-        // Executa a atualização da quantidade
         return $this->db->table('movimentacao_item')->where([
             'id_movimentacoes' => $id_movimentacao,
             'id_produtos' => $id_produto
@@ -66,13 +76,18 @@ class CustomModel extends Model
         
     }
 
-    // Deleta itens da movimentação com quantidade igual a zero
+    /**
+     * deleteMovimentacaoItemComQuantidadeZero function
+     *
+     * @param int $id_movimentacao
+     * @param int $id_produto
+     * @return void
+     */
     public function deleteMovimentacaoItemComQuantidadeZero($id_movimentacao, $id_produto)
     {
-        // Define a variável de usuário atual no MySQL
+    
         $this->db->query("SET @current_user = '{$this->currentUser}'");
 
-        // Executa a exclusão do item com quantidade zero
         return $this->db->table('movimentacao_item')->delete([
             'id_movimentacoes' => $id_movimentacao,
             'id_produtos' => $id_produto,
@@ -80,39 +95,51 @@ class CustomModel extends Model
         ]);
     }
     
-    public function insert($row = null, bool $returnID = true) // Alterado aqui
+    /**
+     * insert function
+     *
+     * @param array $row
+     * @param boolean $returnID
+     * @return void
+     */
+    public function insert($row = null, bool $returnID = true) 
     {
-        // Define a variável de usuário atual na sessão
+       
         $currentUser = $this->currentUser;
-
-        // Define a variável no MySQL
         $this->db->query("SET @current_user = '{$currentUser}'");
 
-        // Chama o método parent para inserir os dados
         return parent::insert($row, $returnID);
     }
 
+    /**
+     * update function
+     *
+     * @param int $id
+     * @param array $data
+     * @return boolean
+     */
     public function update($id = null, $data = null): bool
     {
-        // Define a variável de usuário atual na sessão
+
         $currentUser = $this->currentUser;
+        $this->db->query("SET @current_user = '{$currentUser}'"); 
 
-        // Execute a atualização no banco de dados
-        $this->db->query("SET @current_user = '{$currentUser}'"); // Define a variável no MySQL
-
-        // Chama o método parent para atualizar os dados
         return parent::update($id, $data);
     }
     
+    /**
+     * delete function
+     *
+     * @param int $id
+     * @param boolean $purge
+     * @return void
+     */
     public function delete($id = null, bool $purge = false)
     {
-        // Define a variável de usuário atual na sessão
+       
         $currentUser = $this->currentUser;
+        $this->db->query("SET @current_user = '{$currentUser}'"); 
 
-        // Define a variável no MySQL
-        $this->db->query("SET @current_user = '{$currentUser}'"); // Define a variável no MySQL
-
-        // Chama o método parent para deletar os dados
         return parent::delete($id, $purge);
     }
 }

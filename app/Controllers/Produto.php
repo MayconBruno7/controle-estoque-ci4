@@ -15,6 +15,9 @@ class Produto extends BaseController
     protected $historicoProdutoModel;
     protected $fornecedorModel;
 
+    /**
+     * __construct
+     */
     public function __construct()
     {
         // Carregando os modelos

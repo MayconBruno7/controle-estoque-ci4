@@ -9,7 +9,6 @@
         <?= exibeTitulo("Funcionario", ['acao' => $action]) ?>
     </div>
 
-    <!-- pega se é insert, delete ou update a partir do metodo get assim mandando para a página correspondente -->
     <?= form_open(base_url() . 'Funcionario/' . ($action == "delete" ? "delete" : "store"), ['enctype' => 'multipart/form-data']) ?>
 
         <div class="row">

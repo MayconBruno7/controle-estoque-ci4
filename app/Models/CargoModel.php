@@ -6,9 +6,9 @@ use CodeIgniter\Model;
 
 class CargoModel extends CustomModel
 {
-    protected $table = 'cargo'; // Use 'protected' para que seja acessível em subclasses
-    protected $primaryKey = 'id'; // Defina a chave primária
-    protected $allowedFields = ['nome', 'statusRegistro']; // Campos que podem ser manipulados
+    protected $table = 'cargo'; 
+    protected $primaryKey = 'id'; 
+    protected $allowedFields = ['nome', 'statusRegistro']; 
     protected $validationRules = [
         'nome' => [
             'label' => 'Nome',
@@ -28,7 +28,7 @@ class CargoModel extends CustomModel
      */
     public function getLista($orderBy = 'id')
     {
-        // Usar a classe de sessão do CodeIgniter 4
+        
         $session = \Config\Services::session();
         
         if ($session->get('usuarioNivel') == 1) {

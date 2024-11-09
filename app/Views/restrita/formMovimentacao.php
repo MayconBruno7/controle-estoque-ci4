@@ -4,7 +4,6 @@
 
     $this->section('conteudo'); 
 
-    // Verificar se há uma sessão de movimentação
     if (!session()->has('movimentacao')) {
         session()->get('movimentacao');
     }
@@ -62,7 +61,6 @@
 
     <?= form_open(base_url() . 'Movimentacao/' . ($action), ['method' => 'post']) ?>
 
-    <!--  verifica se o id está no banco de dados e retorna esse id -->
     <input type="hidden" name="id" id="id" value="<?= setValor('id', $data) ?>">
 
     <?php if ($action == 'new') : ?>
@@ -174,13 +172,11 @@
 
         <div class="col-12 col-md-6 mt-3">
             <label for="data_pedido" class="form-label">Data do Pedido</label>
-            <!--  verifica se a nome está no banco de dados e retorna essa nome -->
             <input type="date" class="form-control" name="data_pedido" id="data_pedido" placeholder="data_pedido do item" required autofocus value="<?= setValor('data_pedido', $data) ?>" max="<?= date('Y-m-d') ?>" <?=$action == 'view' ||$action == 'delete' ? 'disabled' : '' ?>>
         </div>
 
         <div class="col-12 col-md-6 mt-3">
             <label for="data_chegada" class="form-label">Data de Chegada</label>
-            <!--  verifica se a nome está no banco de dados e retorna essa nome -->
             <input type="date" class="form-control" name="data_chegada" id="data_chegada" placeholder="data_chegada do item" value="<?= setValor('data_chegada', $data) ?>" min="<?= setValor('data_pedido', $data) ?>" max="<?= date('Y-m-d') ?>" <?=$action == 'view' ||$action == 'delete' ? 'disabled' : '' ?>>
         </div>
 
@@ -190,8 +186,6 @@
             <textarea class="form-control" name="motivo" id="motivo" placeholder="Detalhe o motivo" <?=$action == 'view' ||$action == 'delete' ? 'disabled' : '' ?>><?= setValor('motivo', $data) ?></textarea>
         </div>
         <?php endif; ?>
-
-        <!-- <a href="<?= base_url() ?>Movimentacao/salvarSessao/new/0">teste</a>     -->
 
         <div class="col mt-4">
             <div class="col-md-8">
@@ -232,7 +226,6 @@
                         <td>
                             <?php if($action != 'delete' &&$action != 'view') : ?>
                                 <a href="<?= base_url() ?>Produto/index/delete/<?= $produto['id_produto'] ?>/<?= $produto['quantidade'] ?>/<?= setValor('tipo', $data) ?>" class="btn btn-outline-danger btn-sm" title="Exclusão">Excluir</a>&nbsp;
-                                <!-- <a href="viewEstoque.php?acao=delete&id=<?= $produto['id_produto'] ?>&id_movimentacoes=<?= isset($idMovimentacaoAtual) ? $idMovimentacaoAtual : "" ?>&qtd_produto=<?=  isset($produto['quantidade']) ? $produto['quantidade'] : '' ?>&tipo=<?= isset($dadosMovimentacao['tipo_movimentacao']) ? $dadosMovimentacao['tipo_movimentacao'] : '' ?>" class="btn btn-outline-danger btn-sm" title="Exclusão">Excluir</a>&nbsp; -->
                             <?php endif; ?>
                                 <a href="<?= base_url() ?>Produto/form/view/<?= $produto['id_produto'] ?>" class="btn btn-outline-secondary btn-sm" title="Visualização">Visualizar</a>
                         </td>
@@ -243,7 +236,6 @@
                         <input type="hidden" name="id_produto" id="id_produto_value" value="<?= $produto['id_produto'] ?>">
                         <input type="hidden" name="valor" id="valor_value" value="<?= $produto['valor'] ?>">
                         <input type="hidden" name="nome_produto" id="nome_produto_value" value="<?= $produto['nome_produto'] ?>">
-                        <!-- <input type="hidden" name="tipo_movimentacoes" id="tipo_movimentacoes" value="<?= isset($dadosMovimentacao['tipo_movimentacao']) ? $dadosMovimentacao['tipo_movimentacao'] : '' ?>"> -->
                     </div>
 
                     <?php
@@ -266,17 +258,14 @@
                         <td>
                         <?php if($action != 'delete' && $action != 'view') : ?>
                             <a href="<?= base_url() ?>Produto/index/delete/<?= $row['id_prod_mov_itens'] ?>/<?= $row['mov_itens_quantidade'] ?>/<?= setValor('tipo', $data) ?>/<?= setValor('id', $data) ?>/<?= $row['valor'] ?>" class="btn btn-outline-danger btn-sm" title="Exclusão">Excluir</a>&nbsp;
-                            <!-- <a href="viewEstoque.php?acao=delete&id=<?= $row['id'] ?>&id_movimentacoes=<?= $row['id_movimentacoes'] ?>&qtd_produto=<?= $row['mov_itens_quantidade'] ?>&tipo=<?= isset($dados->tipo) ? $dados->tipo : ""?>" class="btn btn-outline-danger btn-sm" title="Exclusão">Excluir</a>&nbsp; -->
                         <?php endif; ?>
                             <a href="<?= base_url() ?>Produto/form/view/<?= $row['id_prod_mov_itens'] ?>" class="btn btn-outline-secondary btn-sm" title="Visualização">Visualizar</a>
-                            <!-- <a href="formProdutos.php?acao=view&id=<?= $row['id'] ?>&id_movimentacoes=<?= $row['id_movimentacoes'] ?>" class="btn btn-outline-secondary btn-sm" title="Visualização">Visualizar</a> -->
                         </td>
                     </tr>
 
                     <input type="hidden" name="quantidade" id="quantidade" value="<?= $row['mov_itens_quantidade'] ?>">
                     <input type="hidden" name="id_produto" id="id_produto" value="<?= $row['id_prod_mov_itens'] ?>">
                     <input type="hidden" name="valor" id="valor" value="<?= $row['valor'] ?>">
-                    <!-- <input type="hidden" name="tipo_movimentacoes" id="tipo_movimentacoes" value="<?= isset($dadosMovimentacao['tipo_movimentacao']) ? $dadosMovimentacao['tipo_movimentacao'] : '' ?>"> -->
 
                     <?php
 
@@ -298,10 +287,6 @@
 
     <div class="row justify-content-center">
         <div class="col-6 d-flex justify-content-center mt-3">
-
-        <?php //if ($this->getOutrosParametros(4) == "home"): ?>
-            <!-- <a href=" //base_url() . Formulario::retornaHomeAdminOuHome() " class="btn btn-primary btn-sm">Voltar</a> -->
-        <?php //endif; ?>
 
         <?php if ($action != "view"): ?>
             <button type="submit" value="submit" id="btGravar" class="btn btn-primary btn-sm">Gravar</button>
@@ -439,7 +424,7 @@
                 .then(response => {
                     // Logue a resposta como texto antes de converter para JSON
                     // console.log('Resposta recebida:', response);
-                    return response.json(); // Isso pode falhar se a resposta não for JSON
+                    return response.json(); 
                 })
                 .then(data => {
                     // console.log('Dados enviados com sucesso:', data);

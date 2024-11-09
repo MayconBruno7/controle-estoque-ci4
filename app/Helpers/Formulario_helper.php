@@ -36,9 +36,6 @@
             break;
     }
 
-    // var_dump($parametro['acao']);
-    // exit;
-
     ob_start(); // Inicia o buffer de saída
     ?>
     <section>

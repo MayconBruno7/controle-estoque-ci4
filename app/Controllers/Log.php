@@ -44,10 +44,9 @@ class Log extends BaseController
      */
     public function viewLog()
     {
-        // Recuperando todos os segmentos da URL
+        
         $segmentos = $this->request->getURI()->getSegments(3);
 
-        // Acessando o primeiro segmento
         $logId = $segmentos[3] ?? null; 
 
         $dados = [

@@ -65,11 +65,11 @@ class FaleConosco extends BaseController
 
         if ($temProdutoAbaixoDoLimite) {
             $this->enviaNotificacaoEstoque($assunto, $message);
-            return redirect()->to('/');
+            return redirect()->to(previous_url());
 
         } else {
             session()->setFlashdata("exibeModalNotificacaoEstoque", true);
-            return redirect()->to('/');
+            return redirect()->to(previous_url());
 
         }
     }
@@ -89,40 +89,25 @@ class FaleConosco extends BaseController
         $usuarioAdministradorEmail  = $this->configuracoesModel->where('chave', 'emailAdm')->first();
 
         $imagemBase64 = 'imagemempresa';
-
-        // Adiciona a imagem base64 ao corpo do e-mail
         $mensagem       .= '<img alt="imagem" src="' . $imagemBase64 . '" />';
     
-        // Corpo do e-mail
         $corpoEmail     = "{$mensagem}<br><br> Esse email é disparado todos os dias com o intuito de notificar sobre o estoque.";
     
-        // Cria uma nova instância da classe Email
         $email          = new Email();
-    
-        // Cria uma nova instância da classe EmailConfig
         $emailConfig    = new EmailConfig();
-    
-        // Inicializa com as configurações
         $email->initialize($emailConfig);
-    
-        // Configura o remetente
         $email->setFrom($emailConfig->fromEmail, $emailConfig->fromName);
-    
-        // Configura o destinatário
-        $email->setTo($usuarioAdministradorEmail['valor']); // Enviar para o email do administrador
-    
-        // Configura o assunto e a mensagem
+        $email->setTo($usuarioAdministradorEmail['valor']); 
         $email->setSubject($assunto);
         $email->setMessage($corpoEmail);
     
-        // Envia o e-mail e verifica se foi enviado com sucesso
         if ($email->send()) {
         session()->setFlashdata('msgSuccess', 'Email enviado com sucesso!');
         } else {
             session()->setFlashdata('msgError', 'Erro ao enviar email: ' . $email->printDebugger(['headers']));
         }
 
-        session()->setFlashdata("exibirModalEstoque", true); // Exibir modal, se necessário
+        session()->setFlashdata("exibirModalEstoque", true);
     }
     
 
@@ -167,23 +152,14 @@ class FaleConosco extends BaseController
 
             $corpoEmail = "{$mensagem}<br><br> Para mais informações, ligue pelo telefone: {$telefone} ou envie um email: {$emailRemetente}";
 
-            // Cria uma nova instância da classe Email
             $email          = new Email();
-                
-            // Cria uma nova instância da classe EmailConfig
             $emailConfig    = new EmailConfig();
-
-            // Inicializa com as configurações
             $email->initialize($emailConfig);
-            
-            // Configura o destinatário
             $email->setTo('maycon7ads@gmail.com');
 
-            // Configura o assunto e a mensagem
             $email->setSubject($assunto);
             $email->setMessage($corpoEmail);
 
-            // Envia o e-mail e verifica se foi enviado com sucesso
             if ($email->send()) {
                 session()->setFlashdata('msgSuccess', 'Email enviado com sucesso.');
             } else {

@@ -11,6 +11,9 @@ class Relatorio extends BaseController
     protected $fornecedorModel;
     protected $model;
 
+    /**
+     * __construct 
+     */
     public function __construct()
     {
         // Instancia o modelo de fornecedor
@@ -18,22 +21,42 @@ class Relatorio extends BaseController
         $this->model            = new RelatorioModel();
     }
 
+    /**
+     * index function
+     *
+     * @return void
+     */
     public function index()
     {
         return view('restrita/formRelatorio');
     }
 
+    /**
+     * relatorioMovimentacoes function
+     *
+     * @return void
+     */
     public function relatorioMovimentacoes()
     {
         return view('restrita/formRelatorio', ['request' => $this->request]);
     }
 
+    /**
+     * relatorioItensPorFornecedor function
+     *
+     * @return void
+     */
     public function relatorioItensPorFornecedor()
     {
         $dados = $this->fornecedorModel->getLista('id');
         return view('restrita/formRelatorio', ['fornecedores' => $dados, 'request' => $this->request]);
     }
 
+    /**
+     * getDados function
+     *
+     * @return void
+     */
     public function getDados()
     {
 
@@ -86,6 +109,12 @@ class Relatorio extends BaseController
         return $this->response->setContentType('application/json')->setBody(json_encode($this->formatarDadosParaGrafico($dados)));
     }
 
+    /**
+     * formatarDadosParaGrafico function
+     *
+     * @param json $dados
+     * @return void
+     */
     private function formatarDadosParaGrafico($dados)
     {
         

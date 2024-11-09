@@ -5,10 +5,9 @@
 <?php
 
     if (empty($action)) {
-        // Recuperando todos os segmentos da URL
+        
         $segmentos = service('request')->getURI()->getSegments();
 
-        // Acessando o terceiro segmento (index 2, já que começa em 0)
         $action             = $segmentos[2] ?? null; 
         $id_produto         = $segmentos[3] ?? null; 
         $quantidade_atual   = $segmentos[4] ?? null; 
@@ -22,7 +21,6 @@
 <div class="loader"></div>
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
-        <!-- Navbar, Sidebar e Conteúdo aqui -->
         <main class="container mt-5">
             <div class="container mb-3">
                 <?= exibeTitulo('Produto'); ?>

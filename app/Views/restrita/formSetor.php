@@ -8,14 +8,12 @@
         <?= exibeTitulo("Setor", ['acao' => $action]) ?>
     </div>
 
-    <!-- pega se é new, delete ou update a partir do metodo get assim mandando para a página correspondente -->
     <?= form_open(base_url() . 'Setor/' . ($action == "delete" ? "delete" : "store")) ?>
 
         <div class="row">
 
             <div class="col-12 col-md-8">
                 <label for="nome" class="form-label mt-3">Nome</label>
-                <!--  verifica se a nome está no banco de dados e retorna essa nome -->
                 <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome do setor" required autofocus value="<?= setValor('nome', $data) ?>" <?= $action != 'new' && $action != 'update' ? 'disabled' : '' ?>>
                 <?= setaMsgErrorCampo('nome', $errors) ?>
             </div>
@@ -44,7 +42,6 @@
             </div>
         </div>
 
-        <!--  verifica se o id está no banco de dados e retorna esse id -->
         <input type="hidden" name="id" id="id" value="<?= setValor('id', $data) ?>">
         <input type="hidden" name="action" id="action" value="<?= $action ?>">
 

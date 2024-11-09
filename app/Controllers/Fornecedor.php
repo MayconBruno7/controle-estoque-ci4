@@ -103,18 +103,15 @@ class Fornecedor extends BaseController
         $id = $this->request->getPost('id');
 
         try {
-            // Tenta deletar o cargo
             if ($this->model->delete($id)) {
                 session()->setFlashdata('msgSuccess', 'Cargo excluído com sucesso.');
             } else {
                 session()->setFlashdata('msgError', 'Falha ao tentar excluir o cargo.');
             }
         } catch (DatabaseException $e) {
-            // Verifica se o erro é uma violação de chave estrangeira
             if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
                 session()->setFlashdata('msgError', 'Erro: Não é possível excluir este fonecedor, pois ele está relacionado a outros dados.');
             } else {
-                // Trata outros tipos de erro, se necessário
                 session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o cargo.');
             }
         }
@@ -132,12 +129,8 @@ class Fornecedor extends BaseController
     {
 
         $segmentos = $this->request->getURI()->getSegments(3);
-
-        // Acessando o primeiro segmento
+        
         $cnpj = $segmentos[2] ?? null;
-
-        // var_dump($cnpj);
-        // exit;
 
         if ($cnpj) {
             $data = $this->model->requireAPI($cnpj);
@@ -158,7 +151,6 @@ class Fornecedor extends BaseController
 
         $segmentos = $this->request->getURI()->getSegments(3);
 
-        // Acessando o primeiro segmento
         $estadoId = $segmentos[2] ?? null;
 
         $cidadeModel = new CidadeModel();

@@ -12,7 +12,6 @@
         <div class="row">
             <div class="col-12 col-md-9">
                 <label for="nome" class="form-label mt-3">Nome</label>
-                <!-- Verifica se o nome está no banco de dados e retorna esse nome -->
                 <input type="text" class="form-control" name="nome" id="nome" placeholder="Nome do cargo" required autofocus value="<?= setValor('nome', $data) ?>" <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>>
                 <?= setaMsgErrorCampo('nome', $errors) ?>
             </div>

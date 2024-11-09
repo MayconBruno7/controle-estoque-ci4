@@ -28,9 +28,6 @@ class Home extends BaseController
     public function index()
     {
 
-        // var_dump(session()->get('usuarioNivel'));
-        // exit;
-
         if (!session()->has('usuarioId')) {
             $dados['dados'] = $this->UsuarioModel->findAll();
 
@@ -106,9 +103,6 @@ class Home extends BaseController
 		$UsuarioModel = new UsuarioModel();
 
 		$post = $this->request->getPost();
-
-        // var_dump($post);
-        // exit("Tamo ai");
 		
 		// verificar se usuário já tem conta
 		$temUsuario = $UsuarioModel->where("email", $post['email'])->first();

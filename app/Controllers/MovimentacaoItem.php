@@ -13,6 +13,9 @@ class MovimentacaoItem extends BaseController
     protected $setorModel;
     protected $fornecedorModel;
 
+    /**
+     * __construct
+     */
     public function __construct()
     {
         // Carregando os modelos

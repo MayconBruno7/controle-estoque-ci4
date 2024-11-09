@@ -36,7 +36,6 @@
         
                         </div>
                         <div class="form-group row ml-1">
-                                  <!-- Checkbox estilizado -->
                             <label class="custom-control custom-checkbox col-6">
                                 <input type="checkbox" id="toggle-password" class="toggle-password custom-control-input" onclick="togglePassword()">
                                 <label class="custom-control-label" for="toggle-password">Mostrar senha</label>
@@ -71,10 +70,10 @@
 
         if (passwordInput.type === "password") {
             passwordInput.type = "text";
-            toggleIcon.textContent = "Ocultar senha"; // Ícone para mostrar o estado atual
+            toggleIcon.textContent = "Ocultar senha"; 
         } else {
             passwordInput.type = "password";
-            toggleIcon.textContent = "Mostrar senha"; // Ícone para mostrar o estado atual
+            toggleIcon.textContent = "Mostrar senha"; 
         }
     }
 </script>

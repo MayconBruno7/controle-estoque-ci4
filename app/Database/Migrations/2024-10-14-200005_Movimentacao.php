@@ -57,8 +57,8 @@ class Movimentacao extends Migration
         $this->forge->addKey('id', true, true);
         $this->forge->addKey('id_fornecedor');
         $this->forge->addKey('id_setor');
-        $this->forge->addForeignKey('id_fornecedor', 'fornecedor', 'id', 'CASCADE', 'CASCADE');
-        $this->forge->addForeignKey('id_setor', 'setor', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_fornecedor', 'fornecedor', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('id_setor', 'setor', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->createTable('movimentacao', true, ['ENGINE' => 'InnoDB']);
 
          // Desabilitar verificação de chave estrangeira

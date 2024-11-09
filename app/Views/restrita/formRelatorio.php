@@ -4,10 +4,8 @@
 
     $this->section('conteudo');
 
-    // Recuperando todos os segmentos da URL
     $segmentos = $request->getURI()->getSegments(3);
 
-    // Acessando o primeiro segmento
     $page = $segmentos[1] ?? null;;
 
     $tituloPage = isset($page) && $page == 'relatorioMovimentacoes' ? 'Relatorio de Movimentações' : 'Relatório de itens por fornecedor';
@@ -54,7 +52,7 @@
                         <option value="ano">Anual</option>
                     </select>
                 </div>
-                <!-- Div para exibir calendários dinamicamente -->
+
                 <div id="calendarios" class="form-group"></div>
 
                 <div class="container">

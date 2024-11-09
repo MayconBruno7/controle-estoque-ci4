@@ -1,5 +1,11 @@
 <?php
 
+/**
+ * validaCPF function
+ *
+ * @param string $cpf
+ * @return boolean
+ */
 function validaCPF(string $cpf): bool
 {
     $cpf = preg_replace('/[^0-9]/', '', $cpf);

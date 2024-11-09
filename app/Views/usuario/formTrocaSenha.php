@@ -59,7 +59,6 @@
                         </div>
 
                         <div style="margin-top:10px" class="form-group">
-                            <!-- Button -->
                             <div class="col-xs-2 controls">
                                 <button class="btn btn-outline-primary btnCustomAzul" id="btEnviar" disabled>Atualizar</button>
                             </div>

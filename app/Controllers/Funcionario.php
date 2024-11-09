@@ -17,7 +17,7 @@ class Funcionario extends BaseController
 
     public function __construct()
     {
-        $this->model        = new FuncionarioModel(); // Inicializa o modelo de funcionário
+        $this->model        = new FuncionarioModel(); 
         $this->setorModel   = new SetorModel();
         $this->cargoModel   = new CargoModel();
 
@@ -30,7 +30,7 @@ class Funcionario extends BaseController
      */
     public function index()
     {
-        $data['funcionarios'] = $this->model->getLista(); // Obtem a lista de funcionários
+        $data['funcionarios'] = $this->model->getLista(); 
         return view('restrita/listaFuncionario', $data);
     }
 
@@ -45,16 +45,13 @@ class Funcionario extends BaseController
         $data['data']   = null;
         $data['errors'] = [];
         
-        // Carregando as listas de setores e cargos
         $data['aSetor'] = $this->setorModel->getLista();
         $data['aCargo'] = $this->cargoModel->getLista(); 
 
-        // Se não for uma nova entrada e um ID válido for fornecido
         if ($action != "new" && $id !== null) {
-            $data['data'] = $this->model->find($id); // Busca o funcionário pelo ID
+            $data['data'] = $this->model->find($id); 
         }
 
-        // Retorna a view com os dados
         return view('restrita/formFuncionario', $data);
     }
 
@@ -114,18 +111,15 @@ class Funcionario extends BaseController
         $post = $this->request->getPost();
 
         try {
-            // Tenta deletar o funcionário
             if ($this->model->delete($post['id'])) {
                 session()->setFlashdata('msgSuccess', 'funcionário excluído com sucesso.');
             } else {
                 session()->setFlashdata('msgError', 'Falha ao tentar excluir o funcionário.');
             }
         } catch (DatabaseException $e) {
-            // Verifica se o erro é uma violação de chave estrangeira
             if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
                 session()->setFlashdata('msgError', 'Erro: Não é possível excluir este fonecedor, pois ele está relacionado a outros dados.');
             } else {
-                // Trata outros tipos de erro, se necessário
                 session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o funcionário.');
             }
         }

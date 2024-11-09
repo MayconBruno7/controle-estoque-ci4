@@ -10,12 +10,10 @@
     <link rel="stylesheet" href="<?= base_url("assets/bootstrap/css/bootstrap.min.css") ?>">
     <link rel="icon" href="<?= base_url("assets/img/brasao-pmrl-icon.jpeg") ?>" type="image/jpeg">
 
-    <!-- Datatables -->
     <link rel="stylesheet" href="<?= base_url("assets/css/app.min.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/bundles/datatables/datatables.min.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css") ?>">
 
-    <!-- Template -->
     <link rel="stylesheet" href="<?= base_url("assets/css/app.min.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/css/style.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/css/components.css") ?>">
@@ -29,7 +27,7 @@
 
 <body class="sidebar-gone sidebar-mini">
 
-<?php if (session()->get('exibirModalEstoque')): ?>
+<?php if (session()->getFlashdata('exibirModalEstoque')): ?>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
@@ -55,7 +53,7 @@
     <?php session()->remove("exibirModalEstoque"); // Limpa a variável de sessão após o uso ?>
 <?php endif; ?>
 
-<?php if (session()->get("exibeModalNotificacaoEstoque")): ?>
+<?php if (session()->getFlashdata("exibeModalNotificacaoEstoque")): ?>
     <script>
         menssageModal = "";
         document.addEventListener("DOMContentLoaded", function() {
@@ -67,7 +65,7 @@
     <?php session()->remove("exibeModalNotificacaoEstoque"); // Limpa a variável de sessão após o uso ?>
 <?php endif; ?>
 
-<?php if (session()->get("sucessoUsuarioAdm") || session()->get("erroUsuarioAdm")): ?>
+<?php if (session()->getFlashdata("sucessoUsuarioAdm") || session()->getFlashdata("erroUsuarioAdm")): ?>
     <script>
         let mensagemModal = `<?php
             echo session()->getFlashdata('sucessoUsuarioAdm') ?: session()->getFlashdata('erroUsuarioAdm');
@@ -95,7 +93,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
     </div>
@@ -151,7 +148,7 @@
                                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                                     // Verifica se a classe 'showSettingPanel' foi adicionada
                                     if (settingSidebar.classList.contains('showSettingPanel')) {
-                                        console.log('A classe showSettingPanel foi adicionada!');
+                                        // console.log('A classe showSettingPanel foi adicionada!');
 
                                         // Faz a requisição AJAX para buscar o emailAdm
                                         fetch('<?= base_url('Configuracoes/getInfoEmailAdm') ?>', {
@@ -159,7 +156,7 @@
                                         })
                                         .then(response => response.json())
                                         .then(data => {
-                                            console.log(data);
+                                            // console.log(data);
                                             // Atualiza o campo de email no formulário
                                             document.getElementById('id').value = data[0].id;
                                             document.getElementById('email').value = data[0].valor;
@@ -182,35 +179,6 @@
             </script>
             <?php endif; ?>
 
-            <!-- <div class="p-15 border-bottom">
-                <h6 class="font-medium m-b-10">Selecionar aparência</h6>
-                <div class="selectgroup layout-color w-50">
-                    <label class="selectgroup-item">
-                        <input type="radio" name="value" value="1" class="selectgroup-input-radio select-layout" checked>
-                        <span class="selectgroup-button">Branco</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="value" value="2" class="selectgroup-input-radio select-layout">
-                        <span class="selectgroup-button">Escuro</span>
-                    </label>
-                </div>
-            </div>
-            <div class="p-15 border-bottom">
-                <h6 class="font-medium m-b-10">Cor da barra lateral</h6>
-                <div class="selectgroup selectgroup-pills sidebar-color">
-                    <label class="selectgroup-item">
-                        <input type="radio" name="icon-input" value="1" class="selectgroup-input select-sidebar">
-                        <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
-                              data-original-title="Light Sidebar"><i class="fas fa-sun"></i></span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="icon-input" value="2" class="selectgroup-input select-sidebar" checked>
-                        <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
-                              data-original-title="Dark Sidebar"><i class="fas fa-moon"></i></span>
-                    </label>
-                </div>
-            </div> -->
-
             <div class="p-15 border-bottom">
                 <div class="theme-setting-options">
                     <label class="m-b-0">
@@ -221,16 +189,7 @@
                     </label>
                 </div>
             </div>
-            <!-- <div class="p-15 border-bottom">
-                <div class="theme-setting-options">
-                    <label class="m-b-0">
-                        <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
-                               id="sticky_header_setting">
-                        <span class="custom-switch-indicator"></span>
-                        <span class="control-label p-l-10">Cabeçalho adesivo</span>
-                    </label>
-                </div>
-            </div> -->
+        
             <div class="mt-4 mb-4 p-3 align-center rt-sidebar-last-ele">
                 <a href="#" class="btn btn-icon icon-left btn-primary btn-restore-theme">
                     <i class="fas fa-undo"></i> Restaurar padrão

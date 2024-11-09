@@ -9,7 +9,12 @@ Class RelatorioModel extends CustomModel
 {
     public $table = "movimentacao_item";
 
-    // Movimentacoes
+    /**
+     * RelatorioDia function
+     *
+     * @param string $dia
+     * @return void
+     */
     public function RelatorioDia($dia = null)
     {
         if ($dia === null) {
@@ -26,6 +31,13 @@ Class RelatorioModel extends CustomModel
             ->getResultArray();
     }
 
+    /**
+     * RelatorioSemana function
+     *
+     * @param string $dataInicio
+     * @param string $dataFinal
+     * @return void
+     */
     public function RelatorioSemana($dataInicio = null, $dataFinal = null)
     {
         if ($dataInicio === null || $dataFinal === null) {
@@ -49,6 +61,12 @@ Class RelatorioModel extends CustomModel
             ->getResultArray();
     }
     
+    /**
+     * RelatorioMes function
+     *
+     * @param string $mes
+     * @return void
+     */
     public function RelatorioMes($mes = null)
     {
         if ($mes === null) {
@@ -65,10 +83,14 @@ Class RelatorioModel extends CustomModel
             ->getResultArray();
     }
 
+    /**
+     * RelatorioAno function
+     *
+     * @param string $ano
+     * @return void
+     */
     public function RelatorioAno($ano = null)
     {
-        // var_dump($ano);
-        // exit;
 
         if ($ano === null) {
             $ano = date('Y');
@@ -85,7 +107,13 @@ Class RelatorioModel extends CustomModel
     }
 
 
-    // fornecedor
+    /**
+     * RelatorioDiaItemFornecedor function
+     *
+     * @param string $dataInicio
+     * @param int $id_fornecedor
+     * @return void
+     */
     public function RelatorioDiaItemFornecedor($dataInicio, $id_fornecedor)
     {
         return $this->db->table('movimentacao m')
@@ -100,6 +128,14 @@ Class RelatorioModel extends CustomModel
             ->getResultArray();
     }
 
+    /**
+     * RelatorioSemanaItemFornecedor function
+     *
+     * @param string $dataInicio
+     * @param string $dataFinal
+     * @param int $id_fornecedor
+     * @return void
+     */
     public function RelatorioSemanaItemFornecedor($dataInicio, $dataFinal, $id_fornecedor)
     {
         return $this->db->table('movimentacao m')
@@ -114,6 +150,13 @@ Class RelatorioModel extends CustomModel
             ->getResultArray();
     }
     
+    /**
+     * RelatorioMesItemFornecedor function
+     *
+     * @param string $dataInicio
+     * @param int $id_fornecedor
+     * @return void
+     */
     public function RelatorioMesItemFornecedor($dataInicio, $id_fornecedor)
     {
         return $this->db->table('movimentacao m')
@@ -127,6 +170,13 @@ Class RelatorioModel extends CustomModel
             ->getResultArray();
     }
 
+    /**
+     * RelatorioAnoItemFornecedor function
+     *
+     * @param string $ano
+     * @param int $id_fornecedor
+     * @return void
+     */
     public function RelatorioAnoItemFornecedor($ano, $id_fornecedor)
     {
         return $this->db->table('movimentacao m')

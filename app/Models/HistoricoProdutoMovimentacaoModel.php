@@ -6,15 +6,15 @@ use CodeIgniter\Model;
 
 class HistoricoProdutoMovimentacaoModel extends CustomModel
 {
-    protected $table            = 'movimentacao_item'; // Define a tabela do banco de dados
-    protected $primaryKey       = 'id'; // Define a chave primária
-    protected $returnType       = 'array'; // Define o tipo de retorno
+    protected $table            = 'movimentacao_item'; 
+    protected $primaryKey       = 'id'; 
+    protected $returnType       = 'array'; 
     protected $allowedFields    = [
         'id_movimentacoes',
         'id_produtos',
         'quantidade',
         'valor'
-    ]; // Campos permitidos para inserção e atualização
+    ]; 
 
     /**
      * Recupera o histórico de movimentação de um produto

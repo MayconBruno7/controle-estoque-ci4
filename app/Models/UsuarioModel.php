@@ -10,13 +10,6 @@ class UsuarioModel extends CustomModel
     protected $primaryKey       = 'id';
     protected $allowedFields    = ['nome', 'statusRegistro', 'email', 'nivel', 'senha', 'id_funcionario'];
     
-    // Ativa timestamps para created_at e updated_at
-    // protected $useTimestamps = true;
-    
-    // Habilita SoftDeletes (deletar logicamente)
-    // protected $useSoftDeletes = true;
-
-    // Regras de validação
     protected $validationRules = [
         'nome' => [
             'label' => 'Nome',
@@ -66,7 +59,7 @@ class UsuarioModel extends CustomModel
         $qtd = $this->countAllResults();
       
         if ($qtd == 0) {
-            // Cria o super usuário
+        
             $data = [
                 'nome' => 'administrador',
                 'email' => 'administrador@gmail.com',
@@ -77,15 +70,15 @@ class UsuarioModel extends CustomModel
 
             if ($this->insert($data)) {
                 session()->set('msgSuccess', 'Super usuário criado com sucesso.');
-                return 2; // Super usuário criado
+                return 2; 
             } else {
           
                 session()->set('msgError', 'Falha na inclusão do super usuário, não é possível prosseguir.');
-                return 1; // Erro ao criar super usuário
+                return 1; 
             }
         }
 
-        return 0; // Já existe usuário
+        return 0; 
     }
 
     /**

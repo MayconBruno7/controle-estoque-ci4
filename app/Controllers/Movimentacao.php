@@ -19,10 +19,11 @@ class Movimentacao extends BaseController
     protected $fornecedorModel;
     protected $produtoModel;
 
-
+    /**
+     * construct
+     */
     public function __construct()
     {
-        // Injeção de dependência dos modelos
         $this->model                    = new MovimentacaoModel();
         $this->movimentacaoItemModel    = new MovimentacaoItemModel();
         $this->setorModel               = new SetorModel();
@@ -30,12 +31,24 @@ class Movimentacao extends BaseController
         $this->produtoModel             = new ProdutoModel();
     }
 
+    /**
+     * index function
+     *
+     * @return void
+     */
     public function index()
     {
         $data['movimentacoes'] = $this->model->getLista();
         return view('restrita/listaMovimentacao', $data);
     }
 
+    /**
+     * form function
+     *
+     * @param string $action
+     * @param int $id
+     * @return void
+     */
     public function form($action, $id = null)
     {
         $data['action'] = $action;
@@ -76,18 +89,15 @@ class Movimentacao extends BaseController
                 'data_pedido'       => $movimentacao->data_pedido,
                 'data_chegada'      => $movimentacao->data_chegada,
                 'motivo'            => $movimentacao->motivo,
-                'produtos'          => $movimentacao->produtos // Atualiza apenas a parte dos produtos
+                'produtos'          => $movimentacao->produtos 
             ]);
 
-            // Retornar uma resposta JSON de sucesso
             return $this->response->setJSON([
-                // Salva os dados na sessão
                 'status'    => 'success',
                 'message'   => 'Movimentação salva com sucesso'
             ]);
 
         } else {
-            // Caso os dados não tenham sido enviados corretamente, retorna um erro
             return $this->response->setJSON([
                 'status'    => 'error',
                 'message'   => 'Dados inválidos ou não enviados corretamente'
@@ -102,9 +112,8 @@ class Movimentacao extends BaseController
      */
     public function new()
     {
-        $post = $this->request->getPost(); // Obtendo dados do POST
+        $post = $this->request->getPost();
 
-        // Verifica se todos os campos necessários do formulário foram enviados
         if (isset($post['fornecedor_id'],
             $post['tipo'],
             $post['statusRegistro'],
@@ -683,10 +692,10 @@ class Movimentacao extends BaseController
             } catch (DatabaseException $e) {
                 // Verifica se o erro é uma violação de chave estrangeira
                 if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
-                    return redirect()->to('/Movimentacao')->with('msgError', 'Erro: Não é possível excluir este cargo, pois ele está relacionado a outros dados.');
+                    return redirect()->to('/Movimentacao')->with('msgError', 'Erro: Não é possível excluir esta movimentação, pois ele está relacionado a outros dados.');
                 } else {
                     // Trata outros tipos de erro, se necessário
-                    return redirect()->to('/Movimentacao')->with('msgError', 'Ocorreu um erro ao tentar excluir o cargo.');
+                    return redirect()->to('/Movimentacao')->with('msgError', 'Ocorreu um erro ao tentar excluir a movimentação.');
                 }
             }
         } else {

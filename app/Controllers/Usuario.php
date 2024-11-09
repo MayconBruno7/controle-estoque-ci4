@@ -107,14 +107,23 @@ class Usuario extends BaseController
     {
         $data = [];
    
+        $segmentos      = $this->request->getURI()->getSegments(3);
+
+        $id           = $segmentos[3]  ?? null;
+
         // buscar o usuário pelo $id no banco de dados
-        $data['aUsuario']       = $this->model->find($this->request->getPost('id'));
+        $data['aUsuario']       = $this->model->find($id);
 
         $data['aFuncionario']   = $this->FuncionarioModel->recuperaFuncionario(session()->get('id_funcionario'));
 
         $data['aCargo']         = $this->CargoModel->getLista();
 
-        return view('usuario/profile', $data);
+        if ($data['aUsuario']['id_funcionario'] != null) {
+            return view('usuario/profile', $data);
+        } else {
+            session()->setFlashdata('msgError', 'Nenhum funcionario relacionado ao usuário');
+            return redirect()->to(previous_url());
+        } 
     }
 
     /**
@@ -194,7 +203,6 @@ class Usuario extends BaseController
      */
     public function perfil()
     {
-        $this->loadHelper("formulario");
         return view("admin/formPerfil", $this->model->find(    session()->get
 ('userCodigo')));
     }
@@ -216,10 +224,5 @@ class Usuario extends BaseController
         } else {
             return redirect("Usuario/perfil", ["msgError" => "Falha na atualização do seu perfil, favor tentar novamente mais tarde!"]);  
         }
-    }
-
-    private function loadHelper($helper)
-    {
-        helper($helper);
     }
 }

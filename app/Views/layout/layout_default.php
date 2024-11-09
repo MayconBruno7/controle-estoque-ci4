@@ -476,10 +476,11 @@
         <p>Departamento de Informática Rosário da Limeira - MG</p>
         <span>© 2024 Company, Inc</span>
 
-        <a href="<?= base_url()?>FaleConosco/verificaEstoque">Teste</a>
+        <a href="<?= base_url()?>FaleConosco/teste">Teste</a>
 
         <?php 
 
+// var_dump(base_url() . "FaleConosco/verificaEstoque");
             $redirectUrl = '';
 
             if (session()->get('usuarioNivel') == 1) {

@@ -87,21 +87,24 @@ class FaleConosco extends BaseController
     {
         $usuarioAdministradorEmail  = $this->configuracoesModel->where('chave', 'emailAdm')->first();
 
-        // Caminho absoluto da imagem (pasta public/assets/img/)
-        $imagemPath = FCPATH . 'assets\img\brasao-pmrl-icon.jpeg';  // Caminho correto para o servidor
+        // // Caminho absoluto da imagem (pasta public/assets/img/)
+        // $imagemPath = FCPATH . 'assets\img\brasao-pmrl-icon.jpeg';  // Caminho correto para o servidor
 
-        // Verifica se a imagem existe antes de tentar convertê-la
-        if (file_exists($imagemPath)) {
-            // Converte a imagem para Base64
-            $imagemBase64 = base64_encode(file_get_contents($imagemPath));
-            $imagemTipo = mime_content_type($imagemPath);  // Obtém o tipo MIME da imagem (ex: image/png, image/jpeg)
+        // // Verifica se a imagem existe antes de tentar convertê-la
+        // if (file_exists($imagemPath)) {
+        //     // Converte a imagem para Base64
+        //     $imagemBase64 = base64_encode(file_get_contents($imagemPath));
+        //     $imagemTipo = mime_content_type($imagemPath);  // Obtém o tipo MIME da imagem (ex: image/png, image/jpeg)
 
-            // Adiciona a imagem Base64 no corpo do e-mail
-            $mensagem .= '<img alt="imagem" src="data:' . $imagemTipo . ';base64,' . $imagemBase64 . '" />';
-        } else {
-            // Se a imagem não existir, pode exibir uma mensagem de erro ou tratar de outra forma
-            $mensagem .= '<p>Imagem não encontrada.</p>';
-        }
+        //     // Adiciona a imagem Base64 no corpo do e-mail
+        //     $mensagem .= '<img alt="imagem" src="data:' . $imagemTipo . ';base64,' . $imagemBase64 . '" />';
+        // } else {
+        //     // Se a imagem não existir, pode exibir uma mensagem de erro ou tratar de outra forma
+        //     $mensagem .= '<p>Imagem não encontrada.</p>';
+        // }
+
+
+        $mensagem .= '<img src="https://drive.google.com/drive/u/1/folders/1zqJZ-aVgT7p6SdAhCLVZeRq2S3_SGDua" alt="Imagem da empresa" width="100">';
 
         // Corpo do e-mail
         $corpoEmail = "{$mensagem}<br><br> Esse email é disparado todos os dias com o intuito de notificar sobre o estoque.";

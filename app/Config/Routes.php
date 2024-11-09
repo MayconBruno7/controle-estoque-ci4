@@ -161,6 +161,7 @@ $routes->group('FaleConosco', function($routes) {
     $routes->post("enviarEmail", 'FaleConosco::enviarEmail');
 
     $routes->get('verificaEstoque', 'FaleConosco::verificaEstoque');
-
-
+    $routes->get('teste', 'FaleConosco::teste');
 });
+
+$routes->get('/verificaEstoque.php', 'verificaEstoque.php');

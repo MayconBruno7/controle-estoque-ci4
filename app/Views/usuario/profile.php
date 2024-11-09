@@ -14,7 +14,7 @@
             <div class="card author-box">
                 <div class="card-body">
                     <div class="author-box-center">
-                        <?php if ((session()->get('id_funcionario')) && (session()->get('usuarioImagem'))) : ?>
+                        <?php if ((session()->get('id_funcionario')) && session()->get('usuarioImagem') != 'person.svg') : ?>
                             <img alt="image" src="<?= base_url('writable/uploads/funcionarios/' . session()->get('usuarioImagem')) ?>" width="200px" height="200px" class="rounded-circle">
                         <?php else : ?>
                             <img alt="image" class="rounded-circle" src="<?= base_url() . 'assets/img/users/person.svg' ?>" width="40px" height="40px">
@@ -57,7 +57,7 @@
                                 <i class="far fa-envelope"> E-mail</i>
                             </span>
                             <span class="float-right text-muted">
-                                <?= $aUsuario[0]['email'] ?>
+                                <?= $aUsuario['email'] ?>
                             </span>
                         </p>
                         <p class="clearfix">

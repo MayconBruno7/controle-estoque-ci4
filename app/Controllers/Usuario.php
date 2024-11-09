@@ -104,12 +104,22 @@ class Usuario extends BaseController
     public function profile()
     {
         $data = [];
+   
+        $segmentos      = $this->request->getURI()->getSegments(3);
+        $id           = $segmentos[3]  ?? null;
 
-        $data['aUsuario']       = $this->model->find($this->request->getPost('id'));
+        $data['aUsuario']       = $this->model->find($id);
+
         $data['aFuncionario']   = $this->FuncionarioModel->recuperaFuncionario(session()->get('id_funcionario'));
+
         $data['aCargo']         = $this->CargoModel->getLista();
 
-        return view('usuario/profile', $data);
+        if ($data['aUsuario']['id_funcionario'] != null) {
+            return view('usuario/profile', $data);
+        } else {
+            session()->setFlashdata('msgError', 'Nenhum funcionario relacionado ao usuário');
+            return redirect()->to(previous_url());
+        } 
     }
 
     /**

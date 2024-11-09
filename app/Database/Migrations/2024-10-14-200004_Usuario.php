@@ -56,7 +56,7 @@ class Usuario extends Migration
 
         $this->forge->addKey('id', true, true);
         $this->forge->addKey('id_funcionario');
-        $this->forge->addForeignKey('id_funcionario', 'funcionario', 'id', 'NO ACTION', 'NO ACTION');
+        $this->forge->addForeignKey('id_funcionario', 'funcionario', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->createTable('usuario', true, ['ENGINE' => 'InnoDB']);
 
          // Desabilitar verificação de chave estrangeira

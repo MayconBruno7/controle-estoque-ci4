@@ -65,11 +65,11 @@ class FaleConosco extends BaseController
 
         if ($temProdutoAbaixoDoLimite) {
             $this->enviaNotificacaoEstoque($assunto, $message);
-            return redirect()->to('/');
+            return redirect()->to(previous_url());
 
         } else {
             session()->setFlashdata("exibeModalNotificacaoEstoque", true);
-            return redirect()->to('/');
+            return redirect()->to(previous_url());
 
         }
     }
@@ -85,46 +85,56 @@ class FaleConosco extends BaseController
     */
     private function enviaNotificacaoEstoque(string $assunto, string $mensagem)
     {
-
         $usuarioAdministradorEmail  = $this->configuracoesModel->where('chave', 'emailAdm')->first();
 
-        $imagemBase64 = 'imagemempresa';
+        // Caminho absoluto da imagem (pasta public/assets/img/)
+        $imagemPath = FCPATH . 'assets\img\brasao-pmrl-icon.jpeg';  // Caminho correto para o servidor
 
-        // Adiciona a imagem base64 ao corpo do e-mail
-        $mensagem       .= '<img alt="imagem" src="' . $imagemBase64 . '" />';
-    
+        // Verifica se a imagem existe antes de tentar convertê-la
+        if (file_exists($imagemPath)) {
+            // Converte a imagem para Base64
+            $imagemBase64 = base64_encode(file_get_contents($imagemPath));
+            $imagemTipo = mime_content_type($imagemPath);  // Obtém o tipo MIME da imagem (ex: image/png, image/jpeg)
+
+            // Adiciona a imagem Base64 no corpo do e-mail
+            $mensagem .= '<img alt="imagem" src="data:' . $imagemTipo . ';base64,' . $imagemBase64 . '" />';
+        } else {
+            // Se a imagem não existir, pode exibir uma mensagem de erro ou tratar de outra forma
+            $mensagem .= '<p>Imagem não encontrada.</p>';
+        }
+
         // Corpo do e-mail
-        $corpoEmail     = "{$mensagem}<br><br> Esse email é disparado todos os dias com o intuito de notificar sobre o estoque.";
-    
+        $corpoEmail = "{$mensagem}<br><br> Esse email é disparado todos os dias com o intuito de notificar sobre o estoque.";
+
         // Cria uma nova instância da classe Email
-        $email          = new Email();
-    
+        $email = new Email();
+
         // Cria uma nova instância da classe EmailConfig
-        $emailConfig    = new EmailConfig();
-    
+        $emailConfig = new EmailConfig();
+
         // Inicializa com as configurações
         $email->initialize($emailConfig);
-    
+
         // Configura o remetente
         $email->setFrom($emailConfig->fromEmail, $emailConfig->fromName);
-    
+
         // Configura o destinatário
         $email->setTo($usuarioAdministradorEmail['valor']); // Enviar para o email do administrador
-    
+
         // Configura o assunto e a mensagem
         $email->setSubject($assunto);
         $email->setMessage($corpoEmail);
-    
+
         // Envia o e-mail e verifica se foi enviado com sucesso
         if ($email->send()) {
-        session()->setFlashdata('msgSuccess', 'Email enviado com sucesso!');
+            session()->setFlashdata('msgSuccess', 'Email enviado com sucesso!');
         } else {
             session()->setFlashdata('msgError', 'Erro ao enviar email: ' . $email->printDebugger(['headers']));
         }
 
-        session()->setFlashdata("exibirModalEstoque", true); // Exibir modal, se necessário
+        session()->setFlashdata("exibirModalEstoque", true); 
     }
-    
+
 
    /**
     * Obtém o nome do fornecedor pelo ID.

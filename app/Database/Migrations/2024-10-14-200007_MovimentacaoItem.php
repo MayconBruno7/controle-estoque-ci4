@@ -46,7 +46,7 @@ class MovimentacaoItem extends Migration
         $this->forge->addKey('id_movimentacoes');
         $this->forge->addKey('id_produtos');
 
-        $this->forge->addForeignKey('id_movimentacoes', 'movimentacao', 'id', 'CASCADE', 'CASCADE');
+        $this->forge->addForeignKey('id_movimentacoes', 'movimentacao', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->addForeignKey('id_produtos', 'produto', 'id', 'RESTRICT', 'RESTRICT');
 
         $this->forge->createTable('movimentacao_item', true, ['ENGINE' => 'InnoDB']);

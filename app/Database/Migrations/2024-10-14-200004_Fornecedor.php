@@ -69,8 +69,8 @@ class Fornecedor extends Migration
         $this->forge->addKey('id', true);
         $this->forge->addKey('cidade');
         $this->forge->addKey('estado');
-        $this->forge->addForeignKey('cidade', 'cidade', 'id', 'NO ACTION', 'NO ACTION');
-        $this->forge->addForeignKey('estado', 'estado', 'id', 'NO ACTION', 'NO ACTION');
+        $this->forge->addForeignKey('cidade', 'cidade', 'id', 'RESTRICT', 'RESTRICT');
+        $this->forge->addForeignKey('estado', 'estado', 'id', 'RESTRICT', 'RESTRICT');
         $this->forge->createTable('fornecedor', false, ['ENGINE' => 'InnoDB']);
 
          // Desabilitar verificação de chave estrangeira

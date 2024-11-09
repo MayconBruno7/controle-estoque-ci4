@@ -29,7 +29,7 @@
 
 <body class="sidebar-gone sidebar-mini">
 
-<?php if (session()->get('exibirModalEstoque')): ?>
+<?php if (session()->getFlashdata('exibirModalEstoque')): ?>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
@@ -55,7 +55,7 @@
     <?php session()->remove("exibirModalEstoque"); // Limpa a variável de sessão após o uso ?>
 <?php endif; ?>
 
-<?php if (session()->get("exibeModalNotificacaoEstoque")): ?>
+<?php if (session()->getFlashdata("exibeModalNotificacaoEstoque")): ?>
     <script>
         menssageModal = "";
         document.addEventListener("DOMContentLoaded", function() {
@@ -67,7 +67,7 @@
     <?php session()->remove("exibeModalNotificacaoEstoque"); // Limpa a variável de sessão após o uso ?>
 <?php endif; ?>
 
-<?php if (session()->get("sucessoUsuarioAdm") || session()->get("erroUsuarioAdm")): ?>
+<?php if (session()->getFlashdata("sucessoUsuarioAdm") || session()->getFlashdata("erroUsuarioAdm")): ?>
     <script>
         let mensagemModal = `<?php
             echo session()->getFlashdata('sucessoUsuarioAdm') ?: session()->getFlashdata('erroUsuarioAdm');
@@ -476,6 +476,8 @@
         <p>Departamento de Informática Rosário da Limeira - MG</p>
         <span>© 2024 Company, Inc</span>
 
+        <a href="<?= base_url()?>FaleConosco/verificaEstoque">Teste</a>
+
         <?php 
 
             $redirectUrl = '';
@@ -485,7 +487,6 @@
             } elseif (session()->get('usuarioNivel') == 11) {
                 $redirectUrl = 'Home/home';
             } 
-
         ?>
         <div class="container mt-2">
             <?php if (session()->get('usuarioId') != false) : ?>

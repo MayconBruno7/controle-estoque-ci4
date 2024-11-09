@@ -39,7 +39,7 @@ class Setor extends Migration
         $this->forge->addKey('responsavel');
         
         // Adicionando a chave estrangeira para `responsavel` referenciando `funcionario.id`
-        $this->forge->addForeignKey('responsavel', 'funcionario', 'id', 'RESTRICT', 'SET NULL');
+        $this->forge->addForeignKey('responsavel', 'funcionario', 'id', 'RESTRICT', 'RESTRICT');
 
         $this->forge->createTable('setor', true, ['ENGINE' => 'InnoDB']);
 

@@ -41,31 +41,25 @@ class FaleConosco extends BaseController
     /**
      * Verifica o estoque e envia notificações por e-mail se necessário.
      *
-     * @return void
+     * @return \CodeIgniter\HTTP\ResponseInterface
      */
     public function verificaEstoque()
     {
-
-        $dados['aFornecedor'] = $this->fornecedorModel->findAll();
         $dados['aProduto'] = $this->produtoModel->findAll();
-        
-        $temProdutoAbaixoDoLimite   = false;
+
+        $temProdutoAbaixoDoLimite = false;
 
         foreach ($dados['aProduto'] as $produto) {
             if ($produto['quantidade'] < 3) {
                 $temProdutoAbaixoDoLimite = true;
+                break;
             }
         }
 
         if ($temProdutoAbaixoDoLimite) {
-            // $this->enviaNotificacaoEstoque($assunto, $message);
-            session()->setFlashdata("exibirModalEstoque", true); 
-            return redirect()->to(previous_url());
-
+            return $this->response->setJSON(['status' => 'alerta']);
         } else {
-            session()->setFlashdata("exibeModalNotificacaoEstoque", true);
-            return redirect()->to(previous_url());
-
+            return $this->response->setJSON(['status' => 'ok']);
         }
     }
 

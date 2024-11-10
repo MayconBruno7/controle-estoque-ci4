@@ -43,8 +43,7 @@ class ProdutoModel extends CustomModel
             $builder->select("produto.*, (SELECT valor FROM movimentacao_item WHERE id_produtos = produto.id LIMIT 1) AS valor");
         } else {
             $builder->select("produto.*, (SELECT valor FROM movimentacao_item WHERE id_produtos = produto.id LIMIT 1) AS valor")
-                    ->where('statusRegistro', 1)
-                    ->where('quantidade >', 0);
+                    ->where('statusRegistro', 1);
         }
 
         return $builder->orderBy($orderBy, 'DESC')->get()->getResultArray();

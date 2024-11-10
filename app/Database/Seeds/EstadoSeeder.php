@@ -9,8 +9,10 @@ class EstadoSeeder extends Seeder
     public function run()
     {
 
-        // Truncar a tabela
-        $this->db->table('estado')->truncate();
+        // // Truncar a tabela
+        // $this->db->table('estado')->truncate();
+        // Desabilitar verificação de chave estrangeira
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
 
         $data = [
             ['id' => 1, 'nome' => 'Acre', 'sigla' => 'AC', 'regiao' => 'Norte'],
@@ -43,5 +45,7 @@ class EstadoSeeder extends Seeder
         ];
 
         $this->db->table('estado')->insertBatch($data);
+        // Desabilitar verificação de chave estrangeira
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1'); // Desabilitar verificação de chave estrangeira
     }
 }

@@ -56,14 +56,14 @@
                                         <?php if (isset($action) && $action == 'delete') : ?>
                                             <?= form_open(base_url('Movimentacao/deleteProdutoMovimentacao/' . $action), ['method' => 'post']) ?>
                                             <p>Quantidade atual: <?= $quantidade_atual ?></p>
-                                                <label for="quantidadeRemover" class="form-label">Quantidade</label>
-                                                <input type="number" name="quantidadeRemover" id="quantidadeRemover" class="form-control" required></input>
+                                            <label for="quantidadeRemover" class="form-label">Quantidade</label>
+                                            <input type="number" name="quantidadeRemover" id="quantidadeRemover" class="form-control" required min="0" max="<?= $value['quantidade'] ?>">
 
-                                                <input type="hidden" name="id_produto" value="<?= $id_produto ?>">
-                                                <input type="hidden" name="id_movimentacao" value="<?= $id_movimentacao ?>">
-                                                <input type="hidden" name="tipo" value="<?= $tipo ?>">
-                                                <input type="hidden" name="valor" value="<?= $valor ?>">
-                                                <button type="submit" class="btn btn-primary btn-sm mt-2">Remover</button>
+                                            <input type="hidden" name="id_produto" value="<?= $id_produto ?>">
+                                            <input type="hidden" name="id_movimentacao" value="<?= $id_movimentacao ?>">
+                                            <input type="hidden" name="tipo" value="<?= $tipo ?>">
+                                            <input type="hidden" name="valor" value="<?= $valor ?>">
+                                            <button type="submit" class="btn btn-primary btn-sm mt-2">Remover</button>
                                             </form>
                                         <?php endif; ?>
 

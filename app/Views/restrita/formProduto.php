@@ -81,8 +81,11 @@
         <?php if ($action == 'view' || $action == 'delete' || $action == 'update') { ?>
         <div class="col-12 col-md-6 mt-3">
             <label for="dataMod" class="form-label">Data da última modificação</label>
-            <input type="text" class="form-control" name="dataMod" id="dataMod" value="<?= setValor('dataMod', $data) ?>" disabled>
-            <input type="hidden" class="form-control" name="dataMod" id="dataMod" value="<?= setValor('dataMod', $data) ?>">
+            <input type="text" class="form-control" name="dataMod" id="dataMod" 
+                value="<?= isset($data['dataMod']) ? date('d/m/Y H:i:s', strtotime($data['dataMod'])) : '' ?>" 
+                disabled>
+            <input type="hidden" class="form-control" name="dataMod" id="dataMod" 
+                value="<?= setValor('dataMod', $data) ?>">
         </div>
         <?php } ?>
 

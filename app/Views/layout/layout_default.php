@@ -337,15 +337,24 @@
     <script src="<?= base_url("assets/bundles/jquery-ui/jquery-ui.min.js") ?>"></script>
     <script src="<?= base_url("assets/js/page/datatables.js") ?>"></script>
 
-    <!-- verifica a quantidade limite do estoque para alerta disparado por email -->
     <script>
-        // Verificar a cada 24 horas (86400000 ms)
-        // Verificar a cada 3 minutos (180000)
-        // Verificar a cada 1 minuto (60000)
-        // Verificar a cada 24 horas (86400000 ms)
-        const intervalo = 86400000; // 1 minuto em milissegundos
+        // Define o intervalo de 24 horas (86400000 ms)
+        const intervalo = 86400000; // 24 horas em milissegundos
+
+        // Define o horário alvo para a verificação (18:39)
+        var agora = new Date();
+        var proximaVerificacao = new Date();
+        proximaVerificacao.setHours(9, 30, 0, 0); // Define o próximo horário de verificação (18:39)
+
+        // Se o horário atual já passou das 18:39, define o próximo para o dia seguinte
+        if (agora > proximaVerificacao) {
+            proximaVerificacao.setDate(proximaVerificacao.getDate() + 1); // Adiciona um dia
+        } 
+
+        // Recupera a hora da última verificação armazenada
         const ultimaVerificacao = localStorage.getItem('ultimaVerificacao');
 
+        // Função que faz a verificação de estoque
         function verificarEstoque() {
             console.log("Verificação de estoque iniciada às " + new Date().toLocaleTimeString());
 
@@ -354,12 +363,10 @@
                     if (!response.ok) {
                         throw new Error('Erro na resposta da rede.');
                     }
-                    return response.text();
+                    return response.text(); 
                 })
                 .then(data => {
                     console.log('Verificação de estoque realizada.');
-                    // Processar a resposta se necessário
-                    // console.log(data);
                     // Salvar a hora da última verificação no localStorage
                     localStorage.setItem('ultimaVerificacao', new Date().getTime());
                     // Atualizar o tempo para a próxima verificação
@@ -368,22 +375,21 @@
                 .catch(error => console.error('Erro:', error));
         }
 
+        // Atualizar o tempo restante para a próxima verificação
         function atualizarTempoParaProximaVerificacao() {
-            const ultimaVerificacao = localStorage.getItem('ultimaVerificacao');
             const agora = new Date().getTime();
+            const tempoRestante = proximaVerificacao.getTime() - agora; // Tempo restante até a próxima verificação
 
-            if (ultimaVerificacao) {
-                const tempoPassado = agora - ultimaVerificacao;
-                const tempoRestante = Math.max(intervalo - tempoPassado, 0); // Garantir que tempoRestante não seja negativo
-
-                if (tempoRestante > 0) {
-                    console.log("Tempo restante para a próxima verificação: " + formatarTempo(tempoRestante));
-                } else {
-                    console.log("A próxima verificação será realizada em breve.");
-                }
+            if (tempoRestante > 0) {
+                console.log("Tempo restante para a próxima verificação: " + formatarTempo(tempoRestante));
+                setTimeout(verificarEstoque, tempoRestante); // Agendar a próxima verificação no tempo correto
+            } else {
+                console.log("A próxima verificação será realizada em breve.");
+                exibirTempoRestante(0); // Atualiza a interface para mostrar "em breve"
             }
         }
 
+        // Função para formatar o tempo restante
         function formatarTempo(millis) {
             const horas = Math.floor(millis / 3600000);
             const minutos = Math.floor((millis % 3600000) / 60000);
@@ -391,17 +397,21 @@
             return `${horas}h ${minutos}m ${segundos}s`;
         }
 
-        setInterval(verificarEstoque, intervalo);
+        // Função para exibir o tempo restante no frontend
+        function exibirTempoRestante(tempoRestante) {
+            const tempoFormatado = formatarTempo(tempoRestante);
+            console.log("Tempo restante para a próxima verificação: " + tempoFormatado); // Mostra no console
+        }
 
-        // Verificar imediatamente quando a página carregar, se tiver passado 1 minuto desde a última verificação
+        // Verificar imediatamente quando a página carregar, se tiver passado o intervalo
         document.addEventListener('DOMContentLoaded', function() {
             const agora = new Date().getTime();
 
             if (!ultimaVerificacao || (agora - ultimaVerificacao >= intervalo)) {
-                verificarEstoque();
+                verificarEstoque(); // Realiza a verificação imediatamente
             } else {
                 console.log("Ainda não passou 24 horas desde a última verificação.");
-                atualizarTempoParaProximaVerificacao();
+                atualizarTempoParaProximaVerificacao(); // Atualiza o tempo restante
             }
         });
 
@@ -418,7 +428,7 @@
             mensagemModal.innerHTML = menssageModal;
 
             $('#modalGlobal').modal('show');
-        }
+        } 
 
     </script>
 

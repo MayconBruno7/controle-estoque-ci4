@@ -1,7 +1,10 @@
 <?php
 
-// Conexão com o banco de dados MySQL
-use PDO;
+// Incluir o autoload do Composer para carregar as classes do PHPMailer
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
 
 $host = 'localhost';
 $dbname = 'teste_migration';
@@ -52,8 +55,8 @@ if ($temProdutoAbaixoDoLimite) {
 
 // Função para enviar notificação por e-mail
 function enviaNotificacaoEstoque($assunto, $mensagem) {
-    // Configuração do e-mail do administrador
     global $pdo;
+    // Configuração do e-mail do administrador
     $config = $pdo->query("SELECT valor FROM configuracoes WHERE chave = 'emailAdm'")->fetch(PDO::FETCH_ASSOC);
     $emailAdm = $config['valor'];
 
@@ -61,16 +64,33 @@ function enviaNotificacaoEstoque($assunto, $mensagem) {
     $mensagem .= '<img src="https://www.rosariodalimeira.mg.gov.br/site/images/Brasao/brasao.png" alt="Imagem da empresa" width="100">';
     $corpoEmail = "{$mensagem}<br><br> Esse email é disparado todos os dias com o intuito de notificar sobre o estoque.";
 
-    // Configurações do cabeçalho do e-mail
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: notificacao@seu_dominio.com" . "\r\n";
+    // Criando uma instância do PHPMailer
+    $mail = new PHPMailer(true);
+    try {
+        // Configurações do servidor SMTP
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'maycon7ads@gmail.com'; // Substitua com seu e-mail
+        $mail->Password = 'wqml dmnx prke gavm';       // Substitua com sua senha
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
 
-    // Envia o e-mail
-    if (mail($emailAdm, $assunto, $corpoEmail, $headers)) {
+        // Destinatário e remetente
+        $mail->setFrom('no-reply@controleestoque.com', 'no-reply-estoque');
+        $mail->addAddress($emailAdm);
+
+        // Conteúdo do e-mail
+        $mail->isHTML(true);
+        $mail->Subject = $assunto;
+        $mail->Body    = $corpoEmail;
+
+        // Envia o e-mail
+        $mail->send();
         echo "Email enviado com sucesso!";
-    } else {
-        echo "Erro ao enviar o email.";
+    } catch (Exception $e) {
+        echo "Erro ao enviar o e-mail. Mailer Error: {$mail->ErrorInfo}";
     }
 }
+
 ?>

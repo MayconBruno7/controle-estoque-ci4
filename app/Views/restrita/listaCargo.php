@@ -5,7 +5,6 @@
 <div class="loader"></div>
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
-        <!-- Navbar, Sidebar e Conteúdo aqui -->
         <main class="container mt-5">
             <div class="container mb-3">
                 <?= exibeTitulo("Cargo") ?>

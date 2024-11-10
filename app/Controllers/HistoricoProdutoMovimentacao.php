@@ -26,7 +26,6 @@ class HistoricoProdutoMovimentacao extends BaseController
     public function index($produtoId, $action = null)
     {
         if ($produtoId) {
-            // Verifica se $produtoId é um número e não um array
             if (!is_array($produtoId)) {
                 $produto = $this->produtoModel->recuperaProduto($produtoId);
                 $dados = $this->historicoProdutoMovimentacaoModel->historicoProdutoMovimentacao((int)$produtoId);

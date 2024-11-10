@@ -36,9 +36,6 @@
             break;
     }
 
-    // var_dump($parametro['acao']);
-    // exit;
-
     ob_start(); // Inicia o buffer de saída
     ?>
     <section>
@@ -162,7 +159,7 @@
      * @param int $status 
      * @return string
      */
-    function comboboxStatus($status = 0, $action)
+    function comboboxStatus($status = 0, $action = null)
     {
         return '<label for="statusRegistro" class="form-label">Status</label>
                 <select name="statusRegistro" id="statusRegistro" class="form-control" required ' 

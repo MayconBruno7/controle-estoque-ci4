@@ -5,10 +5,6 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-
-//  $routes->setDefaultController('Home');
-//  $routes->setDefaultMethod('index');
-
 $routes->get('/', 'Home::index');
 $routes->get('Configuracoes/getInfoEmailAdm', 'Configuracoes::getInfoEmailAdm');
 $routes->post('Configuracoes/store', 'Configuracoes::store');
@@ -39,13 +35,11 @@ $routes->group('Usuario', function($routes) {
     $routes->get("form/(:segment)/(:num)", 'Usuario::form/$1/$2');
     $routes->post("store", 'Usuario::store');
     $routes->post('delete', "Usuario::delete");
-
-    // profile
     $routes->get("profile/view/(:num)", 'Usuario::profile/view/$1');
 
 });
 
-// rota para a imagem do funcionario
+
 $routes->get('writable/uploads/funcionarios/(:any)', 'FileController::show/$1');
 
 $routes->group('Funcionario', function($routes) {
@@ -70,11 +64,7 @@ $routes->group('Relatorio', function($routes) {
     $routes->get("/", 'Relatorio::index');
     $routes->get("relatorioMovimentacoes", 'Relatorio::relatorioMovimentacoes');
     $routes->get("relatorioItensPorFornecedor", 'Relatorio::relatorioItensPorFornecedor');
-    // $routes->get("getDados", 'Relatorio::getDados/$1');
-
     $routes->get('getDados/(:any)/(:any)/(:any)/(:any)', 'Relatorio::getDados/$1/$2/$3');
-
-    // rota da home para os relatorios do gráfico
     $routes->get('getDados/(:any)/(:any)/(:any)', 'Relatorio::getDados/$1/$2/$3');
 
 
@@ -92,16 +82,12 @@ $routes->group('Produto', function($routes) {
     $routes->get("form/(:segment)/(:num)", 'Produto::form/$1/$2');
     $routes->post("store", 'Produto::store');
     $routes->post('delete', "Produto::delete");
-
-    // exclui o produto da movimentacao na parte de inserção 
     $routes->get("index/(:segment)/(:num)/(:num)", 'Produto::index/$1/$2/$3');
-
-    // exclui o produto da movimentação na parte de update 
     $routes->get('index/(:segment)/(:num)/(:num)/(:num)/(:num)/(:any)', 'Produto::index/$1/$2/$3/$4/$5/$6');
 
 });
 
-// $routes->group('HistoricoProdutoMovimentacao', function($routes) {
+
 $routes->get("HistoricoProdutoMovimentacao/index/(:num)/(:segment)", 'HistoricoProdutoMovimentacao::index/$1/$2');
 $routes->get("HistoricoProduto/getHistoricoProduto/(:any)", 'HistoricoProduto::getHistoricoProduto/$1');
 
@@ -128,28 +114,14 @@ $routes->group('Movimentacao', function($routes) {
     $routes->get("/", 'Movimentacao::index');
     $routes->get("lista", 'Movimentacao::index');
     $routes->get("form/(:segment)/(:num)", 'Movimentacao::form/$1/$2');
-
-    // adiciona a seção na movimentação quando é insert
     $routes->post("salvarSessao/(:segment)/(:num)", 'Movimentacao::salvarSessao/$1/$2');
-
-    // exclui o produto da movimentação na parte de inserção 
     $routes->post("deleteProdutoMovimentacao/(:segment)", 'Movimentacao::deleteProdutoMovimentacao/$1');
-
-    // recupera o produto no modal
     $routes->get("getProdutoComboBox/(:any)", 'Movimentacao::getProdutoComboBox/$1');
-
-    // adiciona produtos a movimentação no insert
     $routes->post("newProdutoMovimentacao/(:segment)", 'Movimentacao::newProdutoMovimentacao/$1');
-
     $routes->post("update/updateProdutoMovimentacao/(:num)", 'Movimentacao::update/updateProdutoMovimentacao/$1');
-    // adiciona o insert da movimentação e limpa as sessões
     $routes->post("new", 'Movimentacao::new');
-
-    // rota para o update da movimentação
     $routes->post("update", 'Movimentacao::update');
-
     $routes->get('form/(:segment)/(:num)/Home', 'Movimentacao::form/$1/$2');
-
     $routes->post("store", 'Movimentacao::store');
     $routes->post('delete', "Movimentacao::delete");
 });
@@ -159,9 +131,6 @@ $routes->get('sobreNos', 'sobreNos::index');
 $routes->group('FaleConosco', function($routes) {
     $routes->get("formularioEmail", 'FaleConosco::formularioEmail');
     $routes->post("enviarEmail", 'FaleConosco::enviarEmail');
-
     $routes->get('verificaEstoque', 'FaleConosco::verificaEstoque');
-    $routes->get('teste', 'FaleConosco::teste');
-});
 
-$routes->get('/verificaEstoque.php', 'verificaEstoque.php');
+});

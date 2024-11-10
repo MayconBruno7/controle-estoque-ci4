@@ -17,6 +17,9 @@ class Login extends BaseController
     protected $usuarioRecuperaSenhaModel;
     protected $funcionarioModel;
 
+    /**
+     * construct
+     */
     public function __construct()
     {
         $this->usuarioModel                 = new UsuarioModel();
@@ -24,6 +27,11 @@ class Login extends BaseController
         $this->funcionarioModel             = new FuncionarioModel();
     }
 
+    /**
+     * signIn function
+     *
+     * @return void
+     */
     public function signIn() 
     {
 		$post 		= $this->request->getPost();
@@ -32,13 +40,9 @@ class Login extends BaseController
 
 		$UsuarioModel = new UsuarioModel();
 
-		// buscar o usuário na base de dados
-
 		$dadosUsuario = $UsuarioModel->getByEmail(trim($login));
 
 		if (is_null($dadosUsuario)) {
-
-			// Verifica se existe usuários criados na base de dados
 
 			if (count($UsuarioModel->findAll()) == 0) {
                 if ($UsuarioModel->insertDadosSuperUser() > 0) {
@@ -125,17 +129,32 @@ class Login extends BaseController
     }
 
 
+    /**
+     * signOut function
+     *
+     * @return void
+     */
     public function signOut()
     {
         session()->destroy();
         return redirect()->to(base_url());
     }
 
+    /**
+     * solicitaRecuperacaoSenha function
+     *
+     * @return void
+     */ 
     public function solicitaRecuperacaoSenha()
     {
         return view('usuario/formSolicitaRecuperacaoSenha');
     }
 
+    /* 
+     * gerarLinkRecuperaSenha function
+     *
+     * @return void
+     */
     public function gerarLinkRecuperaSenha()
     {
         $post = $this->request->getPost();
@@ -151,26 +170,13 @@ class Login extends BaseController
 
         $corpoEmail = 'Clique no link para recuperar sua senha: <a href="'. $link .'">Recuperar a senha</a>';
 
-        // Cria uma nova instância da classe Email
         $email          = new Email();
-    
-        // Cria uma nova instância da classe EmailConfig
         $emailConfig    = new EmailConfig();
-    
-        // Inicializa com as configurações
         $email->initialize($emailConfig);
-    
-        // Configura o remetente
         $email->setFrom($emailConfig->fromEmail, $emailConfig->fromName);
-    
-        // Configura o destinatário
-        $email->setTo($usuario['email']); // Enviar para o email do administrador
-    
-        // Configura o assunto e a mensagem
+        $email->setTo($usuario['email']);
         $email->setSubject('Recuperação de Senha');
         $email->setMessage($corpoEmail);
-
-        // $enviado = Email::enviaEmail('noreply@exemplo.com', 'Recuperação de Senha', 'Recuperação de Senha', $corpoEmail, $usuario['email']);
 
         if ($email->send()) {
             $usuarioRecuperaSenhaModel = new UsuarioRecuperaSenhaModel();
@@ -183,6 +189,12 @@ class Login extends BaseController
         return redirect()->to(base_url('login/solicitaRecuperacaoSenha'))->with('msgError', 'Falha ao enviar o e-mail.');
     }
 
+    /**
+     * recuperarSenha function
+     *
+     * @param string $chave
+     * @return void
+     */
     public function recuperarSenha($chave)
     {
         $usuarioRecuperaSenhaModel = new UsuarioRecuperaSenhaModel();
@@ -193,7 +205,6 @@ class Login extends BaseController
             if (time() <= $validade) {
                 $usuario = $this->usuarioModel->find($userChave['usuario_id']);
                 if ($usuario && sha1($userChave['usuario_id'] . $usuario['senha'] . date('YmdHis', strtotime($userChave['created_at']))) === $chave) {
-                    // session()->set('recuperaSenha', ['usuario_id' => $usuario['id']]);
                     $usuario['usuariorecuperasenha_id'] = $userChave['id'];
                     return view('usuario/formRecuperarSenha', ['usuario' => $usuario]);
                 }
@@ -202,6 +213,11 @@ class Login extends BaseController
         return redirect()->to(base_url('login/solicitaRecuperacaoSenha'))->with('msgError', 'Chave inválida ou expirada.');
     }
 
+    /**
+     * atualizaRecuperaSenha function
+     *
+     * @return void
+     */
     public function atualizaRecuperaSenha()
     {
         $post = $this->request->getPost();

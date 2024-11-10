@@ -7,8 +7,8 @@ use CodeIgniter\Session\Session;
 
 class MovimentacaoModel extends CustomModel
 {
-    protected $table            = 'movimentacao'; // Define a tabela do banco de dados
-    protected $primaryKey       = 'id'; // Define a chave primária
+    protected $table            = 'movimentacao';
+    protected $primaryKey       = 'id';
     protected $allowedFields    = ['id_fornecedor', 'tipo', 'statusRegistro', 'id_setor', 'data_pedido', 'data_chegada', 'motivo'];
     
     protected $validationRules  = 
@@ -45,7 +45,6 @@ class MovimentacaoModel extends CustomModel
     public function getLista($orderBy = 'm.id'): array
     {
 
-        // Utilizando o Query Builder do CodeIgniter 4
         $builder = $this->db->table($this->table . ' m')
         ->select('
             m.id AS id_movimentacao,
@@ -59,18 +58,16 @@ class MovimentacaoModel extends CustomModel
             m.statusRegistro')
         ->join('fornecedor f', 'f.id = m.id_fornecedor', 'left');
 
-        // Filtra resultados com base no nível do usuário
         if (session()->get('usuarioNivel') != 1) {
             $builder->where('m.statusRegistro', 1);
         }
 
-        // Retorna os resultados
         return $builder->orderBy($orderBy, 'DESC')->get()->getResultArray();
     }
 
     public function getMovimentacaoDetalhada(int $id_movimentacao): array
     {
-        // Inicializa o Query Builder
+        
         $builder = $this->db->table('movimentacao m')
             ->select('
                 m.id AS id_movimentacao,
@@ -94,12 +91,10 @@ class MovimentacaoModel extends CustomModel
             ->join('produto p', 'p.id = mi.id_produtos', 'left')
             ->where('m.id', $id_movimentacao);
         
-        // Filtra resultados com base no nível do usuário, se necessário
         if (session()->get('usuarioNivel') != 1) {
             $builder->where('m.statusRegistro', 1);
         }
 
-        // Executa a consulta e retorna o resultado
         return $builder->get()->getResultArray();
     }
 
@@ -123,28 +118,24 @@ class MovimentacaoModel extends CustomModel
      */
     public function insertMovimentacao($movimentacao, $aProdutos)
     {
-        // Inserir movimentação na tabela 'movimentacao' usando o método insertMovimentacao do CustomModel
+    
         $this->inserirMovimentacao($movimentacao);
 
-        // Obter o ID da última inserção
-        $ultimoRegistro = $this->insertID(); // Chama insertID() do CustomModel
+        
+        $ultimoRegistro = $this->insertID(); 
         
         if ($ultimoRegistro > 0) {
-            // Verifica se há produtos a serem inseridos
             if (!empty($aProdutos) && isset($aProdutos[0]['id_produtos']) && $aProdutos[0]['id_produtos'] != '') {
                 foreach ($aProdutos as $item) {
-                    // Adiciona o ID da movimentação ao item do produto
                     $item['id_movimentacoes'] = $ultimoRegistro;
                     
-                    // Inserir o item de produto na tabela movimentacao_item usando o método insertMovimentacaoItem do CustomModel
                     $this->insertMovimentacaoItem($item);
                 }
             }
             
-            return true; // Tudo ocorreu corretamente
+            return true; 
         }
         
-        // Se a inserção da movimentação falhar, retornar falso
         return false;
     }
 
@@ -159,33 +150,29 @@ class MovimentacaoModel extends CustomModel
      */
     public function updateMovimentacao(int $idMovimentacao, $movimentacao, $prod_info_mov_atualizado): bool
     {
-        // Verifica se a movimentação é válida
+       
         if ($idMovimentacao) {
-            // Debug: Verifica se $movimentacao contém dados
             if (empty($movimentacao)) {
-                throw new \Exception("O array 'movimentacao' está vazio."); // Levanta uma exceção se estiver vazio
+                throw new \Exception("O array 'movimentacao' está vazio."); 
             }
     
-            // Atualiza a movimentação na tabela
-            $updated = $this->update($idMovimentacao, $movimentacao); // Chamada correta do método update
-
-            // Debug: Verifica se a atualização foi bem-sucedida
+            $updated = $this->update($idMovimentacao, $movimentacao);
+            
             if (!$updated) {
-                throw new \Exception("Falha na atualização da movimentação."); // Mensagem de erro se a atualização falhar
+                throw new \Exception("Falha na atualização da movimentação.");
             } else {
                 return true;
             }
     
-            // Se as informações do produto foram atualizadas, faça a limpeza da sessão
             if ($prod_info_mov_atualizado) {
-                if (session()->has('prod_mov_atualizado')) { // Verifica se a variável existe
+                if (session()->has('prod_mov_atualizado')) { 
                     session()->set('prod_mov_atualizado', false);
                 }
   
-                return true; // Retorna verdadeiro se tudo ocorreu bem
+                return true; 
             }
         }
-        return false; // Retorna falso se algo deu errado
+        return false;
     }
     
 
@@ -230,7 +217,6 @@ class MovimentacaoModel extends CustomModel
                     $item['id_movimentacoes'] = $id_movimentacao;
                     $item['quantidade'] = $quantidade_movimentacao;
 
-                    // Inserir o item de produto na tabela movimentacao_item usando o método insertMovimentacaoItem do CustomModel
                     $produto_inserido = $this->insertMovimentacaoItem($item);
 
                     if($produto_inserido){
@@ -269,10 +255,8 @@ class MovimentacaoModel extends CustomModel
             if ($quantidadeRemover <= $quantidadeAtual) {
                 $novaQuantidadeMovimentacao = $quantidadeAtual - $quantidadeRemover;
 
-                // Atualiza a quantidade usando o CustomModel
                 $this->updateMovimentacaoQuantidade($id_movimentacao, $item_movimentacao['id_produtos'], $novaQuantidadeMovimentacao, $aProdutos['valor']);
 
-                // Remove produtos com quantidade igual a zero usando o CustomModel
                 $this->deleteMovimentacaoItemComQuantidadeZero($id_movimentacao, $item_movimentacao['id_produtos']);
 
                 return true;

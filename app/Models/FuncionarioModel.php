@@ -6,10 +6,9 @@ use CodeIgniter\Model;
 
 class FuncionarioModel extends CustomModel
 {
-    protected $table        = 'funcionario'; // Define a tabela do banco de dados
-    protected $primaryKey   = 'id'; // Define a chave primária
-    protected $returnType   = 'array'; // Define o tipo de retorno
-    // protected $useSoftDeletes = false; // Defina como true se você usar Soft Deletes
+    protected $table        = 'funcionario';
+    protected $primaryKey   = 'id'; 
+    protected $returnType   = 'array'; 
 
     protected $allowedFields = [
         'nome',
@@ -20,7 +19,7 @@ class FuncionarioModel extends CustomModel
         'telefone',
         'cargo', 
         'imagem'
-    ]; // Campos permitidos para inserção e atualização
+    ];
 
     protected $validationRules = [
         'nome' => [
@@ -48,12 +47,6 @@ class FuncionarioModel extends CustomModel
         ]
     ];
 
-    // protected $validationMessages = [
-    //     // Personalize as mensagens de validação aqui, se necessário
-    // ];
-
-    // protected $skipValidation = false; // Mude para true se não quiser validação em determinadas situações
-
     /**
      * Lista todos os funcionários, com base no nível de usuário
      *
@@ -62,7 +55,7 @@ class FuncionarioModel extends CustomModel
      */
     public function getLista($orderBy = 'id')
     {
-        // Consulta com base no nível do usuário
+    
         if (session()->get('usuarioNivel') == 1) {
             return $this->select('funcionario.*, setor.nome AS nome_do_setor')
                 ->join('setor', 'funcionario.setor = setor.id', 'left')

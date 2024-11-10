@@ -15,6 +15,8 @@ class CidadeSeeder extends Seeder
     {
 
         // $this->db->table('cidade')->truncate();
+        // Desabilitar verificação de chave estrangeira
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
 
         $data = [
             ['estado' => 1, 'codigo_municipio' => '1200013', 'nome' => 'Acrelândia'],
@@ -5588,5 +5590,7 @@ class CidadeSeeder extends Seeder
             ['estado' => 27, 'codigo_municipio' => '1722107', 'nome' => "Xambioá"],
         ];
         $this->db->table('cidade')->insertBatch($data);
+        // Desabilitar verificação de chave estrangeira
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1'); // Desabilitar verificação de chave estrangeira
     }
 }

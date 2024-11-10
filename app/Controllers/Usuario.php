@@ -15,10 +15,12 @@ class Usuario extends BaseController
     public $FuncionarioModel;
     public $CargoModel;
 
-
+    /**
+     * __construct
+     */
     public function __construct()
     {
-        $this->model            = new UsuarioModel(); // Inicializa o modelo de usuário
+        $this->model            = new UsuarioModel();
         $this->FuncionarioModel = new FuncionarioModel();
         $this->CargoModel       = new CargoModel();
 
@@ -43,11 +45,10 @@ class Usuario extends BaseController
      */
     public function form($action, $id = null)
     {
-        // Inicializa $data['data'] como null por padrão
+
         $data['data'] = null;
 
         if ($action != "new" && $id !== null) {
-            // buscar o usuário pelo $id no banco de dados
             $data['data'] = $this->model->find($id);
         }
 
@@ -71,16 +72,13 @@ class Usuario extends BaseController
 
         $senha = isset($post['senha']) ? $post['senha'] : '';
 
-        // Se a senha estiver vazia, mantenha a senha atual
         if (empty($senha)) {
-            // Obtenha a senha atual do banco
             if (isset($post['id'])) {
                 $usuario = $this->model->find($post['id']);
                 $senhaCriptografada = $usuario['senha'];
             }
             
         } else {
-            // Criptografe a nova senha
             $senhaCriptografada = password_hash($senha, PASSWORD_DEFAULT);
         }
 
@@ -108,10 +106,8 @@ class Usuario extends BaseController
         $data = [];
    
         $segmentos      = $this->request->getURI()->getSegments(3);
-
         $id           = $segmentos[3]  ?? null;
 
-        // buscar o usuário pelo $id no banco de dados
         $data['aUsuario']       = $this->model->find($id);
 
         $data['aFuncionario']   = $this->FuncionarioModel->recuperaFuncionario(session()->get('id_funcionario'));
@@ -136,18 +132,15 @@ class Usuario extends BaseController
         $post = $this->request->getPost();
 
         try {
-            // Tenta deletar o usuário
             if ($this->model->delete($post['id'])) {
                 session()->setFlashdata('msgSuccess', 'usuário excluído com sucesso.');
             } else {
                 session()->setFlashdata('msgError', 'Falha ao tentar excluir o usuário.');
             }
         } catch (DatabaseException $e) {
-            // Verifica se o erro é uma violação de chave estrangeira
             if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
                 session()->setFlashdata('msgError', 'Erro: Não é possível excluir este usuário, pois ele está relacionado a outros dados.');
             } else {
-                // Trata outros tipos de erro, se necessário
                 session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o usuário.');
             }
         }
@@ -203,8 +196,7 @@ class Usuario extends BaseController
      */
     public function perfil()
     {
-        return view("admin/formPerfil", $this->model->find(    session()->get
-('userCodigo')));
+        return view("admin/formPerfil", $this->model->find(session()->get('userCodigo')));
     }
 
     /**

@@ -14,18 +14,33 @@ class Setor extends BaseController
     protected $model;
     protected $funcionarioModel;
 
+    /**
+     * __construct
+     */
     public function __construct()
     {
         $this->model            = new SetorModel();
         $this->funcionarioModel = new FuncionarioModel();
     }
 
+    /**
+     * index function
+     *
+     * @return void
+     */
     public function index()
     {
         $data['setores'] = $this->model->getLista("id");
         return view('restrita/listaSetor', $data);
     }
 
+    /**
+     * form function
+     *
+     * @param string $action
+     * @param int $id
+     * @return void
+     */
     public function form($action = null, $id = null)
     {
         $data['data']   = null;
@@ -69,24 +84,25 @@ class Setor extends BaseController
 
     }
 
-
+    /**
+     * delete function
+     *
+     * @return void
+     */
     public function delete()
     {
         $post = $this->request->getPost();
 
         try {
-            // Tenta deletar o cargo
             if ($this->model->delete($post['id'])) {
                 session()->setFlashdata('msgSuccess', 'Cargo excluído com sucesso.');
             } else {
                 session()->setFlashdata('msgError', 'Falha ao tentar excluir o cargo.');
             }
         } catch (DatabaseException $e) {
-            // Verifica se o erro é uma violação de chave estrangeira
             if (strpos($e->getMessage(), 'foreign key constraint') !== false) {
                 session()->setFlashdata('msgError', 'Erro: Não é possível excluir este setor, pois ele está relacionado a outros dados.');
             } else {
-                // Trata outros tipos de erro, se necessário
                 session()->setFlashdata('msgError', 'Ocorreu um erro ao tentar excluir o cargo.');
             }
         }

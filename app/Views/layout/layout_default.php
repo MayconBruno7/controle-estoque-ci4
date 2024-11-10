@@ -10,12 +10,10 @@
     <link rel="stylesheet" href="<?= base_url("assets/bootstrap/css/bootstrap.min.css") ?>">
     <link rel="icon" href="<?= base_url("assets/img/brasao-pmrl-icon.jpeg") ?>" type="image/jpeg">
 
-    <!-- Datatables -->
     <link rel="stylesheet" href="<?= base_url("assets/css/app.min.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/bundles/datatables/datatables.min.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/bundles/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css") ?>">
 
-    <!-- Template -->
     <link rel="stylesheet" href="<?= base_url("assets/css/app.min.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/css/style.css") ?>">
     <link rel="stylesheet" href="<?= base_url("assets/css/components.css") ?>">
@@ -29,44 +27,6 @@
 
 <body class="sidebar-gone sidebar-mini">
 
-<?php if (session()->getFlashdata('exibirModalEstoque')): ?>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
-
-                // Atualizar o tempo restante a cada segundo
-                const intervaloAtualizacao = setInterval(function() {
-                    const agora = new Date().getTime();
-                    const tempoRestante = Math.max(intervalo - (agora - ultimaVerificacao), 0); // Garantir que tempoRestante não seja negativo
-
-                    // Substituir a mensagem de tempo restante
-                    mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
-                    mensagemModal.innerHTML += "Tempo restante para a próxima notificação de estoque: " + formatarTempo(tempoRestante);
-
-                    // Parar o intervalo quando o tempo restante for 0 ou menor
-                    if (tempoRestante <= 0) {
-                        clearInterval(intervaloAtualizacao);
-                        mensagemModal.innerHTML = "A próxima verificação será realizada em breve!";
-                    }
-                }, 1000);
-            exibirModal("Notificação de estoque", mensagemModal);
-        });
-    </script>
-    <?php session()->remove("exibirModalEstoque"); // Limpa a variável de sessão após o uso ?>
-<?php endif; ?>
-
-<?php if (session()->getFlashdata("exibeModalNotificacaoEstoque")): ?>
-    <script>
-        menssageModal = "";
-        document.addEventListener("DOMContentLoaded", function() {
-            menssageModal = "Sem itens abaixo do limite de alerta em estoque.";
-
-            exibirModal("Notificação de estoque", menssageModal);
-        });
-    </script>
-    <?php session()->remove("exibeModalNotificacaoEstoque"); // Limpa a variável de sessão após o uso ?>
-<?php endif; ?>
-
 <?php if (session()->getFlashdata("sucessoUsuarioAdm") || session()->getFlashdata("erroUsuarioAdm")): ?>
     <script>
         let mensagemModal = `<?php
@@ -79,8 +39,8 @@
             }
         });
     </script>
-    <?php session()->remove("sucessoUsuarioAdm"); // Limpa a variável de sessão após o uso ?>
-    <?php session()->remove("erroUsuarioAdm"); // Limpa a variável de sessão após o uso ?>
+    <?php session()->remove("sucessoUsuarioAdm"); ?>
+    <?php session()->remove("erroUsuarioAdm"); ?>
 <?php endif; ?>
 
 <div class="modal fade" id="modalGlobal" tabindex="-1">
@@ -95,7 +55,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
-                <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
             </div>
         </div>
     </div>
@@ -151,7 +110,7 @@
                                 if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
                                     // Verifica se a classe 'showSettingPanel' foi adicionada
                                     if (settingSidebar.classList.contains('showSettingPanel')) {
-                                        console.log('A classe showSettingPanel foi adicionada!');
+                                        // console.log('A classe showSettingPanel foi adicionada!');
 
                                         // Faz a requisição AJAX para buscar o emailAdm
                                         fetch('<?= base_url('Configuracoes/getInfoEmailAdm') ?>', {
@@ -159,7 +118,7 @@
                                         })
                                         .then(response => response.json())
                                         .then(data => {
-                                            console.log(data);
+                                            // console.log(data);
                                             // Atualiza o campo de email no formulário
                                             document.getElementById('id').value = data[0].id;
                                             document.getElementById('email').value = data[0].valor;
@@ -182,35 +141,6 @@
             </script>
             <?php endif; ?>
 
-            <!-- <div class="p-15 border-bottom">
-                <h6 class="font-medium m-b-10">Selecionar aparência</h6>
-                <div class="selectgroup layout-color w-50">
-                    <label class="selectgroup-item">
-                        <input type="radio" name="value" value="1" class="selectgroup-input-radio select-layout" checked>
-                        <span class="selectgroup-button">Branco</span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="value" value="2" class="selectgroup-input-radio select-layout">
-                        <span class="selectgroup-button">Escuro</span>
-                    </label>
-                </div>
-            </div>
-            <div class="p-15 border-bottom">
-                <h6 class="font-medium m-b-10">Cor da barra lateral</h6>
-                <div class="selectgroup selectgroup-pills sidebar-color">
-                    <label class="selectgroup-item">
-                        <input type="radio" name="icon-input" value="1" class="selectgroup-input select-sidebar">
-                        <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
-                              data-original-title="Light Sidebar"><i class="fas fa-sun"></i></span>
-                    </label>
-                    <label class="selectgroup-item">
-                        <input type="radio" name="icon-input" value="2" class="selectgroup-input select-sidebar" checked>
-                        <span class="selectgroup-button selectgroup-button-icon" data-toggle="tooltip"
-                              data-original-title="Dark Sidebar"><i class="fas fa-moon"></i></span>
-                    </label>
-                </div>
-            </div> -->
-
             <div class="p-15 border-bottom">
                 <div class="theme-setting-options">
                     <label class="m-b-0">
@@ -221,16 +151,7 @@
                     </label>
                 </div>
             </div>
-            <!-- <div class="p-15 border-bottom">
-                <div class="theme-setting-options">
-                    <label class="m-b-0">
-                        <input type="checkbox" name="custom-switch-checkbox" class="custom-switch-input"
-                               id="sticky_header_setting">
-                        <span class="custom-switch-indicator"></span>
-                        <span class="control-label p-l-10">Cabeçalho adesivo</span>
-                    </label>
-                </div>
-            </div> -->
+        
             <div class="mt-4 mb-4 p-3 align-center rt-sidebar-last-ele">
                 <a href="#" class="btn btn-icon icon-left btn-primary btn-restore-theme">
                     <i class="fas fa-undo"></i> Restaurar padrão
@@ -378,15 +299,25 @@
     <script src="<?= base_url("assets/bundles/jquery-ui/jquery-ui.min.js") ?>"></script>
     <script src="<?= base_url("assets/js/page/datatables.js") ?>"></script>
 
-    <!-- verifica a quantidade limite do estoque para alerta disparado por email -->
     <script>
-        // Verificar a cada 24 horas (86400000 ms)
-        // Verificar a cada 3 minutos (180000)
-        // Verificar a cada 1 minuto (60000)
-        // Verificar a cada 24 horas (86400000 ms)
-        const intervalo = 86400000; // 1 minuto em milissegundos
+
+        // Define o intervalo de 24 horas (86400000 ms)
+        const intervalo = 86400000; // 24 horas em milissegundos
+
+        // Define o horário alvo para a verificação (18:39)
+        var agora = new Date();
+        var proximaVerificacao = new Date();
+        proximaVerificacao.setHours(12, 0, 0, 0); // Define o próximo horário de verificação (18:39)
+
+        // Se o horário atual já passou das 18:39, define o próximo para o dia seguinte
+        if (agora > proximaVerificacao) {
+            proximaVerificacao.setDate(proximaVerificacao.getDate() + 1); // Adiciona um dia
+        } 
+
+        // Recupera a hora da última verificação armazenada
         const ultimaVerificacao = localStorage.getItem('ultimaVerificacao');
 
+        // Função que faz a verificação de estoque
         function verificarEstoque() {
             console.log("Verificação de estoque iniciada às " + new Date().toLocaleTimeString());
 
@@ -395,36 +326,74 @@
                     if (!response.ok) {
                         throw new Error('Erro na resposta da rede.');
                     }
-                    return response.text();
+                    return response.json(); // Parse da resposta como JSON
                 })
                 .then(data => {
                     console.log('Verificação de estoque realizada.');
-                    // Processar a resposta se necessário
-                    // console.log(data);
+
                     // Salvar a hora da última verificação no localStorage
                     localStorage.setItem('ultimaVerificacao', new Date().getTime());
+
                     // Atualizar o tempo para a próxima verificação
                     atualizarTempoParaProximaVerificacao();
+
+                    // Exibir o modal conforme o status retornado
+                    if (data.status === 'alerta') {
+                        mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
+
+                        // Atualizar o tempo restante a cada segundo
+                        const intervaloAtualizacao = setInterval(function() {
+                            const agora = new Date().getTime();
+                            const tempoRestante = Math.max(intervalo - (agora - ultimaVerificacao), 0); // Garantir que tempoRestante não seja negativo
+
+                            // Substituir a mensagem de tempo restante
+                            mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
+                            mensagemModal.innerHTML += "Tempo restante para a próxima notificação de estoque: " + formatarTempo(tempoRestante);
+
+                            // Parar o intervalo quando o tempo restante for 0 ou menor
+                            if (tempoRestante <= 0) {
+                                clearInterval(intervaloAtualizacao);
+                                mensagemModal.innerHTML = "A próxima verificação será realizada em breve!";
+                            }
+                        }, 1000);
+                        exibirModal("Notificação de estoque", mensagemModal);
+                    } else if (data.status === 'ok') {
+                        exibirModal("Notificação de estoque", 'Sem itens abaixo do limite de alerta!');
+                    }
                 })
                 .catch(error => console.error('Erro:', error));
         }
 
-        function atualizarTempoParaProximaVerificacao() {
-            const ultimaVerificacao = localStorage.getItem('ultimaVerificacao');
-            const agora = new Date().getTime();
+        // Função para exibir o modal
+        function exibirModal(titulo, mensagem) {
+            const modalTitulo = document.getElementById("modalTitulo");
+            const modalMensagem = document.getElementById("modalMensagem");
+            const modalElemento = new bootstrap.Modal(document.getElementById("meuModal"));
 
-            if (ultimaVerificacao) {
-                const tempoPassado = agora - ultimaVerificacao;
-                const tempoRestante = Math.max(intervalo - tempoPassado, 0); // Garantir que tempoRestante não seja negativo
-
-                if (tempoRestante > 0) {
-                    console.log("Tempo restante para a próxima verificação: " + formatarTempo(tempoRestante));
-                } else {
-                    console.log("A próxima verificação será realizada em breve.");
-                }
+            if (modalTitulo && modalMensagem && modalElemento) {
+                modalTitulo.textContent = titulo;
+                modalMensagem.innerHTML = mensagem;
+                modalElemento.show();
+            } else {
+                console.error("Elementos do modal não encontrados.");
             }
         }
 
+        // Atualizar o tempo restante para a próxima verificação
+        function atualizarTempoParaProximaVerificacao() {
+            const agora = new Date().getTime();
+            const tempoRestante = proximaVerificacao.getTime() - agora; // Tempo restante até a próxima verificação
+
+            if (tempoRestante > 0) {
+                console.log("Tempo restante para a próxima verificação: " + formatarTempo(tempoRestante));
+                setTimeout(verificarEstoque, tempoRestante); // Agendar a próxima verificação no tempo correto
+            } else {
+                console.log("A próxima verificação será realizada em breve.");
+                exibirTempoRestante(0); // Atualiza a interface para mostrar "em breve"
+            }
+        }
+
+        // Função para formatar o tempo restante
         function formatarTempo(millis) {
             const horas = Math.floor(millis / 3600000);
             const minutos = Math.floor((millis % 3600000) / 60000);
@@ -432,17 +401,25 @@
             return `${horas}h ${minutos}m ${segundos}s`;
         }
 
-        setInterval(verificarEstoque, intervalo);
+        // Função para exibir o tempo restante no frontend
+        function exibirTempoRestante(tempoRestante) {
+            const tempoFormatado = formatarTempo(tempoRestante);
+            console.log("Tempo restante para a próxima verificação: " + tempoFormatado); // Mostra no console
+        }
 
-        // Verificar imediatamente quando a página carregar, se tiver passado 1 minuto desde a última verificação
+        // Verificar imediatamente quando a página carregar, se tiver passado o intervalo
         document.addEventListener('DOMContentLoaded', function() {
             const agora = new Date().getTime();
 
-            if (!ultimaVerificacao || (agora - ultimaVerificacao >= intervalo)) {
+            if (agora == proximaVerificacao) {
                 verificarEstoque();
+            }
+
+            if (!ultimaVerificacao || (agora - ultimaVerificacao >= intervalo)) {
+                verificarEstoque(); // Realiza a verificação imediatamente
             } else {
                 console.log("Ainda não passou 24 horas desde a última verificação.");
-                atualizarTempoParaProximaVerificacao();
+                atualizarTempoParaProximaVerificacao(); // Atualiza o tempo restante
             }
         });
 
@@ -459,7 +436,7 @@
             mensagemModal.innerHTML = menssageModal;
 
             $('#modalGlobal').modal('show');
-        }
+        } 
 
     </script>
 
@@ -476,11 +453,8 @@
         <p>Departamento de Informática Rosário da Limeira - MG</p>
         <span>© 2024 Company, Inc</span>
 
-        <a href="<?= base_url()?>FaleConosco/teste">Teste</a>
-
         <?php 
 
-// var_dump(base_url() . "FaleConosco/verificaEstoque");
             $redirectUrl = '';
 
             if (session()->get('usuarioNivel') == 1) {
@@ -488,6 +462,7 @@
             } elseif (session()->get('usuarioNivel') == 11) {
                 $redirectUrl = 'Home/home';
             } 
+
         ?>
         <div class="container mt-2">
             <?php if (session()->get('usuarioId') != false) : ?>

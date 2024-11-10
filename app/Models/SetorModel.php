@@ -9,7 +9,7 @@ class SetorModel extends CustomModel
     protected $table        = 'setor';
     protected $primaryKey   = 'id';
 
-    protected $allowedFields = ['nome', 'statusRegistro', 'responsavel']; // Adicione os campos permitidos para inserção/atualização
+    protected $allowedFields = ['nome', 'statusRegistro', 'responsavel']; 
 
     protected $validationRules = [
       'nome' => [
@@ -30,18 +30,16 @@ class SetorModel extends CustomModel
      */
     public function getLista($orderBy = 'id')
     {
-        // Define o alias da tabela corretamente
+    
         $builder = $this->db->table($this->table . ' as s');
         $builder->select('s.*, f.nome as nomeResponsavel');
         $builder->join('funcionario as f', 's.responsavel = f.id', 'left');
 
-        // Verifica o nível do usuário na sessão
         if (session()->get('usuarioNivel') != 1) {
             $builder->where('s.statusRegistro', 1);
         }
 
-        // Altera para ordem decrescente
-        $builder->orderBy($orderBy, 'DESC'); // Adiciona 'DESC' para ordem decrescente
+        $builder->orderBy($orderBy, 'DESC'); 
 
         return $builder->get()->getResultArray();
     }

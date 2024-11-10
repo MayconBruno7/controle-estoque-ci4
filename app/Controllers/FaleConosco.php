@@ -8,8 +8,8 @@ use App\Models\ProdutoModel;
 use App\Models\ConfiguracoesModel;
 use CodeIgniter\HTTP\RedirectResponse;
 
-use CodeIgniter\Email\Email; // Importa a classe de Email
-use Config\Email as EmailConfig; // Corrigido para importar a configuração de Email
+use CodeIgniter\Email\Email; 
+use Config\Email as EmailConfig; 
 
 class FaleConosco extends BaseController 
 {
@@ -41,120 +41,27 @@ class FaleConosco extends BaseController
     /**
      * Verifica o estoque e envia notificações por e-mail se necessário.
      *
-     * @return void
+     * @return \CodeIgniter\HTTP\ResponseInterface
      */
     public function verificaEstoque()
     {
-
-        $dados['aFornecedor'] = $this->fornecedorModel->findAll();
         $dados['aProduto'] = $this->produtoModel->findAll();
-        
-        $assunto                    = 'Alerta de estoque';
-        $message                    = "Os seguintes produtos estão com o estoque abaixo do limite de alerta:<br><br>";
-        $temProdutoAbaixoDoLimite   = false;
+
+        $temProdutoAbaixoDoLimite = false;
 
         foreach ($dados['aProduto'] as $produto) {
             if ($produto['quantidade'] < 3) {
-                $fornecedorNome = $this->getFornecedorNome($produto['fornecedor'], $dados['aFornecedor']);
-                $message .= "Nome: {$produto['nome']}<br>";
-                $message .= "Quantidade: {$produto['quantidade']}<br>";
-                $message .= "Fornecedor: {$fornecedorNome}<br><br>";
                 $temProdutoAbaixoDoLimite = true;
+                break;
             }
         }
 
         if ($temProdutoAbaixoDoLimite) {
-            $this->enviaNotificacaoEstoque($assunto, $message);
-            return redirect()->to(previous_url());
-
+            return $this->response->setJSON(['status' => 'alerta']);
         } else {
-            session()->setFlashdata("exibeModalNotificacaoEstoque", true);
-            return redirect()->to(previous_url());
-
+            return $this->response->setJSON(['status' => 'ok']);
         }
     }
-
-    /**
-     * Envia uma notificação por e-mail sobre o estoque.
-     *
-     * @param string $emailRemetente
-     * @param string $nomeRemetente
-     * @param string $assunto
-     * @param string $mensagem
-     * 
-    */
-    private function enviaNotificacaoEstoque(string $assunto, string $mensagem)
-    {
-        $usuarioAdministradorEmail  = $this->configuracoesModel->where('chave', 'emailAdm')->first();
-
-        // // Caminho absoluto da imagem (pasta public/assets/img/)
-        // $imagemPath = FCPATH . 'assets\img\brasao-pmrl-icon.jpeg';  // Caminho correto para o servidor
-
-        // // Verifica se a imagem existe antes de tentar convertê-la
-        // if (file_exists($imagemPath)) {
-        //     // Converte a imagem para Base64
-        //     $imagemBase64 = base64_encode(file_get_contents($imagemPath));
-        //     $imagemTipo = mime_content_type($imagemPath);  // Obtém o tipo MIME da imagem (ex: image/png, image/jpeg)
-
-        //     // Adiciona a imagem Base64 no corpo do e-mail
-        //     $mensagem .= '<img alt="imagem" src="data:' . $imagemTipo . ';base64,' . $imagemBase64 . '" />';
-        // } else {
-        //     // Se a imagem não existir, pode exibir uma mensagem de erro ou tratar de outra forma
-        //     $mensagem .= '<p>Imagem não encontrada.</p>';
-        // }
-
-
-        $mensagem .= '<img src="https://drive.google.com/drive/u/1/folders/1zqJZ-aVgT7p6SdAhCLVZeRq2S3_SGDua" alt="Imagem da empresa" width="100">';
-
-        // Corpo do e-mail
-        $corpoEmail = "{$mensagem}<br><br> Esse email é disparado todos os dias com o intuito de notificar sobre o estoque.";
-
-        // Cria uma nova instância da classe Email
-        $email = new Email();
-
-        // Cria uma nova instância da classe EmailConfig
-        $emailConfig = new EmailConfig();
-
-        // Inicializa com as configurações
-        $email->initialize($emailConfig);
-
-        // Configura o remetente
-        $email->setFrom($emailConfig->fromEmail, $emailConfig->fromName);
-
-        // Configura o destinatário
-        $email->setTo($usuarioAdministradorEmail['valor']); // Enviar para o email do administrador
-
-        // Configura o assunto e a mensagem
-        $email->setSubject($assunto);
-        $email->setMessage($corpoEmail);
-
-        // Envia o e-mail e verifica se foi enviado com sucesso
-        if ($email->send()) {
-            session()->setFlashdata('msgSuccess', 'Email enviado com sucesso!');
-        } else {
-            session()->setFlashdata('msgError', 'Erro ao enviar email: ' . $email->printDebugger(['headers']));
-        }
-
-        session()->setFlashdata("exibirModalEstoque", true); 
-    }
-
-
-   /**
-    * Obtém o nome do fornecedor pelo ID.
-    *
-    * @param int $fornecedorId
-    * @param array $fornecedores
-    * @return string
-    */
-   private function getFornecedorNome(int $fornecedorId, array $fornecedores): string
-   {
-       foreach ($fornecedores as $fornecedor) {
-           if ($fornecedor['id'] == $fornecedorId) {
-               return $fornecedor['nome'];
-           }
-       }
-       return '';
-   }
 
    /**
     * Envia um e-mail via formulário de Fale Conosco.

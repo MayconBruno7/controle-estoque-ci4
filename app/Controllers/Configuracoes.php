@@ -25,7 +25,6 @@ class Configuracoes extends BaseController
     {
         $data = $this->model->getAdmEmail();
 
-        // Retorna a resposta como JSON
         return $this->response->setJSON($data);
     }
 
@@ -50,7 +49,6 @@ class Configuracoes extends BaseController
                 session()->setFlashdata('erroUsuarioAdm', 'Erro ao realizar operação, contate o suporte técnico!');        
             }
 
-            // Redireciona o usuário para a página anterior
             return redirect()->to(previous_url());
            
         } else {
@@ -67,7 +65,6 @@ class Configuracoes extends BaseController
                 session()->setFlashdata('erroUsuarioAdm', 'Erro ao realizar operação, contate o suporte técnico!');
             }
             
-            // Redireciona o usuário para a página anterior
             return redirect()->to(previous_url());  
         }
     }

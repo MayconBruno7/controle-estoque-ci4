@@ -27,44 +27,6 @@
 
 <body class="sidebar-gone sidebar-mini">
 
-<?php if (session()->getFlashdata('exibirModalEstoque')): ?>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
-
-                // Atualizar o tempo restante a cada segundo
-                const intervaloAtualizacao = setInterval(function() {
-                    const agora = new Date().getTime();
-                    const tempoRestante = Math.max(intervalo - (agora - ultimaVerificacao), 0); // Garantir que tempoRestante não seja negativo
-
-                    // Substituir a mensagem de tempo restante
-                    mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
-                    mensagemModal.innerHTML += "Tempo restante para a próxima notificação de estoque: " + formatarTempo(tempoRestante);
-
-                    // Parar o intervalo quando o tempo restante for 0 ou menor
-                    if (tempoRestante <= 0) {
-                        clearInterval(intervaloAtualizacao);
-                        mensagemModal.innerHTML = "A próxima verificação será realizada em breve!";
-                    }
-                }, 1000);
-            exibirModal("Notificação de estoque", mensagemModal);
-        });
-    </script>
-    <?php session()->remove("exibirModalEstoque"); // Limpa a variável de sessão após o uso ?>
-<?php endif; ?>
-
-<?php if (session()->getFlashdata("exibeModalNotificacaoEstoque")): ?>
-    <script>
-        menssageModal = "";
-        document.addEventListener("DOMContentLoaded", function() {
-            menssageModal = "Sem itens abaixo do limite de alerta em estoque.";
-
-            exibirModal("Notificação de estoque", menssageModal);
-        });
-    </script>
-    <?php session()->remove("exibeModalNotificacaoEstoque"); // Limpa a variável de sessão após o uso ?>
-<?php endif; ?>
-
 <?php if (session()->getFlashdata("sucessoUsuarioAdm") || session()->getFlashdata("erroUsuarioAdm")): ?>
     <script>
         let mensagemModal = `<?php
@@ -77,8 +39,8 @@
             }
         });
     </script>
-    <?php session()->remove("sucessoUsuarioAdm"); // Limpa a variável de sessão após o uso ?>
-    <?php session()->remove("erroUsuarioAdm"); // Limpa a variável de sessão após o uso ?>
+    <?php session()->remove("sucessoUsuarioAdm"); ?>
+    <?php session()->remove("erroUsuarioAdm"); ?>
 <?php endif; ?>
 
 <div class="modal fade" id="modalGlobal" tabindex="-1">
@@ -338,13 +300,14 @@
     <script src="<?= base_url("assets/js/page/datatables.js") ?>"></script>
 
     <script>
+
         // Define o intervalo de 24 horas (86400000 ms)
         const intervalo = 86400000; // 24 horas em milissegundos
 
         // Define o horário alvo para a verificação (18:39)
         var agora = new Date();
         var proximaVerificacao = new Date();
-        proximaVerificacao.setHours(9, 30, 0, 0); // Define o próximo horário de verificação (18:39)
+        proximaVerificacao.setHours(12, 0, 0, 0); // Define o próximo horário de verificação (18:39)
 
         // Se o horário atual já passou das 18:39, define o próximo para o dia seguinte
         if (agora > proximaVerificacao) {
@@ -363,16 +326,57 @@
                     if (!response.ok) {
                         throw new Error('Erro na resposta da rede.');
                     }
-                    return response.text(); 
+                    return response.json(); // Parse da resposta como JSON
                 })
                 .then(data => {
                     console.log('Verificação de estoque realizada.');
+
                     // Salvar a hora da última verificação no localStorage
                     localStorage.setItem('ultimaVerificacao', new Date().getTime());
+
                     // Atualizar o tempo para a próxima verificação
                     atualizarTempoParaProximaVerificacao();
+
+                    // Exibir o modal conforme o status retornado
+                    if (data.status === 'alerta') {
+                        mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
+
+                        // Atualizar o tempo restante a cada segundo
+                        const intervaloAtualizacao = setInterval(function() {
+                            const agora = new Date().getTime();
+                            const tempoRestante = Math.max(intervalo - (agora - ultimaVerificacao), 0); // Garantir que tempoRestante não seja negativo
+
+                            // Substituir a mensagem de tempo restante
+                            mensagemModal.innerHTML = "Verifique a quantidade dos itens em estoque que foram citados no email enviado para o administrador principal!<br>";
+                            mensagemModal.innerHTML += "Tempo restante para a próxima notificação de estoque: " + formatarTempo(tempoRestante);
+
+                            // Parar o intervalo quando o tempo restante for 0 ou menor
+                            if (tempoRestante <= 0) {
+                                clearInterval(intervaloAtualizacao);
+                                mensagemModal.innerHTML = "A próxima verificação será realizada em breve!";
+                            }
+                        }, 1000);
+                        exibirModal("Notificação de estoque", mensagemModal);
+                    } else if (data.status === 'ok') {
+                        exibirModal("Notificação de estoque", 'Sem itens abaixo do limite de alerta!');
+                    }
                 })
                 .catch(error => console.error('Erro:', error));
+        }
+
+        // Função para exibir o modal
+        function exibirModal(titulo, mensagem) {
+            const modalTitulo = document.getElementById("modalTitulo");
+            const modalMensagem = document.getElementById("modalMensagem");
+            const modalElemento = new bootstrap.Modal(document.getElementById("meuModal"));
+
+            if (modalTitulo && modalMensagem && modalElemento) {
+                modalTitulo.textContent = titulo;
+                modalMensagem.innerHTML = mensagem;
+                modalElemento.show();
+            } else {
+                console.error("Elementos do modal não encontrados.");
+            }
         }
 
         // Atualizar o tempo restante para a próxima verificação
@@ -406,6 +410,10 @@
         // Verificar imediatamente quando a página carregar, se tiver passado o intervalo
         document.addEventListener('DOMContentLoaded', function() {
             const agora = new Date().getTime();
+
+            if (agora == proximaVerificacao) {
+                verificarEstoque();
+            }
 
             if (!ultimaVerificacao || (agora - ultimaVerificacao >= intervalo)) {
                 verificarEstoque(); // Realiza a verificação imediatamente

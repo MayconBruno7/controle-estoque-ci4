@@ -12,7 +12,7 @@
 
     <?php
 
-        if (isset($action) && $action != 'insert') {
+        if (isset($action) && $action != 'new') {
             ?>
             <div class="row">
                 <div class="col-12 d-flex justify-content-start">

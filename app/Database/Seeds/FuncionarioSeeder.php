@@ -10,6 +10,7 @@ class FuncionarioSeeder extends Seeder
     {
         // Truncar a tabela
         $this->db->table('funcionario')->truncate();
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
 
         $data = [
             ['id' => '1', 'nome' => 'João', 'cpf' => '09078945618', 'telefone' => '32984952615',
@@ -17,5 +18,6 @@ class FuncionarioSeeder extends Seeder
         ];
 
         $this->db->table('funcionario')->insertBatch($data);
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1'); // Desabilitar verificação de chave estrangeira
     }
 }

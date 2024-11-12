@@ -10,6 +10,7 @@ class FornecedorSeeder extends Seeder
     {
        // Truncar a tabela
        $this->db->table('fornecedor')->truncate();
+       $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
 
        $data = [
            ['nome' => 'MD COPIADORA', 'cnpj' => '44556350000104', 'endereco' => ' Rua Padre Guilherme Goossens, S/N',
@@ -19,5 +20,6 @@ class FornecedorSeeder extends Seeder
        ];
 
        $this->db->table('fornecedor')->insertBatch($data);
+       $this->db->query('SET FOREIGN_KEY_CHECKS = 1'); // Desabilitar verificação de chave estrangeira
     }
 }

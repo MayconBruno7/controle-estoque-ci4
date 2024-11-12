@@ -9,7 +9,7 @@ class Cargo extends Migration
     public function up()
     {
         // Desabilitar verificação de chave estrangeira
-        $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); 
 
         $this->forge->addField([
             'id' => [

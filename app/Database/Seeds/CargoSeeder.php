@@ -9,9 +9,6 @@ class CargoSeeder extends Seeder
     public function run()
     {
         
-        // Truncar a tabela
-        $this->db->table('cargo')->truncate();
-
         // Desabilitar verificação de chave estrangeira
         $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
 

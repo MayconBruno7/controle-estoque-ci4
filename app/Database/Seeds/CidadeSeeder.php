@@ -11,10 +11,9 @@ class CidadeSeeder extends Seeder
      *
      * @return void
      */
-    public function run(): void
+    public function run()
     {
 
-        // $this->db->table('cidade')->truncate();
         // Desabilitar verificação de chave estrangeira
         $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
 

@@ -11,6 +11,7 @@ class ProdutoSeeder extends Seeder
 
         // Truncar a tabela
         $this->db->table('produto')->truncate();
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
 
         $data = [
             ['descricao' => 'SSD 480GB da marca kingston', 'quantidade' => '0','statusRegistro' => '1',
@@ -18,5 +19,6 @@ class ProdutoSeeder extends Seeder
         ];
 
         $this->db->table('produto')->insertBatch($data);
+        $this->db->query('SET FOREIGN_KEY_CHECKS = 1'); // Desabilitar verificação de chave estrangeira
     }
 }

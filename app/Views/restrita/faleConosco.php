@@ -60,14 +60,14 @@
     </form>
 </main>
 
-<?= $this->endSection() ?>
-
 <script src="<?= base_url() ?>assets/ckeditor5/ckeditor.js"></script>
 
-<script>
+<script type="text/javascript">
     ClassicEditor
         .create(document.querySelector('#mensagem'))
         .catch( error => {
             console.error(error);
         });
 </script>
+
+<?= $this->endSection() ?>

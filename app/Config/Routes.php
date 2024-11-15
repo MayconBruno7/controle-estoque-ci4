@@ -37,6 +37,8 @@ $routes->group('Usuario', function($routes) {
     $routes->post('delete', "Usuario::delete");
     $routes->get("profile/view/(:num)", 'Usuario::profile/view/$1');
 
+    $routes->get("trocaSenha", 'Usuario::trocaSenha');
+    $routes->post("atualizaTrocaSenha", 'Usuario::atualizaTrocaSenha');
 });
 
 

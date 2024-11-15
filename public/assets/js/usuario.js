@@ -111,9 +111,11 @@
     }
     
     
-    /*
-    * Valida formuário de usuário
-    */
+    
+   /*
+     * Valida formuário de usuário
+     */
+
     function VldSubmitTrocaSenha( esteFormulario )
     {
 

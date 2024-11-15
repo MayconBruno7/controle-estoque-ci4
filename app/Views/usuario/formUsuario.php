@@ -58,13 +58,14 @@
                 <?= setaMsgErrorCampo('funcionarios', $errors) ?>
             </div>
 
+            <?php if ($action != "update"): ?>
             <div class="form-group col-12 col-md-6 mt-3">
                 <label for="senha" class="form-label">Senha</label>
                 <input type="password" name="senha" id="senha" class="form-control" maxlength="250" 
-                       value="" 
+                value=""  
                     placeholder="Informe uma nova senha caso deseje alterar"
                     <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>
-                       onkeyup="checa_segur_senha('senha', 'msgSenha', 'btGravar');">
+                       onkeyup="checa_segur_senha('senha', 'msgSenha', 'btnGravar');">
                 <div id="msgSenha" class="msgNivel_senha"></div>
                 <?= setaMsgErrorCampo('senha', $errors) ?>
             </div>
@@ -72,19 +73,20 @@
             <div class="form-group col-12 col-md-6 mt-3">
                 <label for="confSenha" class="form-label">Confere a senha</label>
                 <input type="password" name="confSenha" id="confSenha" class="form-control" maxlength="250" 
-                       value="" 
+                value="" 
                        placeholder="Confirme a senha digitada"
                        <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>
-                       onkeyup="checa_segur_senha('confSenha', 'msgConfSenha', 'btGravar');">
+                       onkeyup="checa_segur_senha('confSenha', 'msgConfSenha', 'btnGravar');">
                 <div id="msgConfSenha" class="msgNivel_senha"></div>
                 <?= setaMsgErrorCampo('confSenha', $errors) ?>
             </div>
+            <?php endif; ?>
 
             <input type="hidden" name="id" value="<?= setValor('id', $data) ?>">
 
             <div class="form-group col-12 col-md-4 mt-3">
                 <?php if ($action != "view"): ?>
-                    <button type="submit" value="submit" id="btGravar" class="btn btn-primary">Gravar</button>
+                    <button type="submit" value="submit" id="btnGravar" class="btn btn-primary">Gravar</button>
                 <?php endif; ?>
                 
             </div>

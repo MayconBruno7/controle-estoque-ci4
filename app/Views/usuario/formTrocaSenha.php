@@ -4,17 +4,17 @@
 
 <script type="text/javascript" src="<?= base_url(); ?>assets/js/usuario.js"></script>
 
-<section>
-    <div class="container">
+<section style="margin-top: 100px;">
+    <div class="container text-center">
         <div class="blog-banner">
-            <div class="mt-5 mb-5 text-left">
-                <h1 style="color: #384aeb;">Trocar Senha</h1>
+            <div class="mt-5 mb-5">
+                <h1>Trocar Senha</h1>
             </div>
         </div>
     </div>
 </section>
 
-<div class="container" style="margin-top: 70px;">
+<div class="container">
 
     <div class="row justify-content-center">
 
@@ -28,6 +28,9 @@
                         action="<?= base_url() ?>Usuario/atualizaTrocaSenha">
 
                         <input type="hidden" name="id" id="id" value="<?= session()->get('usuarioId') ?>">
+                        
+                        <?= mensagemError() ?>
+                        <?= mensagemSucesso() ?>
                         
                         <div style="margin-bottom: 25px" class="input-group">
                             <label class="ml-1">Usuário: <b><?= session()->get('usuarioLogin') ?></b></label>                            
@@ -101,3 +104,4 @@
     </div>
     
 </div>
+<?= $this->endSection() ?>

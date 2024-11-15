@@ -91,7 +91,7 @@ class Usuario extends BaseController
             "email"             => $post['email'],
             "id_funcionario"    => !empty($post['funcionarios']) ? $post['funcionarios'] : null
         ])) { 
-            return redirect()->to("/Usuario")->with('msgSucess', "Dados inseridos com sucesso!");
+            return redirect()->to("/Usuario")->with('msgSuccess', "Dados inseridos com sucesso!");
         } else {
             return view("Usuario", [
                 "action"    => $post['action'],
@@ -174,18 +174,23 @@ class Usuario extends BaseController
                     $lUpdate = $this->model->update($post['id'], ['senha' => password_hash($post["novaSenha"], PASSWORD_DEFAULT)]);
 
                     if ($lUpdate) {
-                        return redirect("Usuario/trocaSenha", ["msgSuccess" => "Senha alterada com sucesso!"]);  
+                        session()->setFlashdata("msgSuccess", "Senha alterada com sucesso");
+                        return redirect("Usuario/trocaSenha");  
                     } else {
-                        return redirect("Usuario/trocaSenha", ["msgError" => "Falha na atualização da nova senha!"]);    
+                        session()->setFlashdata("msgError", "Falha na atualização da nova senha!");
+                        return redirect("Usuario/trocaSenha");    
                     }
                 } else {
-                    return redirect("Usuario/trocaSenha", ["msgError" => "Nova senha e conferência da senha estão divergentes!"]);                  
+                    session()->setFlashdata("msgError", "Nova senha e conferência da senha estão divergentes!");
+                    return redirect("Usuario/trocaSenha");                  
                 }
             } else {
-                return redirect("Usuario/trocaSenha", ["msgError" => "Senha atual informada não confere!"]);               
+                session()->setFlashdata("msgError", "Senha atual informada não confere!");
+                return redirect("Usuario/trocaSenha");               
             }
         } else {
-            return redirect("Usuario/trocaSenha", ["msgError" => "Usuário inválido!"]);   
+            session()->setFlashdata("msgError", "Usuário inválido!");
+            return redirect("Usuario/trocaSenha");   
         }
     }
 

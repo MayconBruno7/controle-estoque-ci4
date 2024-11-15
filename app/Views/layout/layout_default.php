@@ -192,10 +192,10 @@
                         <a href="<?= base_url() ?>Usuario/profile/view/<?= session()->get('usuarioId') ?>" class="dropdown-item has-icon"><i class="fas fa-id-badge"></i>
                             Perfil
                         </a> 
-                        <a href="<?= base_url() ?>Usuario/trocaSenha" class="dropdown-item has-icon"><i class="fa-solid fa-key"></i></i>
+                        <?php endif; ?>
+                        <a href="<?= base_url() ?>Usuario/trocaSenha" class="dropdown-item has-icon"><i class="fa fa-key"></i></i>
                             Trocar senha
                         </a> 
-                        <?php endif; ?>
                         <a href="settingSidebar" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
                             Configurações
                         </a>

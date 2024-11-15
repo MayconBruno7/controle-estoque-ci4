@@ -23,6 +23,9 @@
             <div class="card">
 
                 <div class="card-body">
+               
+                    <?= mensagemSucesso() ?>
+                    <?= mensagemError() ?>
 
                     <form method="POST" id="recuperaSenhaform" class="form-horizontal" role="form" 
                         action="<?= base_url() ?>Login/atualizaRecuperaSenha">

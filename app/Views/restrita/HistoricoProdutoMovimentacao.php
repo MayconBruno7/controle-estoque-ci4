@@ -47,7 +47,7 @@
                                                     <td>
                                                         <a href="<?= base_url() ?>Movimentacao/form/view/<?= $row['id_mov'] ?>" class="btn btn-secondary btn-sm" title="Visualizar"><i class="fa fa-eye" aria-hidden="true"></i></a>
                                                         <a href="<?= base_url() ?>Movimentacao/form/update/<?= $row['id_mov'] ?>" class="btn btn-secondary btn-sm" title="Alterar"><i class="fa fa-file" aria-hidden="true"></i></a>
-                                                        <a href="<?= base_url() ?>Movimentacao/form/<?= $row['id_mov'] ?>" class="btn btn-secondary btn-sm" title="Excluir"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                                                        <a href="<?= base_url() ?>Movimentacao/form/delete/<?= $row['id_mov'] ?>" class="btn btn-secondary btn-sm" title="Excluir"><i class="fa fa-trash" aria-hidden="true"></i></a>
                                                     </td>
                                                 </tr>
                                             <?php

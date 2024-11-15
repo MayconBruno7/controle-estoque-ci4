@@ -445,21 +445,21 @@ class Movimentacao extends BaseController
             $valores_produtos   = $post['valor'] ?? '';
 
             // Recupera os dados atuais da movimentação
-            $dadosAtuais        = $this->model->getLista(); // Supondo que você tenha um método para isso
+            // $dadosAtuais        = $this->model->getLista(); // Supondo que você tenha um método para isso
 
             // Verifica se os dados atuais são iguais aos dados enviados
-            if ($dadosAtuais && 
-                (int)$dadosAtuais[0]['id_fornecedor'] === $fornecedor_id &&
-                (int)$dadosAtuais[0]['tipo_movimentacao'] === $tipo_movimentacao &&
-                (int)$dadosAtuais[0]['statusRegistro'] === $statusRegistro &&
-                (int)$dadosAtuais[0]['id_setor'] === $setor_id &&
-                $dadosAtuais[0]['data_pedido'] === $data_pedido &&
-                $dadosAtuais[0]['data_chegada'] === $data_chegada &&
-                $dadosAtuais[0]['motivo'] === $motivo && session()->get('prod_mov_atualizado') !== false) {
+            // if ($dadosAtuais && 
+            //     (int)$dadosAtuais[0]['id_fornecedor'] === $fornecedor_id &&
+            //     (int)$dadosAtuais[0]['tipo_movimentacao'] === $tipo_movimentacao &&
+            //     (int)$dadosAtuais[0]['statusRegistro'] === $statusRegistro &&
+            //     (int)$dadosAtuais[0]['id_setor'] === $setor_id &&
+            //     $dadosAtuais[0]['data_pedido'] === $data_pedido &&
+            //     $dadosAtuais[0]['data_chegada'] === $data_chegada &&
+            //     $dadosAtuais[0]['motivo'] === $motivo || session()->get('prod_mov_atualizado') == true) {
 
-                // Retornar mensagem de "nada alterado"
-                return redirect()->to('/Movimentacao/form/update/' . $id_movimentacao)->with("msgError", "Nenhuma alteração detectada.");
-            } else {
+            //     // Retornar mensagem de "nada alterado"
+            //     return redirect()->to('/Movimentacao/form/update/' . $id_movimentacao)->with("msgError", "Nenhuma alteração detectada.");
+            // } else {
                 
                 $produtoMovAtualizado       = session()->get('prod_mov_atualizado') ?? [];
                 $dadosItensMovimentacao     =  $this->movimentacaoItemModel->listaProdutos($id_movimentacao);
@@ -629,7 +629,7 @@ class Movimentacao extends BaseController
                 } else {
                     return redirect()->to('/Movimentacao/form/update/' . $id_movimentacao)->with("msgError", "Falha ao tentar alterar a movimentação.");
                 }
-            }
+            // }
         }
     }
 

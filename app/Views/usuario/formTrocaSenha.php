@@ -18,20 +18,20 @@
 
     <div class="row justify-content-center">
 
-        <div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 div_login">                    
-
+        <div class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2 div_login">       
+            
             <div class="card">
 
                 <div class="card-body">
+
+                    <?= mensagemSucesso() ?>
+                    <?= mensagemError() ?>
 
                     <form method="POST" id="recuperaSenhaform" class="form-horizontal" role="form" 
                         action="<?= base_url() ?>Usuario/atualizaTrocaSenha">
 
                         <input type="hidden" name="id" id="id" value="<?= session()->get('usuarioId') ?>">
-                        
-                        <?= mensagemError() ?>
-                        <?= mensagemSucesso() ?>
-                        
+
                         <div style="margin-bottom: 25px" class="input-group">
                             <label class="ml-1">Usuário: <b><?= session()->get('usuarioLogin') ?></b></label>                            
                         </div>
@@ -73,7 +73,7 @@
                                         ?>
                                         <div class="alert alert-danger" role="alert">
                                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                                            <?= session()->destroy("msgError") ?>
+                                            <?= session()->remove("msgError") ?>
                                         </div>     
                                         <?php
                                     }
@@ -82,7 +82,7 @@
                                         ?>                                    
                                         <div class="alert alert-success" role="alert">
                                             <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                                            <?= session()->destroy("msgSuccess") ?>
+                                            <?= session()->remove("msgSuccess") ?>
                                         </div>      
                                         <?php
                                     }

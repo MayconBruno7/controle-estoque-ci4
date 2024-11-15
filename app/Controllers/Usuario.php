@@ -193,33 +193,4 @@ class Usuario extends BaseController
             return redirect("Usuario/trocaSenha");   
         }
     }
-
-    /**
-     * perfil
-     *
-     * @return void
-     */
-    public function perfil()
-    {
-        return view("admin/formPerfil", $this->model->find(session()->get('userCodigo')));
-    }
-
-    /**
-     * atualizaPerfil
-     *
-     * @return void
-     */
-    public function atualizaPerfil()
-    {
-        $post = $this->request->getPost();
-
-        if ($this->model->update($post['id'], ['nome' => $post['nome'], 'email' => $post['email']])) {
-            session()->set("usuarioLogin", $post['nome']);
-            session()->set("usuarioEmail", $post['email']);
-
-            return redirect("Usuario/perfil", ["msgSuccess" => "Perfil atualizado com sucesso!"]);  
-        } else {
-            return redirect("Usuario/perfil", ["msgError" => "Falha na atualização do seu perfil, favor tentar novamente mais tarde!"]);  
-        }
-    }
 }

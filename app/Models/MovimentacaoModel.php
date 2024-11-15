@@ -148,7 +148,7 @@ class MovimentacaoModel extends CustomModel
      * @param bool $prod_info_mov_atualizado
      * @return bool
      */
-    public function updateMovimentacao(int $idMovimentacao, $movimentacao, $prod_info_mov_atualizado): bool
+    public function updateMovimentacao(int $idMovimentacao, $movimentacao, $prod_info_mov_atualizado)
     {
        
         if ($idMovimentacao) {
@@ -165,9 +165,9 @@ class MovimentacaoModel extends CustomModel
             }
     
             if ($prod_info_mov_atualizado) {
-                if (session()->has('prod_mov_atualizado')) { 
-                    session()->set('prod_mov_atualizado', false);
-                }
+                // if (session()->has('prod_mov_atualizado')) { 
+                //     session()->set('prod_mov_atualizado', false);
+                // }
   
                 return true; 
             }

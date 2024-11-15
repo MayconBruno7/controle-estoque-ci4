@@ -89,7 +89,6 @@ $routes->group('Produto', function($routes) {
 
 });
 
-
 $routes->get("HistoricoProdutoMovimentacao/index/(:num)/(:segment)", 'HistoricoProdutoMovimentacao::index/$1/$2');
 $routes->get("HistoricoProduto/getHistoricoProduto/(:any)", 'HistoricoProduto::getHistoricoProduto/$1');
 

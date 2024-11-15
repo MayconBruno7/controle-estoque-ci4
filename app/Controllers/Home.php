@@ -122,7 +122,7 @@ class Home extends BaseController
 				];
 		
 				if ($this->UsuarioModel->insert($aUsuario) > 0) {
-					return redirect("Home/criarNovaConta")->with("msgSucess", "Conta Criada com sucesso");
+					return redirect("Home/login")->with("msgSucess", "Conta Criada com sucesso");
 				} else {
 	
 					session()->set("msgError", $UsuarioModel->errors());

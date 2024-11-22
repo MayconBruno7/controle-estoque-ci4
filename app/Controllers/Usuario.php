@@ -68,35 +68,48 @@ class Usuario extends BaseController
     public function store()
     {
 
-        $post = $this->request->getPost();
+        $post       = $this->request->getPost();
 
-        $senha = isset($post['senha']) ? $post['senha'] : '';
+        $senha      = isset($post['senha']) ? $post['senha'] : '';
+        $confSenha  = isset($post['confSenha']) ? $post['confSenha'] : '';
+        
+        $action     = isset($post['action']) ? $post['action'] : '';
 
-        if (empty($senha)) {
-            if (isset($post['id'])) {
-                $usuario = $this->model->find($post['id']);
-                $senhaCriptografada = $usuario['senha'];
+
+        if($senha === $confSenha) {
+            if (empty($senha)) {
+                if (isset($post['id'])) {
+                    $usuario = $this->model->find($post['id']);
+                    $senhaCriptografada = $usuario['senha'];
+                }
+                
+            } else {
+                $senhaCriptografada = password_hash($senha, PASSWORD_DEFAULT);
             }
-            
-        } else {
-            $senhaCriptografada = password_hash($senha, PASSWORD_DEFAULT);
-        }
 
-        if ($this->model->save([
-            'id'                => ($post['id'] == "" ? null : $post['id']),
-            "nivel"             => $post['nivel'],
-            "statusRegistro"    => $post['statusRegistro'],
-            "nome"              => $post['nome'],
-            "senha"             => $senhaCriptografada,
-            "email"             => $post['email'],
-            "id_funcionario"    => !empty($post['funcionarios']) ? $post['funcionarios'] : null
-        ])) { 
-            return redirect()->to("/Usuario")->with('msgSuccess', "Dados inseridos com sucesso!");
+            if ($this->model->save([
+                'id'                => ($post['id'] == "" ? null : $post['id']),
+                "nivel"             => $post['nivel'],
+                "statusRegistro"    => $post['statusRegistro'],
+                "nome"              => $post['nome'],
+                "senha"             => $senhaCriptografada,
+                "email"             => $post['email'],
+                "id_funcionario"    => !empty($post['funcionarios']) ? $post['funcionarios'] : null
+            ])) { 
+                return redirect()->to("/Usuario")->with('msgSuccess', "Dados inseridos com sucesso!");
+            } else {
+                return view("Usuario/listaUsuario", [
+                    "action"    => $action,
+                    'data'      => $post,
+                    'errors'    => $this->model->errors()
+                ]);
+            }
         } else {
-            return view("Usuario", [
-                "action"    => $post['action'],
-                'data'      => $post,
-                'errors'    => $this->model->errors()
+            return view("Usuario/formUsuario", [
+                "action"        => $action,
+                'data'          => ['id_funcionario' => $post['funcionarios'], $post],
+                'aFuncionario'  => $this->FuncionarioModel->getLista(),
+                'errors'        => ['senha' => 'Senha não confere com o confere Senha!', 'confSenha' => 'Confere Senha não confere com a senha!']
             ]);
         }
     }

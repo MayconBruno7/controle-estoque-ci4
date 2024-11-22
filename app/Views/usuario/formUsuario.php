@@ -59,52 +59,71 @@
             </div>
 
             <?php if ($action != "update"): ?>
-            <div class="form-group col-12 col-md-6 mt-3">
-                <label for="senha" class="form-label">Senha</label>
-                <input type="password" name="senha" id="senha" class="form-control" maxlength="250" 
-                value=""  
-                    placeholder="Informe uma nova senha caso deseje alterar"
-                    <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>
-                       onkeyup="checa_segur_senha('senha', 'msgSenha', 'btnGravar');">
-                <div id="msgSenha" class="msgNivel_senha"></div>
-                <?= setaMsgErrorCampo('senha', $errors) ?>
-            </div>
+                <div class="form-group col-12 col-md-6 mt-3">
+                    <label for="senha" class="form-label">Nova senha</label>
+                    <input type="password" name="senha" id="senha" class="form-control toggle-password" maxlength="250" 
+                        value="<?= setValor('senha', $data) ?>"  
+                        placeholder="Informe uma nova senha caso deseje alterar"
+                        <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>
+                        onkeyup="checa_segur_senha('senha', 'msgSenha', 'btnGravar');">
+                    <div id="msgSenha" class="msgNivel_senha"></div>
+                    <?= setaMsgErrorCampo('senha', $errors) ?>
+                </div>
 
-            <div class="form-group col-12 col-md-6 mt-3">
-                <label for="confSenha" class="form-label">Confere a senha</label>
-                <input type="password" name="confSenha" id="confSenha" class="form-control" maxlength="250" 
-                value="" 
-                       placeholder="Confirme a senha digitada"
-                       <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>
-                       onkeyup="checa_segur_senha('confSenha', 'msgConfSenha', 'btnGravar');">
-                <div id="msgConfSenha" class="msgNivel_senha"></div>
-                <?= setaMsgErrorCampo('confSenha', $errors) ?>
-            </div>
+                <div class="form-group col-12 col-md-6 mt-3">
+                    <label for="confSenha" class="form-label">Confirme a senha</label>
+                    <input type="password" name="confSenha" id="confSenha" class="form-control toggle-confPassword" maxlength="250" 
+                        value="<?= setValor('confSenha', $data) ?>"  
+                        placeholder="Confirme a senha digitada"
+                        <?= $action == 'view' || $action == 'delete' ? 'disabled' : '' ?>
+                        onkeyup="checa_segur_senha('confSenha', 'msgConfSenha', 'btnGravar');">
+                    <div id="msgConfSenha" class="msgNivel_senha"></div>
+                    <?= setaMsgErrorCampo('confSenha', $errors) ?>
+                </div>            
+
+                <div class="col-12 col-md-6">
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" id="mostrar-senha" class="custom-control-input" onclick="togglePassword('senha')">
+                        <span class="custom-control-label">Mostrar senha</span>
+                    </label>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <label class="custom-control custom-checkbox">
+                        <input type="checkbox" id="mostrar-confSenha" class="custom-control-input" onclick="togglePassword('confSenha')">
+                        <span class="custom-control-label">Mostrar confere senha</span>
+                    </label>
+                </div>
             <?php endif; ?>
 
             <input type="hidden" name="id" value="<?= setValor('id', $data) ?>">
+            <input type="hidden" name="action" value="<?= $action ?>">
 
             <div class="form-group col-12 col-md-4 mt-3">
                 <?php if ($action != "view"): ?>
                     <button type="submit" value="submit" id="btnGravar" class="btn btn-primary">Gravar</button>
                 <?php endif; ?>
-                
             </div>
 
-        </div>
-
+            <?php if ($action == "view"): ?>
+                <button onclick="goBack()" class="btn btn-secondary">Voltar</button>
+            <?php endif; ?>
+        
+        </div>    
     <?= form_close() ?>
 
-    <?php if ($action == "view"): ?>
-        <button onclick="goBack()" class="btn btn-secondary">Voltar</button>
-    <?php endif; ?>
-    
-</main>
+    <script>
+        
+        function goBack() {
+            window.history.go(-1);
+        }
 
-<script>
-    function goBack() {
-        window.history.go(-1);
-    }
-</script>
+        function togglePassword(inputId) {
+            const passwordInput = document.getElementById(inputId);
+            const isPasswordVisible = passwordInput.type === "text";
+
+            passwordInput.type = isPasswordVisible ? "password" : "text";
+        }
+    </script>
 
 <?= $this->endSection() ?>

@@ -306,10 +306,10 @@
         // Define o intervalo de 24 horas (86400000 ms)
         const intervalo = 86400000; // 24 horas em milissegundos
 
-        // Define o horário alvo para a verificação (18:39)
+        // Define o horário alvo para a verificação
         var agora = new Date();
         var proximaVerificacao = new Date();
-        proximaVerificacao.setHours(20, 35, 0, 0); // Define o próximo horário de verificação (18:39)
+        proximaVerificacao.setHours(20, 35, 0, 0); // Define o próximo horário de verificação
 
         // Se o horário atual já passou das 18:39, define o próximo para o dia seguinte
         if (agora > proximaVerificacao) {

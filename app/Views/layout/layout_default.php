@@ -74,7 +74,6 @@
             </div>
 
             <?php if (session()->get('usuarioNivel') == 1): ?>
-            <!-- Formulário -->
             <?= form_open(base_url() . 'Configuracoes/store') ?>
             <div class="container">
                 <div class="row">

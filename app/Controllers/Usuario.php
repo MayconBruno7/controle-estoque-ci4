@@ -68,35 +68,48 @@ class Usuario extends BaseController
     public function store()
     {
 
-        $post = $this->request->getPost();
+        $post       = $this->request->getPost();
 
-        $senha = isset($post['senha']) ? $post['senha'] : '';
+        $senha      = isset($post['senha']) ? $post['senha'] : '';
+        $confSenha  = isset($post['confSenha']) ? $post['confSenha'] : '';
+        
+        $action     = isset($post['action']) ? $post['action'] : '';
 
-        if (empty($senha)) {
-            if (isset($post['id'])) {
-                $usuario = $this->model->find($post['id']);
-                $senhaCriptografada = $usuario['senha'];
+
+        if($senha === $confSenha) {
+            if (empty($senha)) {
+                if (isset($post['id'])) {
+                    $usuario = $this->model->find($post['id']);
+                    $senhaCriptografada = $usuario['senha'];
+                }
+                
+            } else {
+                $senhaCriptografada = password_hash($senha, PASSWORD_DEFAULT);
             }
-            
-        } else {
-            $senhaCriptografada = password_hash($senha, PASSWORD_DEFAULT);
-        }
 
-        if ($this->model->save([
-            'id'                => ($post['id'] == "" ? null : $post['id']),
-            "nivel"             => $post['nivel'],
-            "statusRegistro"    => $post['statusRegistro'],
-            "nome"              => $post['nome'],
-            "senha"             => $senhaCriptografada,
-            "email"             => $post['email'],
-            "id_funcionario"    => !empty($post['funcionarios']) ? $post['funcionarios'] : null
-        ])) { 
-            return redirect()->to("/Usuario")->with('msgSucess', "Dados inseridos com sucesso!");
+            if ($this->model->save([
+                'id'                => ($post['id'] == "" ? null : $post['id']),
+                "nivel"             => $post['nivel'],
+                "statusRegistro"    => $post['statusRegistro'],
+                "nome"              => $post['nome'],
+                "senha"             => $senhaCriptografada,
+                "email"             => $post['email'],
+                "id_funcionario"    => !empty($post['funcionarios']) ? $post['funcionarios'] : null
+            ])) { 
+                return redirect()->to("/Usuario")->with('msgSuccess', "Dados inseridos com sucesso!");
+            } else {
+                return view("usuario/listaUsuario", [
+                    "action"    => $action,
+                    'data'      => $post,
+                    'errors'    => $this->model->errors()
+                ]);
+            }
         } else {
-            return view("Usuario", [
-                "action"    => $post['action'],
-                'data'      => $post,
-                'errors'    => $this->model->errors()
+            return view("usuario/formUsuario", [
+                "action"        => $action,
+                'data'          => ['id_funcionario' => $post['funcionarios'], $post],
+                'aFuncionario'  => $this->FuncionarioModel->getLista(),
+                'errors'        => ['senha' => 'Senha não confere com o confere Senha!', 'confSenha' => 'Confere Senha não confere com a senha!']
             ]);
         }
     }
@@ -174,47 +187,23 @@ class Usuario extends BaseController
                     $lUpdate = $this->model->update($post['id'], ['senha' => password_hash($post["novaSenha"], PASSWORD_DEFAULT)]);
 
                     if ($lUpdate) {
-                        return redirect("Usuario/trocaSenha", ["msgSuccess" => "Senha alterada com sucesso!"]);  
+                        session()->setFlashdata("msgSuccess", "Senha alterada com sucesso");
+                        return redirect("Usuario/trocaSenha");  
                     } else {
-                        return redirect("Usuario/trocaSenha", ["msgError" => "Falha na atualização da nova senha!"]);    
+                        session()->setFlashdata("msgError", "Falha na atualização da nova senha!");
+                        return redirect("Usuario/trocaSenha");    
                     }
                 } else {
-                    return redirect("Usuario/trocaSenha", ["msgError" => "Nova senha e conferência da senha estão divergentes!"]);                  
+                    session()->setFlashdata("msgError", "Nova senha e conferência da senha estão divergentes!");
+                    return redirect("Usuario/trocaSenha");                  
                 }
             } else {
-                return redirect("Usuario/trocaSenha", ["msgError" => "Senha atual informada não confere!"]);               
+                session()->setFlashdata("msgError", "Senha atual informada não confere!");
+                return redirect("Usuario/trocaSenha");               
             }
         } else {
-            return redirect("Usuario/trocaSenha", ["msgError" => "Usuário inválido!"]);   
-        }
-    }
-
-    /**
-     * perfil
-     *
-     * @return void
-     */
-    public function perfil()
-    {
-        return view("admin/formPerfil", $this->model->find(session()->get('userCodigo')));
-    }
-
-    /**
-     * atualizaPerfil
-     *
-     * @return void
-     */
-    public function atualizaPerfil()
-    {
-        $post = $this->request->getPost();
-
-        if ($this->model->update($post['id'], ['nome' => $post['nome'], 'email' => $post['email']])) {
-            session()->set("usuarioLogin", $post['nome']);
-            session()->set("usuarioEmail", $post['email']);
-
-            return redirect("Usuario/perfil", ["msgSuccess" => "Perfil atualizado com sucesso!"]);  
-        } else {
-            return redirect("Usuario/perfil", ["msgError" => "Falha na atualização do seu perfil, favor tentar novamente mais tarde!"]);  
+            session()->setFlashdata("msgError", "Usuário inválido!");
+            return redirect("Usuario/trocaSenha");   
         }
     }
 }

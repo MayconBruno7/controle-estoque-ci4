@@ -81,6 +81,9 @@ class Filters extends BaseFilters
             'Login/recuperarSenha/*',
             'Login/atualizaRecuperaSenha',
             'FaleConosco/verificaEstoque',
+            'Usuario/profile/*',
+            'Usuario/atualizaTrocaSenha',
+            'Usuario/trocaSenha'
         ];
 
         // Remova '/index.php/' dos caminhos

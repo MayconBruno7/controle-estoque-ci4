@@ -53,7 +53,7 @@
                                                     <td><?= formatarDataBrasileira($value['data']) ?></td>
                                                     <td>
                                                         <div class="container">
-                                                        <?php if ((session()->get('id_funcionario')) && (session()->get('usuarioImagem'))) : ?>
+                                                        <?php if (($nomeImagem)) : ?>
                                                             <img alt="image" class="rounded-circle" src="<?= base_url('writable/uploads/funcionarios/' . $nomeImagem ) ?>" width="40px" height="40px">
                                                         <?php else : ?>
                                                             <img alt="image" class="rounded-circle" src="<?= base_url() . 'assets/img/users/person.svg' ?>" width="40px" height="40px">

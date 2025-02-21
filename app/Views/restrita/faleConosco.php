@@ -8,15 +8,13 @@
     </div>
 </div>
 
-<div class="row text-center align-itens-center">
-    <div class="col-12">
+<div class="container d-flex justify-content-center mt-3">
+    <div class="col-12 text-center">
         <?= mensagemError() ?>
-    </div>
-
-    <div class="col-12 mt-3">
         <?= mensagemSucesso() ?>
     </div>
 </div>
+
 
 <main class="container mt-5 d-flex justify-content-center align-items-center">
     <form class="g-3" action="<?= base_url() ?>FaleConosco/enviarEmail" method="POST">
@@ -60,14 +58,14 @@
     </form>
 </main>
 
-<?= $this->endSection() ?>
-
 <script src="<?= base_url() ?>assets/ckeditor5/ckeditor.js"></script>
 
-<script>
+<script type="text/javascript">
     ClassicEditor
         .create(document.querySelector('#mensagem'))
         .catch( error => {
             console.error(error);
         });
 </script>
+
+<?= $this->endSection() ?>

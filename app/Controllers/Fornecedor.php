@@ -79,7 +79,7 @@ class Fornecedor extends BaseController
             'telefone'          => preg_replace('/[^0-9]/', '', $post['telefone']),
             'statusRegistro'    => $post['statusRegistro']
         ])) {
-            return redirect()->to("/Fornecedor")->with('msgSucess', "Dados atualizados com sucesso.");
+            return redirect()->to("/Fornecedor")->with('msgSuccess', "Dados atualizados com sucesso.");
         }else {
             return view("restrita/formFornecedor", [
                 "action"    => $post['action'],

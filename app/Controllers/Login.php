@@ -46,7 +46,7 @@ class Login extends BaseController
 
 			if (count($UsuarioModel->findAll()) == 0) {
                 if ($UsuarioModel->insertDadosSuperUser() > 0) {
-					return redirect()->back()->with("msgSucess", "Super usuário criado com sucesso, favor efetar novamente o login")->withInput();
+					return redirect()->back()->with("msgSuccess", "Super usuário criado com sucesso, favor efetar novamente o login")->withInput();
                 } else {
 					return redirect()->back()->with("msgError", "Falha na criação do Super usuário.")->withInput();
                 }

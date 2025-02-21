@@ -140,7 +140,7 @@
             </select>
         </div>
 
-        <div class="col-12 col-md-3 mt-3">
+        <div class="col-12 col-md-6 mt-3">
             <label for="tipo" class="form-label">Tipo de Movimentação</label>
             <select name="tipo" id="tipo" class="form-control" required <?=$action == 'view' ||$action == 'delete' ? 'disabled' : '' ?>>
                 <option value="">...</option>
@@ -305,8 +305,6 @@
     </div>
 
     </main>
-
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
 
     <script>
 

@@ -98,14 +98,14 @@ class Usuario extends BaseController
             ])) { 
                 return redirect()->to("/Usuario")->with('msgSuccess', "Dados inseridos com sucesso!");
             } else {
-                return view("Usuario/listaUsuario", [
+                return view("usuario/listaUsuario", [
                     "action"    => $action,
                     'data'      => $post,
                     'errors'    => $this->model->errors()
                 ]);
             }
         } else {
-            return view("Usuario/formUsuario", [
+            return view("usuario/formUsuario", [
                 "action"        => $action,
                 'data'          => ['id_funcionario' => $post['funcionarios'], $post],
                 'aFuncionario'  => $this->FuncionarioModel->getLista(),

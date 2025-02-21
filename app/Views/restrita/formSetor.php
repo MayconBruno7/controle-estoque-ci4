@@ -32,7 +32,7 @@
                 >
                     <option value="">...</option> 
                     <?php foreach ($aFuncionario as $value): ?>
-                        <option value="<?= $value['id'] ?>" <?= $value['id'] == setValor('id', $data) ? 'selected' : '' ?>>
+                        <option value="<?= $value['id'] ?>" <?= $value['id'] == setValor('responsavel', $data) ? 'selected' : '' ?>>
                             <?= $value['nome'] ?>
                         </option>
                     <?php endforeach; ?>

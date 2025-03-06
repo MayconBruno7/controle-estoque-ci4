@@ -97,7 +97,7 @@ class FaleConosco extends BaseController
             $email->initialize($emailConfig);
             
             // Configura o destinatário
-            $email->setTo('maycon7ads@gmail.com');
+            $email->setTo('teste@gmail.com');
 
             // Configura o assunto e a mensagem
             $email->setSubject($assunto);

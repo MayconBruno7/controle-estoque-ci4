@@ -5941,7 +5941,7 @@ CREATE TABLE IF NOT EXISTS `funcionario` (
 
 INSERT INTO `funcionario` (`id`, `nome`, `cpf`, `telefone`, `setor`, `salario`, `statusRegistro`, `cargo`, `imagem`) VALUES
 (1, 'Joao', '49498498498', '32984927895', 1, 1.000000, 1, 1, ''),
-(2, 'Maycon Bruno', '0906888884', '3298492407', 1, 1540.000000, 1, 1, ''),
+(2, 'Maycon Bruno', '4648648648684', '767867649', 1, 1540.000000, 1, 1, ''),
 (3, 'Maria VItoria ', '12345678954', '32989879845', 1, 10000.000000, 1, 1, '');
 
 --

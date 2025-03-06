@@ -1,0 +1,73 @@
+Passo 1: Crie um Script Batch (.bat)
+Crie um arquivo .sh que chamará o comando PHP para executar a função verificaEstoque.
+
+Abra o Bloco de Notas (ou qualquer editor de texto).
+
+Insira o seguinte código, 
+#!/bin/bash
+
+# Verifica se o PHP está instalado e no PATH
+echo "Verificando se o PHP está instalado..."
+php -v &>/dev/null
+if [ $? -ne 0 ]; then
+    echo "Erro: O PHP não está instalado ou não está no PATH."
+    exit 1
+fi
+
+# Verifica se o caminho para o arquivo PHP está correto
+echo "Verificando se o caminho do arquivo PHP existe..."
+if [ -f "/usr/bin/php" ]; then
+    echo "O arquivo PHP foi encontrado."
+else
+    echo "Erro: O arquivo PHP não foi encontrado no caminho especificado."
+    exit 1
+fi
+
+# Executa o script PHP
+echo "Executando o script PHP..."
+	php ~/Documentos/Projetos/Projeto-Controle-de-estoque-v1/ci4/controle-estoque-final/Instalacao/TarefaVerificaEstoque/verificaEstoque.php
+
+# Verifica se a execução foi bem-sucedida
+if [ $? -ne 0 ]; then
+    echo "Erro ao executar o script PHP."
+else
+    echo "Script PHP executado com sucesso."
+fi
+
+
+Salve o arquivo com um nome como rotina.sh.
+
+chmod +x ~/Documentos/Projetos/Projeto-Controle-de-estoque-v1/ci4/controle-estoque-final/Instalacao/TarefaVerificaEstoque/verificaEstoque.sh
+
+Passo 2: Configure o Agendador de Tarefas (Cron)
+Abra o arquivo crontab para editar a programação de tarefas:
+
+crontab -e
+Adicione a seguinte linha ao crontab para agendar a execução diária do script à meia-noite:
+
+-- Tabela de configuração de horario
+
+MM HH DD MM DW /caminho/do/script.sh
+
+MM → Minuto (0-59)
+HH → Hora (0-23)
+DD → Dia do mês (1-31)
+MM → Mês (1-12)
+DW → Dia da semana (0-7, sendo 0 e 7 = domingo)
+/caminho/do/script.sh → Caminho do script que deseja executar
+
+
+
+0 0 * * * /bin/bash ~/Documentos/Projetos/Projeto-Controle-de-estoque-v1/ci4/controle-estoque-final/Instalacao/TarefaVerificaEstoque/verificaEstoque.sh
+0 0 * * *: Executa à meia-noite, todos os dias.
+/bin/bash: Caminho para o interpretador Bash.
+O caminho completo do script verificaEstoque.sh.
+Salve e saia do editor de crontab:
+
+Passo 3: Teste a Tarefa Cron
+Forçar a execução manual do script para testar se está funcionando corretamente:
+
+bash ~/Documentos/Projetos/Projeto-Controle-de-estoque-v1/ci4/controle-estoque-final/Instalacao/TarefaVerificaEstoque/verificaEstoque.sh
+Verifique os logs do cron para depurar possíveis erros:
+
+grep CRON /var/log/syslog

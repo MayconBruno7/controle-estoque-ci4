@@ -12,7 +12,7 @@ class FornecedorSeeder extends Seeder
        $this->db->query('SET FOREIGN_KEY_CHECKS = 0'); // Desabilitar verificação de chave estrangeira
 
        $data = [
-           ['nome' => 'MD COPIADORA', 'cnpj' => '44556350000104', 'endereco' => ' Rua Padre Guilherme Goossens, S/N',
+           ['nome' => 'MD CIAdasdDORA', 'cnpj' => '456456486486', 'endereco' => ' Rua Padre Guilherme Goossens, S/N',
            'cidade' => '1983', 'estado' => '13', 'bairro' => 'Sagrado Coracao de Jesus', 'numero' => NULL, 
            'telefone' => '(32) 99919-7525',
            'statusRegistro' => '1'] 

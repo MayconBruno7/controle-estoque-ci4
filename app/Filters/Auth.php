@@ -23,9 +23,9 @@ class Auth implements FilterInterface
                 if (in_array($segments[0], ['Usuario', 'Funcionario', 'Cargo', 'Relatorio', 'Log'])) {
                     return redirect()->to('/Home/home')->with("msgError", "Você não tem permissão para acessar está funcionalidade");
                 }
-                if (in_array($segments[1], ['homeAdmin'])) {
-                    return redirect()->to('/Home/home')->with("msgError", "Você não tem permissão para acessar está funcionalidade");
-                }
+                // if (in_array(isset($segments[1]), ['homeAdmin'])) {
+                //     return redirect()->to('/Home/home')->with("msgError", "Você não tem permissão para acessar está funcionalidade");
+                // }
             }
         }
     }

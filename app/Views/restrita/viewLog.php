@@ -19,22 +19,26 @@
 
         <div class="card-body">
             <?php 
-                foreach ($aUsuario as $usuario) {         
+                foreach ($aUsuario as $usuario) {   
+
                     if ($usuario['id'] == $dados['usuario']) {
+                        
                         foreach ($aFuncionario as $funcionario) {
+                            $nomeUsuario = $usuario['nome'];
                             if ($usuario['id_funcionario'] == $funcionario['id']) {
                                 $nomeImagem = $funcionario['imagem'];
-                                $nomeUsuario = $usuario['nome'];
+     
                             }
                         }
                     }
+  
                 }
 
             ?>
 
             <div class="author-box-center text-center">
                 <div class="mb-5">
-                    <?php if ((session()->get('id_funcionario')) && (session()->get('usuarioImagem'))) : ?>
+                    <?php if ($nomeImagem) : ?>
                         <img src="<?= base_url('writable/uploads/funcionarios/' . $nomeImagem ) ?>" alt="Imagem do Funcionário" class="rounded-circle" width="70" height="70">
                     <?php else : ?>
                         <img alt="image" class="rounded-circle" src="<?= base_url() . 'assets/img/users/person.svg' ?>" width="40px" height="40px">

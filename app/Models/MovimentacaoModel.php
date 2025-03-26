@@ -292,4 +292,23 @@ class MovimentacaoModel extends CustomModel
         }
         return [];
     }
+
+    public function verificaQuantidadeNegativaEstoque($sessao_produtos, $produto_model, $tipo_movimentacao) {
+
+        $estoque_negativo = false;
+        
+        foreach($sessao_produtos as $produto) {
+            
+            if($produto['id_produto'] && $tipo_movimentacao == '2') {
+                $info_produto = $produto_model->recuperaProduto($produto['id_produto']);
+
+                if (($info_produto['quantidade'] - $produto['quantidade']) < 0) {
+                    $estoque_negativo = true;
+                    // quantidade em estoque ficara negativa
+                }
+            }
+
+        }
+        return $estoque_negativo;
+    }
 }

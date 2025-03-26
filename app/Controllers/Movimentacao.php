@@ -143,20 +143,21 @@ class Movimentacao extends BaseController
             // Recuperando todos os segmentos da URL
             $segmentos      = $this->request->getURI()->getSegments(3);
 
+            // Verificar se a sessão de movimentação existe
+            $session = session();
+            if (!$session->has('movimentacao')) {
+                $session->set('movimentacao', ['produtos' => []]);
+            }
+
+            $movimentacao = $session->get('movimentacao');
+            $produtos = isset($movimentacao['produtos']) ? $movimentacao['produtos'] : [];
+            
             // Acessando o primeiro segmento
             $action         = $segmentos[1] ?? null;
 
             // Se estamos em modo de atualização
             if ($action == 'update') {
-                // Verificar se a sessão de movimentação existe
-                $session = session();
-                if (!$session->has('movimentacao')) {
-                    $session->set('movimentacao', ['produtos' => []]);
-                }
-
-                $movimentacao = $session->get('movimentacao');
-                $produtos = isset($movimentacao['produtos']) ? $movimentacao['produtos'] : [];
-
+            
                 // Verificar se o produto já está na sessão de movimentação
                 $produtoEncontrado = false;
                 foreach ($produtos as &$produto_sessao) {
@@ -188,15 +189,9 @@ class Movimentacao extends BaseController
             $estoqueNegativo = false;
 
             if (isset($id_produto) && $id_produto !== '') {
-                if ($tipo_movimentacao == '2') {
-                    // Verifica se há dados do produto e se a quantidade é suficiente para saída
-                    $estoqueNegativo = ($dadosProduto !== null && $dadosProduto['quantidade'] < $quantidade);
-                } elseif ($tipo_movimentacao == '2' || $dadosProduto === null) {
-                    // Movimentação de entrada ou produto não encontrado
-                    $estoqueNegativo = false;
-                }
+                $estoqueNegativo = $this->model->verificaQuantidadeNegativaEstoque($produtos, $ProdutoModel, $tipo_movimentacao);
             }
-
+    
             // Se a verificação de estoque for bem-sucedida
             if (!$estoqueNegativo) {
 
@@ -204,7 +199,7 @@ class Movimentacao extends BaseController
                 $produtosArray = [];
 
                 // Verificar se há produtos na movimentação e iterar sobre eles
-                if ( session()->has('movimentacao') && is_array(session()->get('movimentacao'))) {
+                if (session()->has('movimentacao') && is_array(session()->get('movimentacao'))) {
                     foreach (session()->get('movimentacao')['produtos'] as $produto) {
                         $produtosArray[] = [
                             'id_produtos' => $produto['id_produto'],
@@ -236,6 +231,7 @@ class Movimentacao extends BaseController
 
                 }
             } else {
+                // exit("no else");
                 return redirect()->to("/Movimentacao/form/new/0")->with('msgError', 'Quantidade da movimentação de saída maior que a do produto em estoque.');
             }
         } else {

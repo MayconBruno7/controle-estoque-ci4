@@ -59,7 +59,6 @@ class Log extends BaseController
             $registro       = $this->logModel->find($logId);
             $dados['dados'] = array_merge($dados, $registro);
         }
-
         
         return view('restrita/viewLog', $dados);
     }

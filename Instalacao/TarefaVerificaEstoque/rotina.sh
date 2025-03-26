@@ -19,7 +19,7 @@ fi
 
 # Executa o script PHP
 echo "Executando o script PHP..."
-	php ~/Documentos/Projetos/Projeto-Controle-de-estoque-v1/ci4/controle-estoque-final/Instalacao/TarefaVerificaEstoque/verificaEstoque.php
+	php ~/Documentos/Projetos/Web/Concluído/Projeto-Controle-de-estoque-v1/ci4/controle-estoque-final/Instalacao/TarefaVerificaEstoque/verificaEstoque.php
 
 # Verifica se a execução foi bem-sucedida
 if [ $? -ne 0 ]; then

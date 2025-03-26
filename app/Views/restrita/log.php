@@ -4,7 +4,6 @@
 
     $this->section('conteudo');
     
-    $nomeImagem  = "";
     $nomeUsuario = "";
 ?>
 
@@ -34,7 +33,10 @@
                                         <tbody>
                                             <?php foreach ($aLog as $value) : ?>   
                                                 <?php
+                                                    $nomeImagem = null;
+
                                                     foreach ($aUsuario as $usuario) {         
+                                                      
                                                         if ($usuario['id'] == $value['usuario']) {
                                                             $nomeUsuario = $usuario['nome'];
 

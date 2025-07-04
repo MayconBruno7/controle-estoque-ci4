@@ -1,21 +1,128 @@
-# controle-estoque-ci4
-Sitstema de Controle de estoque desenvolvido no framework Code igniter 4.
+# 📦 Controle de Estoque - CI4
 
-Descrição das Funcionalidades do Sistema de Controle de Estoque
+Sistema de Controle de Estoque desenvolvido em **CodeIgniter 4**, ideal para empresas que precisam gerenciar produtos, fornecedores e movimentações de forma eficiente e organizada.
 
-Sistema de Controle de Estoque O sistema de controle de estoque é uma solução desenvolvida para gerenciar produtos e movimentações dentro de um estoque. Ele é capaz de registrar entradas e saídas de itens, com suporte a validações fiscais (como CNPJ e CPF), e possibilita o acompanhamento das movimentações de produtos por fornecedor. Além disso, o sistema oferece relatórios detalhados sobre o estoque, podendo ser gerados periodicamente (mensais, anuais e semanais), bem como por fornecedor.
-Funcionalidades Principais Logs de Alterações: oCada alteração no sistema (inclusão, exclusão ou modificação de dados) é registrada em uma tabela de logs. oAs informações armazenadas incluem: tabela afetada, ação realizada, data e usuário responsável pela modificação. Isso permite o rastreamento de todas as mudanças no sistema. Busca e Relatórios: oA funcionalidade de busca permite filtrar dados de produtos por data, com a geração de relatórios para períodos mensais, anuais ou semanais. oRelatórios também podem ser gerados com base no fornecedor, proporcionando uma visão detalhada das movimentações e do estoque. Validação de Documentos: oO sistema garante a integridade dos dados por meio da validação de documentos fiscais, como CNPJ e CPF, evitando inconsistências nos registros.
-Envio de E-mail: oA função de envio de e-mails permite notificar os usuários sobre a movimentação de produtos, incluindo alertas para baixo estoque. oO envio pode ser automatizado com o uso de tarefas Cron, e os e-mails são disparados automaticamente pelo sistema. Relatórios em Diversos Formatos: oO sistema oferece a exportação de relatórios nos formatos PDF, XLSX e CSV, garantindo flexibilidade na análise e no compartilhamento de dados. Gráficos de Vendas Diárias: oGráficos interativos permitem visualizar as vendas diárias, facilitando o acompanhamento do desempenho do estoque e do comportamento de vendas ao longo do tempo. Fale Conosco: oA funcionalidade "Fale Conosco" oferece uma forma de comunicação direta com a equipe de suporte, permitindo que os usuários enviem dúvidas ou solicitações de ajuda. 3. Banco de Dados O banco de dados utilizado é o controle_estoque, composto por diversas tabelas inter-relacionadas. Algumas das tabelas principais incluem: Tabela de Logs: Registra todas as alterações realizadas nas tabelas do sistema. Tabela de Produtos: Contém as informações dos produtos, como descrição, quantidade, fornecedor e status. Tabela de Movimentações: Registra as movimentações dos produtos, tanto entradas quanto saídas, com detalhes sobre fornecedores, setores e produtos movimentados. Tabela de Fornecedores: Armazena dados dos fornecedores, como nome, CNPJ, endereço e informações de contato. Tabela de Funcionários e Cargos: Contém informações sobre os funcionários e os cargos aos quais estão associados. Tabelas de Setores e Cidades: Utilizadas para organizar o estoque por setores e mapear as cidades e estados dos fornecedores. 4. Considerações Finais Este sistema de controle de estoque oferece uma solução prática e eficiente para a gestão de inventário, assegurando precisão na administração de produtos e facilitando a análise das movimentações e vendas. As funcionalidades de relatórios, gráficos e notificações tornam o sistema ainda mais completo, atendendo às necessidades de controle e monitoramento do estoque.
+---
 
+## ⚙️ Descrição do Sistema
 
+O **Sistema de Controle de Estoque** é uma solução completa para gerenciamento de produtos e estoque, com funcionalidades como:
 
-![estoque-6](https://github.com/user-attachments/assets/c2fb5a52-6506-460c-8a34-74739cc0fa54)
-![estoque-5](https://github.com/user-attachments/assets/0c11a238-bbb9-4cd1-a295-f694f172c919)
-![estoque-4](https://github.com/user-attachments/assets/34c61b4f-7de3-48a0-bdf0-61fc7e572719)
-![estoque-3](https://github.com/user-attachments/assets/8fb8d3d0-362c-4762-913d-99b9fd971724)
-![estoque-2](https://github.com/user-attachments/assets/6e0a3ae6-b847-4bde-b35e-4932721c5bdf)
-![estoque-1](https://github.com/user-attachments/assets/6399bceb-9788-42a4-90a4-780775801961)
+✅ Registro de entradas e saídas de produtos  
+✅ Validação de documentos fiscais (CNPJ, CPF)  
+✅ Relatórios periódicos e por fornecedor  
+✅ Controle detalhado de movimentações  
+✅ Painel com gráficos de vendas e estoque  
 
+---
 
+## ✨ Funcionalidades Principais
+
+### 🔒 Logs de Alterações
+- Cada alteração (inclusão, edição ou exclusão) é registrada.
+- Informações armazenadas:
+  - Tabela afetada
+  - Ação realizada
+  - Data/hora
+  - Usuário responsável
+- Garantia de rastreabilidade total no sistema.
+
+---
+
+### 🔍 Busca e Relatórios
+- Filtros por data (mensal, anual, semanal).
+- Relatórios personalizados por fornecedor.
+- Visão clara das movimentações de estoque.
+
+---
+
+### 📄 Validação de Documentos
+- Validação automática de:
+  - **CNPJ**
+  - **CPF**
+- Evita cadastros inconsistentes e problemas fiscais.
+
+---
+
+### 📧 Envio de E-mails
+- Notificações automáticas sobre:
+  - Movimentação de produtos
+  - Alerta de estoque baixo
+- Integração com **tarefas CRON** para envios automáticos.
+
+---
+
+### 📊 Relatórios e Exportações
+- Relatórios disponíveis em:
+  - **PDF**
+  - **XLSX**
+  - **CSV**
+- Flexibilidade para análise e compartilhamento de dados.
+
+---
+
+### 📈 Gráficos de Vendas e Estoque
+- Gráficos interativos para:
+  - Visualização diária das vendas
+  - Acompanhamento do desempenho do estoque
+
+---
+
+### 💬 Fale Conosco
+- Canal direto de comunicação com o suporte.
+- Envio rápido de dúvidas ou solicitações.
+
+---
+
+## 🗄️ Estrutura do Banco de Dados
+
+O sistema utiliza o banco **controle_estoque**, composto por tabelas inter-relacionadas:
+
+| Tabela               | Descrição                                                                 |
+|----------------------|--------------------------------------------------------------------------|
+| **Logs**             | Registra todas as alterações realizadas no sistema.                     |
+| **Produtos**         | Informações dos produtos: descrição, quantidade, status, fornecedor.    |
+| **Movimentações**    | Registra entradas e saídas de produtos, com dados de fornecedores.      |
+| **Fornecedores**     | Cadastro de fornecedores: nome, CNPJ, endereço e contato.               |
+| **Funcionários**     | Cadastro de colaboradores da empresa.                                   |
+| **Cargos**           | Controle dos cargos disponíveis.                                        |
+| **Setores**          | Organização do estoque por setores.                                     |
+| **Cidades/Estados**  | Geolocalização dos fornecedores.                                        |
+
+---
+
+## 🎯 Considerações Finais
+
+O **Controle de Estoque CI4** oferece:
+
+✅ Gestão prática e eficiente do inventário  
+✅ Segurança e rastreamento completo das operações  
+✅ Análises detalhadas com relatórios e gráficos  
+✅ Notificações inteligentes por e-mail  
+✅ Interface moderna e intuitiva  
+
+Sistema ideal para empresas que buscam eficiência no controle de produtos e estoque.
+
+---
+
+## 🖼️ Imagens do Sistema
+
+![Tela 6](https://github.com/user-attachments/assets/c2fb5a52-6506-460c-8a34-74739cc0fa54)  
+![Tela 5](https://github.com/user-attachments/assets/0c11a238-bbb9-4cd1-a295-f694f172c919)  
+![Tela 4](https://github.com/user-attachments/assets/34c61b4f-7de3-48a0-bdf0-61fc7e572719)  
+![Tela 3](https://github.com/user-attachments/assets/8fb8d3d0-362c-4762-913d-99b9fd971724)  
+![Tela 2](https://github.com/user-attachments/assets/6e0a3ae6-b847-4bde-b35e-4932721c5bdf)  
+![Tela 1](https://github.com/user-attachments/assets/6399bceb-9788-42a4-90a4-780775801961)  
+
+---
+
+## 🚀 Tecnologias Utilizadas
+
+- PHP 8+  
+- Framework **CodeIgniter 4**  
+- MySQL 8+  
+- Bootstrap 5 (interface)  
+- Gráficos interativos (Chart.js ou equivalente)  
+- Exportação de relatórios (PDF, Excel, CSV)  
 
 

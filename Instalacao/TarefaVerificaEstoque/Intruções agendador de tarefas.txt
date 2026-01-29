@@ -1,0 +1,70 @@
+Passo 1: Crie um Script Batch (.bat)
+Crie um arquivo .bat que chamará o comando PHP para executar a função verificaEstoque.
+
+Abra o Bloco de Notas (ou qualquer editor de texto).
+
+Insira o seguinte código, 
+@echo off
+
+:: Verifica se o PHP está instalado e no PATH
+echo Verificando se o PHP está instalado...
+php -v
+if %errorlevel% neq 0 (
+    echo Erro: O PHP não está instalado ou não está no PATH.
+    exit /b
+)
+
+:: Verifica se o caminho para o arquivo PHP está correto
+echo Verificando se o caminho do arquivo PHP existe...
+if exist "C:\Users\Maycon Bruno\Documents\Projetos\Projeto-Controle-de-estoque-v1\ci4\controle-estoque-develop\Instalacao\TarefaVerificaEstoque\verificaEstoque.php" (
+    echo O arquivo PHP foi encontrado.
+) else (
+    echo Erro: O arquivo PHP não foi encontrado no caminho especificado.
+    exit /b
+)
+
+:: Executa o script PHP
+echo Executando o script PHP...
+php "C:\Users\Maycon Bruno\Documents\Projetos\Projeto-Controle-de-estoque-v1\ci4\controle-estoque-develop\Instalacao\TarefaVerificaEstoque\verificaEstoque.php"
+
+:: Verifica se a execução foi bem-sucedida
+if %errorlevel% neq 0 (
+    echo Erro ao executar o script PHP.
+) else (
+    echo Script PHP executado com sucesso.
+)
+
+pause
+
+Salve o arquivo com um nome como verificaEstoque.bat.
+
+Passo 2: Configure o Agendador de Tarefas
+Abra o Agendador de Tarefas no Windows (procure por "Agendador de Tarefas" no menu Iniciar).
+Ou digite os comandos Win + r e coloque control schedtasks.
+
+No painel Ações, clique em Criar Tarefa....
+
+Na aba Geral:
+
+Dê um nome para a tarefa, como Verificar Estoque Diariamente.
+Opcional: Adicione uma descrição.
+Na aba Disparadores:
+
+Clique em Novo....
+Defina o disparador para iniciar a tarefa diariamente e configure o horário desejado (por exemplo, à meia-noite).
+Clique em OK.
+Na aba Ações:
+
+Clique em Novo....
+Em Programa/script, clique em Procurar... e selecione o arquivo .bat criado no Passo 1.
+Clique em OK.
+Na aba Condições e Configurações, ajuste as configurações conforme necessário (como "executar a tarefa mesmo que o usuário não esteja conectado", se aplicável).
+
+Clique em OK para salvar a tarefa.
+
+Passo 3: Teste a Tarefa
+Para garantir que tudo está funcionando corretamente, você pode:
+
+Selecionar a tarefa no Agendador de Tarefas.
+Clicar em Executar no painel de ações.
+Isso executará imediatamente o arquivo .bat e chamará a função verificaEstoque do seu projeto CodeIgniter. A partir de agora, a tarefa será executada automaticamente de acordo com a programação definida.\

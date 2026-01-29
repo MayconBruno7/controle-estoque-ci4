@@ -8,8 +8,9 @@ require 'vendor/autoload.php';
 
 $host = 'localhost';
 $dbname = 'teste_migration';
-$user = 'maycon';
-$password = 'Minha_senha7';
+$user = 'root';
+$password = '';
+
 
 try {
     $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
